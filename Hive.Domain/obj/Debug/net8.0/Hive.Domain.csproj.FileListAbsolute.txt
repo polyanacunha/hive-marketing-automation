@@ -1,0 +1,12 @@
+/Users/getronics/hive/hive/Hive.Domain/bin/Debug/net8.0/Hive.Domain.deps.json
+/Users/getronics/hive/hive/Hive.Domain/bin/Debug/net8.0/Hive.Domain.dll
+/Users/getronics/hive/hive/Hive.Domain/bin/Debug/net8.0/Hive.Domain.pdb
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.AssemblyInfoInputs.cache
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.AssemblyInfo.cs
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.csproj.CoreCompileInputs.cache
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.sourcelink.json
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.dll
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/refint/Hive.Domain.dll
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/Hive.Domain.pdb
+/Users/getronics/hive/hive/Hive.Domain/obj/Debug/net8.0/ref/Hive.Domain.dll

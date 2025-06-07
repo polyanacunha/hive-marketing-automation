@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "hWLxxyOvcIV7PTBozsUtiu+QQ8MC3t8UfLhdcYcqDMc=",
+  "Source": "Hive.API",
+  "BasePath": "_content/Hive.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

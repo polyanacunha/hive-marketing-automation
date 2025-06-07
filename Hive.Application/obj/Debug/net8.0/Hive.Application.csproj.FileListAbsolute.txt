@@ -1,0 +1,16 @@
+/Users/getronics/hive/hive/Hive.Application/bin/Debug/net8.0/Hive.Application.deps.json
+/Users/getronics/hive/hive/Hive.Application/bin/Debug/net8.0/Hive.Application.dll
+/Users/getronics/hive/hive/Hive.Application/bin/Debug/net8.0/Hive.Application.pdb
+/Users/getronics/hive/hive/Hive.Application/bin/Debug/net8.0/Hive.Domain.dll
+/Users/getronics/hive/hive/Hive.Application/bin/Debug/net8.0/Hive.Domain.pdb
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.csproj.AssemblyReference.cache
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.AssemblyInfoInputs.cache
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.AssemblyInfo.cs
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.csproj.CoreCompileInputs.cache
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.sourcelink.json
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.App.5FE0478E.Up2Date
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.dll
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/refint/Hive.Application.dll
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/Hive.Application.pdb
+/Users/getronics/hive/hive/Hive.Application/obj/Debug/net8.0/ref/Hive.Application.dll
