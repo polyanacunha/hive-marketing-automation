@@ -1,11 +1,12 @@
 ﻿using Hive.Domain.Entities;
 using Hive.Infra.Data.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Hive.Infra.Data.Context;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -19,5 +20,56 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        SeedRoles(builder);
+        SeedUsers(builder);
+        SeedUserRoles(builder);
+
+
+    }
+    private static void SeedRoles(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<IdentityRole>().HasData(
+            new IdentityRole
+            {
+                Id = "a18be9c0-aa65-4af8-bd17-002f23242000",
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            },
+            new IdentityRole
+            {
+                Id = "a18be9c0-aa65-4af8-bd17-002f23242001",
+                Name = "Client",
+                NormalizedName = "CLIENT"
+            }
+        );
+    }
+    private static void SeedUsers(ModelBuilder modelBuilder)
+    {
+        var hasher = new PasswordHasher<ApplicationUser>();
+        var adminUserId = "a18be9c0-aa65-4af8-bd17-002f23242002";
+
+        modelBuilder.Entity<ApplicationUser>().HasData(
+            new ApplicationUser
+            {
+                Id = adminUserId,
+                UserName = "admin@localhost.com",
+                NormalizedUserName = "ADMIN@LOCALHOST.COM",
+                Email = "admin@localhost.com",
+                NormalizedEmail = "ADMIN@LOCALHOST.COM",
+                EmailConfirmed = true,
+                PasswordHash = hasher.HashPassword(null, "Numsey#2021"),
+                SecurityStamp = Guid.NewGuid().ToString("D")
+            }
+        );
+    }
+    private static void SeedUserRoles(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(
+            new IdentityUserRole<string>
+            {
+                RoleId = "a18be9c0-aa65-4af8-bd17-002f23242000", 
+                UserId = "a18be9c0-aa65-4af8-bd17-002f23242002" 
+            }
+        );
     }
 }

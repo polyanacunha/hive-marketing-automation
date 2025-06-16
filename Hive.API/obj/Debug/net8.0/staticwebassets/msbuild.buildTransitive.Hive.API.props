@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="../buildMultiTargeting/Hive.API.props" />
+  <Import Project="..\buildMultiTargeting\Hive.API.props" />
 </Project>

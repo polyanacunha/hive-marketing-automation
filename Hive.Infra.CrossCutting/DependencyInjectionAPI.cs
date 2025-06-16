@@ -1,12 +1,10 @@
 ﻿using Hive.Application.Interfaces;
 using Hive.Application.Mappings;
-using Hive.Application.Services;
-using Hive.Domain.Account;
 using Hive.Domain.Interfaces;
 using Hive.Infra.Data.Context;
 using Hive.Infra.Data.Identity;
 using Hive.Infra.Data.Repositories;
-using MediatR;
+using Hive.Infra.Data.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,20 +16,32 @@ public static class DependencyInjectionAPI
     public static IServiceCollection AddInfrastructureAPI(this IServiceCollection services,
         IConfiguration configuration)
     {
+        services.AddIdentity<ApplicationUser, IdentityRole>(option => {
+            option.Password.RequiredLength = 8;
+            option.Password.RequireUppercase = true;
+            option.Password.RequireLowercase = true;
+            option.Password.RequireDigit = true;
+            option.Password.RequireNonAlphanumeric = true;
+            option.User.RequireUniqueEmail = true;
+
+        }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+        services.Configure<DataProtectionTokenProviderOptions>(options =>{
+            options.TokenLifespan = TimeSpan.FromHours(2);
+        });
+
+
         services.AddDbContext<ApplicationDbContext>(options =>
-         options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"
+         options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"
         ), b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
-        services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
+      
         services.AddScoped<ICampaingRepository, CampaingRepository>();
         services.AddScoped<IMidiaRepository, MidiaRepository>();
-        services.AddScoped<ICampaingService, CampaingService>();
-        services.AddScoped<IMidiaService, MidiaService>();
 
-        services.AddScoped<IAuthenticate, AuthenticateService>();
+        services.AddScoped<IAuthenticate, Authenticate>();
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddTransient<IEmailService, EmailService>();
 
         services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

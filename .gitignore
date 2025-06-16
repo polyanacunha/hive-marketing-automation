@@ -1,2 +1,72 @@
-.vscode/*
-.vs/
+# # # Arquivo .gitignore para projetos .NET / ASP.NET Core # # #
+
+# 1. Dependências e Ferramentas
+# --------------------------------
+# Ignora a pasta de pacotes do NuGet (estilo antigo) e do Node.js
+**/[Pp]ackages/
+**/[Nn]ode_modules/
+**/[Ww]wwroot/dist/
+**/[Ww]wwroot/lib/
+*.nuget.props
+*.nuget.targets
+
+# 2. Arquivos de Build
+# --------------------------------
+# As pastas mais importantes a serem ignoradas. Contêm os arquivos compilados (DLLs, EXEs).
+**/[Bb]in/
+**/[Oo]bj/
+
+# 3. Arquivos do Visual Studio e IDEs
+# --------------------------------
+# Pasta de configurações da solução do Visual Studio. Contém arquivos específicos da sua máquina.
+**/.vs/
+# Arquivos de opções do usuário da solução e do projeto.
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Arquivos do Resharper (plugin do Visual Studio)
+*.resharper
+# Arquivos de IDEs da JetBrains (Rider)
+**/.idea/
+
+# 4. Arquivos de Configuração e Segredos (MUITO IMPORTANTE)
+# --------------------------------
+# Ignora configurações de desenvolvimento que podem conter segredos ou
+# conexões locais. Cada desenvolvedor deve ter a sua.
+**/[Aa]ppsettings.Development.json
+# Arquivo gerado pelo .NET User Secrets. NUNCA envie isso!
+**/secrets.json
+# Arquivos de ambiente comuns
+*.env
+
+# 5. Arquivos de Teste e Cobertura de Código
+# --------------------------------
+# Pastas e arquivos de resultados de testes
+**/[Tt]est[Rr]esult*/
+**/[Cc]overage*/
+*.trx
+*.coverlet.json
+*.sonarqube.out
+
+# 6. Arquivos de Log e Temporários
+# --------------------------------
+*.log
+*.tmp
+*.temp
+# Arquivos gerados pelo sistema operacional
+*.DS_Store
+Thumbs.db
+
+# 7. Arquivos de Publicação
+# --------------------------------
+# A pasta de publicação final não deve estar no controle de versão.
+**/[Pp]ublish/
+**/[Bb]uild/
+
+# 8. Outros
+# --------------------------------
+# Arquivos de cache e outros gerados por ferramentas diversas.
+*.nupkg
+*.pfx
+*.pubxml

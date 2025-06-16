@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("e135a32a-a9c6-4bef-935a-d086e2b56623")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hive.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47e9fef05ae5ce3d5320c4d4b79325a3eb0104e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9fa4a8e0912f8a1af0275b6c9fe750ac0b8ddfcc")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hive.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hive.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
