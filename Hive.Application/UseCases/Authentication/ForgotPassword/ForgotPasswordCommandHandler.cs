@@ -27,7 +27,7 @@ namespace Hive.Application.UseCases.Authentication.ForgotPassword
             var subject = "Recuperação de Senha";
             var body = $"Seu link de recuperação é: https://localhost:7121?token={token}";
 
-            _emailService.SendEmail(toEmail, subject, body);
+            await _emailService.SendEmail(toEmail, subject, body);
         }
     }
 }

@@ -19,10 +19,16 @@ namespace Hive.Infra.Data.Services
             _smtpSettings = options.Value;
         }
 
-        public async void SendEmail(string to, string subject, string htmlContent)
+        public async Task SendEmail(string to, string subject, string htmlContent)
         {
             try
             {
+                if (string.IsNullOrEmpty(_smtpSettings.FromEmail) || string.IsNullOrEmpty(_smtpSettings.Username))
+                {
+                    _logger.LogError("Configurações de SMTP não foram carregadas corretamente.");
+                    return;
+                }
+
                 var email = new MimeMessage();
                 email.From.Add(new MailboxAddress(_smtpSettings.FromName, _smtpSettings.FromEmail));
                 email.To.Add(MailboxAddress.Parse(to));
@@ -33,7 +39,7 @@ namespace Hive.Infra.Data.Services
 
                 using (var client = new SmtpClient())
                 {
-                    await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, SecureSocketOptions.StartTls);
+                    await client.ConnectAsync(_smtpSettings.Server, _smtpSettings.Port, SecureSocketOptions.SslOnConnect);
 
                     await client.AuthenticateAsync(_smtpSettings.Username, _smtpSettings.Password);
 

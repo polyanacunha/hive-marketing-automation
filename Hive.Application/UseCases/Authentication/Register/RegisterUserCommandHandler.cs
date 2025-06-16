@@ -31,7 +31,7 @@ namespace Hive.Application.UseCases.Authentication.Command
             var subject = "Confirmacão de Email";
             var body = $"Clique no para confirmar email: https://localhost:7121?token={token}";
 
-            _emailService.SendEmail(toEmail, subject, body);
+            await _emailService.SendEmail(toEmail, subject, body);
 
             return userId;
         }

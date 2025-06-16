@@ -155,7 +155,7 @@ namespace Hive.Infra.Data.Services
                 throw new Exception("Refresh token is expired.");
             }
 
-            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(user);
+            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.UserName));
 
             var refreshTokenValue = _jwtTokenGenerator.GenerateRefreshToken();
             var refreshTokenExpirationdDateInUtc = DateTime.UtcNow.AddDays(7);
