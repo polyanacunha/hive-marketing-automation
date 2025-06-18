@@ -1,19 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Hive.Domain.Entities
 {
-    public class ClientProfile : Entity
+    public class ClientProfile 
     {
-        public string MarketSegment {  get; private set; }
-        public string TargetAudience {  get; private set; }
+        public Guid Id { get; private set; }
+        public MarketSegment MarketSegment { get; private set; }
+        public int MarketSegmentId { get; private set; }
+        public TargetAudience TargetAudience { get; private set; }
         public int TargetAudienceId { get; private set; }
         public string CompanyName { get; private set; }
-        public string OwnerName { get; private set; }
         public string TaxId { get; private set; }
+        public string? WebSiteUrl { get; private set; }
 
+        private ClientProfile() { } 
+
+        public ClientProfile(Guid id, MarketSegment marketSegment, int marketSegmentId, TargetAudience targetAudience, int targetAudienceId, string companyName, string taxId, string? webSiteUrl)
+        {
+            Id = id;
+            MarketSegment = marketSegment;
+            MarketSegmentId = marketSegmentId;
+            TargetAudience = targetAudience;
+            TargetAudienceId = targetAudienceId;
+            CompanyName = companyName;
+            TaxId = taxId;
+            WebSiteUrl = webSiteUrl;
+        }
     }
-}
+}   

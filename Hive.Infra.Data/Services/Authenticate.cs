@@ -1,12 +1,9 @@
 ﻿using Hive.Application.DTOs;
 using Hive.Application.Interfaces;
-using Hive.Domain.Interfaces;
 using Hive.Infra.Data.Context;
 using Hive.Infra.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Asn1.Crmf;
-using System.Security.Claims;
 
 
 namespace Hive.Infra.Data.Services

@@ -1,5 +1,6 @@
 ﻿using Hive.Application.Interfaces;
 using Hive.Application.Mappings;
+using Hive.Domain.Entities;
 using Hive.Domain.Interfaces;
 using Hive.Infra.Data.Context;
 using Hive.Infra.Data.Identity;
@@ -38,17 +39,24 @@ public static class DependencyInjectionAPI
       
         services.AddScoped<ICampaingRepository, CampaingRepository>();
         services.AddScoped<IMidiaRepository, MidiaRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IMarketSegmentRepository, MarketSegmentRepository>();
+        services.AddScoped<ITargetAudienceRepository, TargetAudienceRepository>();
+        services.AddScoped<IClientProfileRepository, ClientProfileRepository>();
 
         services.AddScoped<IAuthenticate, Authenticate>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddTransient<IEmailService, EmailService>();
 
         services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+
+        services.AddHttpContextAccessor();
 
         var myhandlers = AppDomain.CurrentDomain.Load("Hive.Application");
         //services.AddMediatR(myhandlers);
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(myhandlers));
 
         return services;
-    }
+    }   
 }

@@ -6,8 +6,5 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.DTOs
 {
-    public class ClientProfileDTO
-    {
-
-    }
+    public record ClientProfileDTO (int MarketSegmentId, int TargetAudienceId, string CompanyName, string? WebSiteUrl, string TaxId){}
 }
