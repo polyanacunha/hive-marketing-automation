@@ -1,7 +1,9 @@
 ﻿using Hive.Application.DTOs;
 using Hive.Application.Interfaces;
+using Hive.Domain.Validation;
 using Hive.Infra.Data.Context;
 using Hive.Infra.Data.Identity;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,13 +23,13 @@ namespace Hive.Infra.Data.Services
             _context = context;
         }
 
-        public async Task ConfirmEmail(string userID, string token)
+        public async Task<Result<Unit>> ConfirmEmail(string userID, string token)
         {
             var user = await _userManager.FindByIdAsync(userID);
 
-            if (user == null) 
+            if (user == null)
             {
-                throw new Exception("User not found");
+                return Result<Unit>.Failure("User not found.");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
@@ -35,29 +37,45 @@ namespace Hive.Infra.Data.Services
             if (!result.Succeeded)
             {
                 var erros = result.Errors.Select(e => e.Description);
-                throw new Exception(string.Join(",", erros));
+                return Result<Unit>.Failure(erros);
+
             }
-
+            return Result<Unit>.Success(Unit.Value);
         }
-
-        public async Task<string?> GeneratePasswordResetToken(string email)
+        
+        public async Task<Result<string>> GeneratePasswordResetToken(string email)
         {
             var user = await _userManager.FindByNameAsync(email);
 
             if (user == null) {
-                return null;
+                return Result<string>.Failure("User not found");
             }
 
-            return await _userManager.GeneratePasswordResetTokenAsync(user);
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            if (token == null)
+            {
+                return Result<string>.Failure("An error occurred while generating token");
+            }
+
+            return Result<string>.Success(token);
         }
 
-        public async Task<bool> IsValidPassword(string email, string password)
+        public async Task<Result<bool>> IsValidPassword(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            return await _userManager.CheckPasswordAsync(user, password);
+
+            if (user == null)
+            {
+                return Result<bool>.Failure("User not found");
+            }
+
+            var result = await _userManager.CheckPasswordAsync(user, password);
+
+            return Result<bool>.Success(result);
         }
 
-        public async Task Login(string email, string password)
+        public async Task<Result<Unit>> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -73,13 +91,15 @@ namespace Hive.Infra.Data.Services
 
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_ACCESS_TOKEN", jwtToken, expirationDateInUtc);
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationdDateInUtc);
+
+            return Result<Unit>.Success(Unit.Value);
         }
 
-        public async Task LoginWithGoogle(string email)
+        public async Task<Result<Unit>> LoginWithGoogle(string email)
         {
             if (email == null)
             {
-                throw new Exception("Google: Email is null");
+                return Result<Unit>.Failure("Email is null");
             }
 
             var user = await _userManager.FindByEmailAsync(email);
@@ -98,8 +118,8 @@ namespace Hive.Infra.Data.Services
                 if (!result.Succeeded)
                 {
                     var errorDescriptions = result.Errors.Select(e => e.Description);
-                    var fullErrorMessage = string.Join("; ", errorDescriptions);
-                    throw new Exception($"Unable to create the user:{fullErrorMessage}");
+                    return Result<Unit>.Failure(errorDescriptions);
+
                 }
 
                 user = newUser;
@@ -113,8 +133,7 @@ namespace Hive.Infra.Data.Services
             {
                 var errorDescriptions = loginResult.Errors.Select(e => e.Description);
                 var fullErrorMessage = string.Join("; ", errorDescriptions);
-                throw new Exception($"Unable to login the user:{fullErrorMessage}");
-
+                return Result<Unit>.Failure(fullErrorMessage);
             }
 
             var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.Email));
@@ -129,13 +148,15 @@ namespace Hive.Infra.Data.Services
 
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_ACCESS_TOKEN", jwtToken, expirationDateInUtc);
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationdDateInUtc);
+
+            return Result<Unit>.Success(Unit.Value);
         }
 
-        public async Task RefreshToken(string? refreshToken)
+        public async Task<Result<Unit>> RefreshToken(string? refreshToken)
         {
             if (string.IsNullOrEmpty(refreshToken))
             {
-                throw new Exception("RefreshToken is missing.");
+                return Result<Unit>.Failure("RefreshToken is missing.");
             }
 
             var user = await _context.Users
@@ -144,12 +165,12 @@ namespace Hive.Infra.Data.Services
 
             if (user == null)
             {
-                throw new Exception("Enable to retrieve user for refresh token");
+                return Result<Unit>.Failure("Enable to retrieve user for refresh token");
             }
 
             if (user.RefreshTokenExpiresAtUtc < DateTime.UtcNow)
             {
-                throw new Exception("Refresh token is expired.");
+                return Result<Unit>.Failure("Refresh token is expired.");
             }
 
             var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.UserName));
@@ -164,9 +185,11 @@ namespace Hive.Infra.Data.Services
 
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_ACCESS_TOKEN", jwtToken, expirationDateInUtc);
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationdDateInUtc);
+
+            return Result<Unit>.Success(Unit.Value);
         }
 
-        public async Task<(string userId, string token)> Register(string email, string password)
+        public async Task<Result<(string userId, string token)>> Register(string email, string password)
         {
             var user = new ApplicationUser
             {
@@ -179,36 +202,37 @@ namespace Hive.Infra.Data.Services
             if (!result.Succeeded)
             {
                 var errorDescriptions = result.Errors.Select(e => e.Description);
-                var fullErrorMessage = string.Join("; ", errorDescriptions);
-                throw new Exception(fullErrorMessage);
+                return Result< (string userId, string token)>.Failure(errorDescriptions);
             }
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            return (user.Id, token);
+            return Result<(string userId, string token)>.Success((user.Id, token));
         }
 
-        public async Task ResetPassword(string userID, string token, string newPassword)
+        public async Task<Result<Unit>> ResetPassword(string userID, string token, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userID);
 
             if (user == null)
             {
-                throw new Exception("User not found");
+                return Result<Unit>.Failure("User not found");
             }
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
 
             if (!result.Succeeded)
             {
-                var erros = result.Errors.Select(e => e.Description);
-                throw new Exception(string.Join(",", erros));
+                var errors = result.Errors.Select(e => e.Description);
+                return Result<Unit>.Failure(errors);
             }
 
+            return Result<Unit>.Success(Unit.Value);
         }
 
-        public async Task<bool> UserExists(string email)
+        public async Task<Result<bool>> UserExists(string email)
         {
-            return await _userManager.FindByEmailAsync(email) != null;
+            var result = await _userManager.FindByEmailAsync(email) != null;
+            return Result<bool>.Success(result);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Hive.Application.Interfaces;
+using Hive.Domain.Validation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.UseCases.Authentication.LoginWithGoogle
 {
-    public class LoginWithGoogleQueryHandler : IRequestHandler<LoginWithGoogleQuery>
+    public class LoginWithGoogleQueryHandler : IRequestHandler<LoginWithGoogleQuery, Result<Unit>>
     {
         private readonly IAuthenticate _authenticate;
 
@@ -17,9 +18,9 @@ namespace Hive.Application.UseCases.Authentication.LoginWithGoogle
             _authenticate = authenticate;
         }
 
-        public async Task Handle(LoginWithGoogleQuery request, CancellationToken cancellation)
+        public async Task<Result<Unit>> Handle(LoginWithGoogleQuery request, CancellationToken cancellationToken)
         {
-            await _authenticate.LoginWithGoogle(request.email);
+            return await _authenticate.LoginWithGoogle(request.Email);
         }
     }
 }

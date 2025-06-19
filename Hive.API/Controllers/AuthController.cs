@@ -11,6 +11,7 @@ using Hive.Application.UseCases.Authentication.LoginWithGoogle;
 using Hive.Application.UseCases.Authentication.ConfirmEmail;
 using Hive.Application.UseCases.Authentication.ForgotPassword;
 using Hive.Application.UseCases.Authentication.RecoverPassword;
+using MimeKit.Cryptography;
 
 namespace Hive.API.Controllers;
 
@@ -31,13 +32,21 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> Register([FromBody] RegisterUserCommand request)
     {
         var result = await _mediator.Send(request);
-        return Ok(new { Id = result, Message = "Um link de confirmacao foi enviado ao seu email"});
+        if (result.IsFailure)
+        {
+            return BadRequest(new {Errors = result.Errors});
+        }
+        return Ok(new { Id = result.Value, Message = "Um link de confirmacao foi enviado ao seu email"});
     }
 
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody] LoginUserQuery request)
     {
-        await _mediator.Send(request);
+        var result = await _mediator.Send(request);
+        if (result.IsFailure) 
+        {
+            return BadRequest(new {Errors = result.Errors});
+        }
         return Ok();
 
     }
@@ -69,21 +78,35 @@ public class AuthController : ControllerBase
     [HttpPost("confirm/email")]
     public async Task<ActionResult> ConfirmEmail([FromQuery] ConfirmEmailCommand request)
     {
-        await _mediator.Send(request);
+        var result = await _mediator.Send(request);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
         return Ok();
     }
 
     [HttpPost("forgot/password")]
     public async Task<ActionResult> ForgotPassword([FromQuery] ForgotPasswordCommand request)
     {
-        await _mediator.Send(request);
-        return Ok();
+        var result = await _mediator.Send(request);
+
+        if (!result.IsSuccess)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
+        return Ok(new {Message = result.Value});
     }
 
     [HttpPost("reset/password")]
     public async Task<ActionResult> ResetPassword([FromQuery] ResetPasswordCommand request)
     {
-        await _mediator.Send(request);
+        var result = await _mediator.Send(request);
+        if (!result.IsFailure) 
+        {
+            return BadRequest(new {Errors = result.Errors});
+        } 
         return Ok();
     }
 }

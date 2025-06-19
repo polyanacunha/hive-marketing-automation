@@ -1,4 +1,5 @@
 ﻿using Hive.Application.Interfaces;
+using Hive.Domain.Validation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.UseCases.Authentication.RefreshToken
 {
-    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand>
+    public class RefreshTokenCommandHandler : IRequestHandler<RefreshTokenCommand, Result<Unit>>
     {
         private IAuthenticate _authenticate;
 
@@ -17,9 +18,9 @@ namespace Hive.Application.UseCases.Authentication.RefreshToken
             _authenticate = authenticate;
         }
 
-        public async Task Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            await _authenticate.RefreshToken(request.ResfreshToken);
+            return await _authenticate.RefreshToken(request.ResfreshToken);
         }
     }
 }

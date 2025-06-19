@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Hive.Application.UseCases.Authentication.Login
 {
-    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery>
+    public class LoginUserQueryHandler : IRequestHandler<LoginUserQuery, Result<Unit>>
     {
         private readonly IAuthenticate _authenticate;
 
@@ -15,17 +15,21 @@ namespace Hive.Application.UseCases.Authentication.Login
             _authenticate = autenticate;
         }
 
-        public async Task Handle(LoginUserQuery request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
-            var isValidPassword = await _authenticate.IsValidPassword(request.Email, request.Password);
+            var isValid = await _authenticate.IsValidPassword(request.Email, request.Password);
 
-            if(!isValidPassword)
+            if (isValid.IsFailure) 
             {
-                DomainExceptionValidation.When(true, "Email or password invalid.");
+                return Result<Unit>.Failure(isValid.Errors);
             }
 
-            await _authenticate.Login(request.Email, request.Password);
+            if (!isValid.Value)
+            {
+                return Result<Unit>.Failure("Email or password invalid.");
+            }
 
+            return await _authenticate.Login(request.Email, request.Password);
         }
     }
 }
