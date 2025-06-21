@@ -1,4 +1,6 @@
-﻿using Hive.Application.Interfaces;
+﻿using Hangfire;
+using Hangfire.PostgreSql;
+using Hive.Application.Interfaces;
 using Hive.Application.Mappings;
 using Hive.Domain.Entities;
 using Hive.Domain.Interfaces;
@@ -30,6 +32,16 @@ public static class DependencyInjectionAPI
         services.Configure<DataProtectionTokenProviderOptions>(options =>{
             options.TokenLifespan = TimeSpan.FromHours(2);
         });
+
+        services.AddHangfire(config => config
+        .UseSimpleAssemblyNameTypeSerializer()
+        .UseRecommendedSerializerSettings()
+        .UsePostgreSqlStorage(options =>
+        {
+            options.UseNpgsqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        }));
+
+        services.AddHangfireServer();
 
 
         services.AddDbContext<ApplicationDbContext>(options =>

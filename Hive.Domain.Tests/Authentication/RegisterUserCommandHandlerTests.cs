@@ -1,5 +1,3 @@
-
-
 using FluentAssertions;
 using Hive.Application.Interfaces;
 using Hive.Application.UseCases.Authentication.Command;

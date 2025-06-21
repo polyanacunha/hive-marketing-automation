@@ -132,11 +132,10 @@ namespace Hive.Infra.Data.Services
             if (!loginResult.Succeeded)
             {
                 var errorDescriptions = loginResult.Errors.Select(e => e.Description);
-                var fullErrorMessage = string.Join("; ", errorDescriptions);
-                return Result<Unit>.Failure(fullErrorMessage);
+                return Result<Unit>.Failure(errorDescriptions);
             }
 
-            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.Email));
+            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.Email!));
 
             var refreshTokenValue = _jwtTokenGenerator.GenerateRefreshToken();
             var refreshTokenExpirationdDateInUtc = DateTime.UtcNow.AddDays(7);
@@ -165,7 +164,7 @@ namespace Hive.Infra.Data.Services
 
             if (user == null)
             {
-                return Result<Unit>.Failure("Enable to retrieve user for refresh token");
+                return Result<Unit>.Failure("Refresh token invalid.");
             }
 
             if (user.RefreshTokenExpiresAtUtc < DateTime.UtcNow)
@@ -173,7 +172,7 @@ namespace Hive.Infra.Data.Services
                 return Result<Unit>.Failure("Refresh token is expired.");
             }
 
-            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.UserName));
+            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id, user.UserName!));
 
             var refreshTokenValue = _jwtTokenGenerator.GenerateRefreshToken();
             var refreshTokenExpirationdDateInUtc = DateTime.UtcNow.AddDays(7);

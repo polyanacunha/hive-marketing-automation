@@ -15,6 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<ClientProfile> ClientProfile { get; set; }
     public DbSet<MarketSegment> MarketSegment { get; set; }
     public DbSet<TargetAudience> TargetAudience { get; set; }
+    public DbSet<JobGeneration> JobGeneration { get; set; }
     public DbSet<Campaing> Campaing { get; set; }
     public DbSet<Midia> Midia { get; set; }
     public DbSet<Post> Post { get; set; }

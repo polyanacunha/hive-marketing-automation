@@ -18,23 +18,23 @@ namespace Hive.Infra.Data.Services
         }
 
         public Guid? UserId
-    {
-        get
         {
-            var idClaim = _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            if (string.IsNullOrEmpty(idClaim))
+            get
             {
-                return null;
-            }
+                var idClaim = _contextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (!Guid.TryParse(idClaim, out var userId))
-            {
-                return null;
-            }
+                if (string.IsNullOrEmpty(idClaim))
+                {
+                    return null;
+                }
+
+                if (!Guid.TryParse(idClaim, out var userId))
+                {
+                    return null;
+                }
             
-            return userId;
+                return userId;
+            }
         }
-    }
     }
 }

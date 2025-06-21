@@ -10,52 +10,21 @@ namespace Hive.API.Controllers;
 [Authorize]
 public class MidiaController : ControllerBase
 {
-    private readonly IMidiaService _midiaService;
-    public MidiaController(IMidiaService midiaService)
+    public MidiaController()
     {
-        _midiaService = midiaService;
-    }
-
-    [HttpGet("{id}", Name = "GetMidia")]
-    public async Task<ActionResult<MidiaDTO>> Get(int id)
-    {
-        var midiaDto = await _midiaService.GetByIdAsync(id);
-        if (midiaDto == null)
-        {
-            return NotFound("Midia not found");
-        }
-        return Ok(midiaDto);
+        
     }
 
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult> Put(int id, [FromBody] MidiaDTO midiaDto)
+    [HttpPost("video")]
+    public async Task<ActionResult> CreateVideo([FromForm] string id, List<IFormFile> files)
     {
-        if (id != midiaDto.Id)
-        {
-            return BadRequest("Data invalid");
-        }
+        
+        
+        return Ok();
 
-        if (midiaDto == null)
-            return BadRequest("Data invalid");
-
-        await _midiaService.UpdateAsync(midiaDto);
-
-        return Ok(midiaDto);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult<MidiaDTO>> Delete(int id)
-    {
-        var midiaDto = await _midiaService.GetByIdAsync(id);
 
-        if (midiaDto == null)
-        {
-            return NotFound("Midia not found");
-        }
-
-        await _midiaService.RemoveAsync(id);
-
-        return Ok(midiaDto);
-    }
+  
 }
