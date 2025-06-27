@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hive.Infra.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+47e9fef05ae5ce3d5320c4d4b79325a3eb0104e0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83452e64c37efca9e01c75488fac8b8483d13b70")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hive.Infra.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hive.Infra.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
