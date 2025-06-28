@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OnboardingStateService } from '../../../services/onboarding-state.service';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-step4-review',
@@ -12,8 +13,10 @@ import { OnboardingStateService } from '../../../services/onboarding-state.servi
 export class Step4ReviewComponent {
   @Output() prev = new EventEmitter<void>();
   onboardingData: any;
+  error: string | null = null;
+  success: boolean = false;
 
-  constructor(private onboarding: OnboardingStateService) {
+  constructor(private onboarding: OnboardingStateService, private profileService: ProfileService) {
     this.onboardingData = this.onboarding.onboardingData;
   }
 
@@ -22,7 +25,16 @@ export class Step4ReviewComponent {
   }
 
   onFinish() {
-    // Aqui você pode chamar a API para salvar os dados
-    alert('Cadastro da empresa finalizado!');
+    this.error = null;
+    this.success = false;
+    this.profileService.createProfile(this.onboardingData).subscribe({
+      next: () => {
+        this.success = true;
+        alert('Cadastro da empresa finalizado!');
+      },
+      error: (err) => {
+        this.error = 'Erro ao criar o perfil. Tente novamente.';
+      }
+    });
   }
 }
