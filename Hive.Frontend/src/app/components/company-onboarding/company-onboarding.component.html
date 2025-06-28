@@ -1,0 +1,10 @@
+<div class="onboarding-bg">
+  <div class="onboarding-container">
+    <ng-container [ngSwitch]="step">
+      <app-step1-basic-info *ngSwitchCase="1" (next)="nextStep()"></app-step1-basic-info>
+      <app-step2-segment *ngSwitchCase="2" (next)="nextStep()" (prev)="prevStep()"></app-step2-segment>
+      <app-step3-audience *ngSwitchCase="3" (next)="nextStep()" (prev)="prevStep()"></app-step3-audience>
+      <app-step4-review *ngSwitchCase="4" (prev)="prevStep()"></app-step4-review>
+    </ng-container>
+  </div>
+</div>

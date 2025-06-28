@@ -1,0 +1,26 @@
+.onboarding-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #f5f7fa 0%, #b8aaff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.onboarding-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  padding: 40px 36px 32px 36px;
+  max-width: 440px;
+  width: 100%;
+  margin: 40px 0;
+}
+
+@media (max-width: 600px) {
+  .onboarding-container {
+    padding: 16px 4px 12px 4px;
+    max-width: 98vw;
+  }
+}

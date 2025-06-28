@@ -1,0 +1,88 @@
+.onboarding-step {
+  text-align: center;
+}
+.onboarding-progress {
+  margin-bottom: 18px;
+}
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+.progress-label {
+  font-size: 1rem;
+  color: #888;
+  font-weight: 500;
+}
+h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #222;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+.form-group label {
+  font-size: 1.1rem;
+  color: #222;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid #b8aaff;
+  border-radius: 8px;
+  background: #f8f7ff;
+  font-size: 1.1rem;
+  color: #222;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus {
+  border-color: #7c5fff;
+}
+.onboarding-btn {
+  width: 100%;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.2s;
+}
+.onboarding-btn:disabled {
+  background: #b8aaff;
+  cursor: not-allowed;
+}
+.onboarding-btn:not(:disabled):hover {
+  background: #7c5fff;
+}
+.onboarding-btn-secondary {
+  width: 100%;
+  background: transparent;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: not-allowed;
+}

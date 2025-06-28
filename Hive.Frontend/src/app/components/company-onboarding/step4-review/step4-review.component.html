@@ -1,0 +1,28 @@
+<div class="onboarding-step">
+  <div class="onboarding-progress">
+    <div class="progress-bar">
+      <div class="progress-bar-fill" style="width: 100%"></div>
+    </div>
+    <span class="progress-label">4 de 4</span>
+  </div>
+  <h2>Revisão</h2>
+  <p class="onboarding-desc">Confira se as informações estão corretas antes de enviar</p>
+  <div class="review-list">
+    <div class="review-row">
+      <span class="review-label">Nome da Empresa</span>
+      <span class="review-value">{{ onboardingData.companyName }}</span>
+    </div>
+    <div class="review-row">
+      <span class="review-label">Segmento de Mercado</span>
+      <span class="review-value">{{ onboardingData.segment === 'Outro' ? onboardingData.customSegment : onboardingData.segment }}</span>
+    </div>
+    <div class="review-row">
+      <span class="review-label">Público-Alvo</span>
+      <span class="review-value">{{ onboardingData.audience === 'Outro' ? onboardingData.customAudience : onboardingData.audience }}</span>
+    </div>
+  </div>
+  <div class="onboarding-actions">
+    <button class="onboarding-btn-secondary" type="button" (click)="onPrev()">Anterior</button>
+    <button class="onboarding-btn" type="button" (click)="onFinish()">Continuar</button>
+  </div>
+</div>
