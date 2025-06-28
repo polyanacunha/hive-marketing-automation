@@ -1,4 +1,5 @@
 ﻿using Hive.Application.Interfaces;
+using Hive.Domain.Validation;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.UseCases.Authentication.ConfirmEmail
 {
-    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand>
+    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, Result<Unit>>
     {
         private readonly IAuthenticate _authenticate;
 
@@ -17,9 +18,9 @@ namespace Hive.Application.UseCases.Authentication.ConfirmEmail
             _authenticate = authenticate;
         }
 
-        public async Task Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
         {
-            await _authenticate.ConfirmEmail(request.UserId, request.Token);
+            return await _authenticate.ConfirmEmail(request.UserId, request.Token);
         }
     }
 }

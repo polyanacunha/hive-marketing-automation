@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Hive.Application.UseCases.Authentication.Command
 {
-    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
+    public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<string>>
     {
         private readonly IAuthenticate _authenticate;
         private readonly IEmailService _emailService;
@@ -17,23 +17,30 @@ namespace Hive.Application.UseCases.Authentication.Command
             _emailService = emailService;
         }
 
-        public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
             var userExists = await _authenticate.UserExists(request.Email);
 
-            if (userExists)
+            if (userExists.Value) 
             {
-                DomainExceptionValidation.When(true, "Email already registed");
+                return Result<string>.Failure("Email already registered");            
             }
 
-            var (userId, token) = await _authenticate.Register(request.Email, request.Password);
+            var result = await _authenticate.Register(request.Email, request.Password);
+
+            if (result.IsFailure) 
+            {
+                return Result<string>.Failure(result.Errors);
+            }
+
+            var (userId, token) = result.Value;
             var toEmail = request.Email;
             var subject = "Confirmacão de Email";
             var body = $"Clique no para confirmar email: https://localhost:7121?token={token}";
 
-            _emailService.SendEmail(toEmail, subject, body);
+            await _emailService.SendEmail(toEmail, subject, body);
 
-            return userId;
+            return Result<string>.Success(userId);
         }
     }
 }

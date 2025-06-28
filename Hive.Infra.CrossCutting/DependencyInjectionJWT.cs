@@ -15,6 +15,7 @@ public static class DependencyInjectionJWT
     {
 
         services.Configure<JwtOptions>( configuration.GetSection(JwtOptions.JwtOptionKey));
+        services.Configure<SmtpSettings>( configuration.GetSection(SmtpSettings.SmtpSettingsKey));
 
         services.AddAuthentication(options =>
         {

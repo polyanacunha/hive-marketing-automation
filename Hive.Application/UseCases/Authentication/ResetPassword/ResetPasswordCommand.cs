@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Hive.Domain.Validation;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.UseCases.Authentication.RecoverPassword
 {
-    public record ResetPasswordCommand(string UserId, string Token, string Password) : IRequest
+    public record ResetPasswordCommand(string UserId, string Token, string Password) : IRequest<Result<Unit>>
     {
     }
 }

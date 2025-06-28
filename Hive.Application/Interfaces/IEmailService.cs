@@ -8,6 +8,6 @@ namespace Hive.Application.Interfaces
 {
     public interface IEmailService
     {
-        public void SendEmail(string to, string subject, string htmlContent);
+        public Task SendEmail(string to, string subject, string htmlContent);
     }
 }

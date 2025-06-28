@@ -1,9 +1,10 @@
 ﻿using Hive.Application.Interfaces;
+using Hive.Domain.Validation;
 using MediatR;
 
 namespace Hive.Application.UseCases.Authentication.ForgotPassword
 {
-    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand>
+    public class ForgotPasswordCommandHandler : IRequestHandler<ForgotPasswordCommand, Result<string>>
     {
         private readonly IEmailService _emailService;
         private readonly IAuthenticate _authenticate;
@@ -14,20 +15,22 @@ namespace Hive.Application.UseCases.Authentication.ForgotPassword
             _authenticate = authenticate;
         }
 
-        public async Task Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
         {
             var token = await _authenticate.GeneratePasswordResetToken(request.Email);
 
-            if (token is null)
+            if(token.IsFailure)
             {
-                return;
+                return Result<string>.Failure(token.Errors);
             }
 
             var toEmail = request.Email;
             var subject = "Recuperação de Senha";
             var body = $"Seu link de recuperação é: https://localhost:7121?token={token}";
 
-            _emailService.SendEmail(toEmail, subject, body);
+            await _emailService.SendEmail(toEmail, subject, body);
+
+            return Result<string>.Success("A password recovery link has been sent. Please check your email.");
         }
     }
 }

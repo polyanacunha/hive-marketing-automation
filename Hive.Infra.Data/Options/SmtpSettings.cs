@@ -8,6 +8,7 @@ namespace Hive.Infra.Data.Options
 {
     public class SmtpSettings
     {
+        public const string SmtpSettingsKey = "SmtpSettings";
         public string Server { get; set; }
         public int Port { get; set; }
         public string FromName { get; set; }
