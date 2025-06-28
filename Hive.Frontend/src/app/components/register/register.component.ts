@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -11,8 +12,10 @@ import { CommonModule } from '@angular/common';
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  error: string | null = null;
+  success: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private userService: UserService) {
     this.registerForm = this.fb.group({
       firstName: ['', [Validators.required]],
       lastName: ['', [Validators.required]],
@@ -30,9 +33,23 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      // Aqui você pode enviar os dados para a API
-      alert('Cadastro realizado com sucesso!');
-      // console.log(this.registerForm.value);
+      this.error = null;
+      this.success = null;
+      const { firstName, lastName, email, password } = this.registerForm.value;
+      const payload = {
+        firstName,
+        lastName,
+        email,
+        password
+      };
+      this.userService.register(payload).subscribe({
+        next: (res) => {
+          this.success = res?.message || 'Cadastro realizado com sucesso!';
+        },
+        error: (err) => {
+          this.error = err?.error?.Errors?.[0] || 'Erro ao registrar. Tente novamente.';
+        }
+      });
     } else {
       this.registerForm.markAllAsTouched();
     }
