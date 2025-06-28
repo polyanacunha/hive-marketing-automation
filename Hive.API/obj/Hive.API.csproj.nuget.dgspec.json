@@ -1,33 +1,40 @@
 {
   "format": 1,
   "restore": {
-    "/Users/getronics/hive/hive/Hive.API/Hive.API.csproj": {}
+    "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.API\\Hive.API.csproj": {}
   },
   "projects": {
-    "/Users/getronics/hive/hive/Hive.API/Hive.API.csproj": {
+    "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.API\\Hive.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/getronics/hive/hive/Hive.API/Hive.API.csproj",
+        "projectUniqueName": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.API\\Hive.API.csproj",
         "projectName": "Hive.API",
-        "projectPath": "/Users/getronics/hive/hive/Hive.API/Hive.API.csproj",
-        "packagesPath": "/Users/getronics/.nuget/packages/",
-        "outputPath": "/Users/getronics/hive/hive/Hive.API/obj/",
+        "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.API\\Hive.API.csproj",
+        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.API\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/getronics/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/getronics/hive/hive/Hive.Infra.CrossCutting/Hive.Infra.CrossCutting.csproj": {
-                "projectPath": "/Users/getronics/hive/hive/Hive.Infra.CrossCutting/Hive.Infra.CrossCutting.csproj"
+              "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.CrossCutting\\Hive.Infra.CrossCutting.csproj": {
+                "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.CrossCutting\\Hive.Infra.CrossCutting.csproj"
               }
             }
           }
@@ -41,7 +48,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -71,34 +79,41 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/getronics/hive/hive/Hive.Application/Hive.Application.csproj": {
+    "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/getronics/hive/hive/Hive.Application/Hive.Application.csproj",
+        "projectUniqueName": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj",
         "projectName": "Hive.Application",
-        "projectPath": "/Users/getronics/hive/hive/Hive.Application/Hive.Application.csproj",
-        "packagesPath": "/Users/getronics/.nuget/packages/",
-        "outputPath": "/Users/getronics/hive/hive/Hive.Application/obj/",
+        "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj",
+        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/getronics/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj": {
-                "projectPath": "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj"
+              "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj": {
+                "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj"
               }
             }
           }
@@ -112,7 +127,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -121,6 +137,10 @@
             "AutoMapper": {
               "target": "Package",
               "version": "[12.0.1, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.5.0, )"
             }
           },
           "imports": [
@@ -139,26 +159,33 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj": {
+    "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj",
         "projectName": "Hive.Domain",
-        "projectPath": "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj",
-        "packagesPath": "/Users/getronics/.nuget/packages/",
-        "outputPath": "/Users/getronics/hive/hive/Hive.Domain/obj/",
+        "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj",
+        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/getronics/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -176,7 +203,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -197,37 +225,44 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/getronics/hive/hive/Hive.Infra.CrossCutting/Hive.Infra.CrossCutting.csproj": {
+    "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.CrossCutting\\Hive.Infra.CrossCutting.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/getronics/hive/hive/Hive.Infra.CrossCutting/Hive.Infra.CrossCutting.csproj",
+        "projectUniqueName": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.CrossCutting\\Hive.Infra.CrossCutting.csproj",
         "projectName": "Hive.Infra.CrossCutting",
-        "projectPath": "/Users/getronics/hive/hive/Hive.Infra.CrossCutting/Hive.Infra.CrossCutting.csproj",
-        "packagesPath": "/Users/getronics/.nuget/packages/",
-        "outputPath": "/Users/getronics/hive/hive/Hive.Infra.CrossCutting/obj/",
+        "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.CrossCutting\\Hive.Infra.CrossCutting.csproj",
+        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.CrossCutting\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/getronics/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/getronics/hive/hive/Hive.Application/Hive.Application.csproj": {
-                "projectPath": "/Users/getronics/hive/hive/Hive.Application/Hive.Application.csproj"
+              "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj": {
+                "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj"
               },
-              "/Users/getronics/hive/hive/Hive.Infra.Data/Hive.Infra.Data.csproj": {
-                "projectPath": "/Users/getronics/hive/hive/Hive.Infra.Data/Hive.Infra.Data.csproj"
+              "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.Data\\Hive.Infra.Data.csproj": {
+                "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.Data\\Hive.Infra.Data.csproj"
               }
             }
           }
@@ -241,7 +276,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
@@ -251,9 +287,9 @@
               "target": "Package",
               "version": "[12.0.1, )"
             },
-            "MediatR": {
+            "Microsoft.AspNetCore.Authentication.Google": {
               "target": "Package",
-              "version": "[12.2.0, )"
+              "version": "[8.0.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -288,34 +324,44 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/Users/getronics/hive/hive/Hive.Infra.Data/Hive.Infra.Data.csproj": {
+    "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.Data\\Hive.Infra.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/getronics/hive/hive/Hive.Infra.Data/Hive.Infra.Data.csproj",
+        "projectUniqueName": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.Data\\Hive.Infra.Data.csproj",
         "projectName": "Hive.Infra.Data",
-        "projectPath": "/Users/getronics/hive/hive/Hive.Infra.Data/Hive.Infra.Data.csproj",
-        "packagesPath": "/Users/getronics/.nuget/packages/",
-        "outputPath": "/Users/getronics/hive/hive/Hive.Infra.Data/obj/",
+        "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.Data\\Hive.Infra.Data.csproj",
+        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Infra.Data\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/getronics/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj": {
-                "projectPath": "/Users/getronics/hive/hive/Hive.Domain/Hive.Domain.csproj"
+              "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj": {
+                "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Application\\Hive.Application.csproj"
+              },
+              "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj": {
+                "projectPath": "C:\\Users\\carlo\\projetos\\hive-marketing-automation\\Hive.Domain\\Hive.Domain.csproj"
               }
             }
           }
@@ -329,12 +375,17 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "MailKit": {
+              "target": "Package",
+              "version": "[4.12.1, )"
+            },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -349,15 +400,23 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
-            "Microsoft.EntityFrameworkCore.SqlServer": {
-              "target": "Package",
-              "version": "[8.0.0, )"
-            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.0, )"
+            },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[8.12.0, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.12.0, )"
             }
           },
           "imports": [
@@ -376,7 +435,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.408/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
