@@ -1,0 +1,45 @@
+<div class="ad-creation-bg">
+  <div class="ad-creation-container">
+
+    <div class="ad-creation-content">
+      <h1>Criação de Anúncio</h1>
+      <p class="subtitle">Crie álbuns de fotos de produtos para que os anúncios sejam gerados.</p>
+      <div class="ad-creation-card">
+
+        <div class="images-section">
+          <span class="images-title">Imagens do Produto</span>
+          <span class="images-desc">Adicione imagens que serão usadas na criação de anúncios</span>
+          <div class="image-upload-area" (click)="fileInput.click()" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+            <input type="file" #fileInput multiple accept="image/png, image/jpeg" (change)="onFileSelected($event)" hidden />
+            <div class="upload-icon">
+              <svg width="48" height="48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 34V14M24 14l-7 7m7-7l7 7" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="38" width="40" height="6" rx="3" fill="#E0E0E0"/></svg>
+            </div>
+            <div class="upload-text">
+              <strong>Arraste e solte ou clique<br>para selecionar uma imagem</strong>
+              <div class="upload-info">Formatos: JPG, PNG | Max: 2MB</div>
+            </div>
+          </div>
+          <div class="selected-images" *ngIf="selectedImages.length > 0">
+            <div class="image-thumb" *ngFor="let img of selectedImages; let i = index">
+              <ng-container *ngIf="!img.loading; else loadingTpl">
+                <img [src]="img.url" [alt]="'Imagem ' + (i+1)" />
+                <span class="image-check"><svg width="28" height="28" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#4fce5d"/><path d="M7 13l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                <button class="remove-btn" (click)="removeImage(i)" title="Remover imagem">&times;</button>
+              </ng-container>
+              <ng-template #loadingTpl>
+                <div class="image-loading">
+                  <span class="spinner"></span>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+          <button class="add-more-btn" (click)="fileInput.click()">+ Adicionar mais imagens</button>
+        </div>
+      </div>
+      <div class="ad-creation-actions">
+        <button class="cancel-btn" (click)="onCancel()">Cancelar</button>
+        <button class="save-btn" [disabled]="selectedImages.length === 0" (click)="onSave()">Salvar mídias</button>
+      </div>
+    </div>
+  </div>
+</div>
