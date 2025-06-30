@@ -21,7 +21,13 @@ namespace Hive.API.Controllers
         [HttpPost("profile")]
         public async Task<ActionResult> CreateClientProfile([FromBody] CreateClientProfileCommand request)
         {
-            await _mediator.Send(request);
+            var result = await _mediator.Send(request);
+
+            if(result.IsFailure)
+            {
+                return BadRequest(new { Errors = result.Errors });
+            }
+
             return Ok();
         }
     }

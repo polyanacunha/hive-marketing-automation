@@ -24,6 +24,13 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
 
         public async Task<Result<Unit>> Handle(CreateClientProfileCommand request, CancellationToken cancellationToken)
         {
+            var clientId = _currentUser.UserId;
+
+            if (clientId == null)
+            {
+                return Result<Unit>.Failure("User are not authenticate");
+            }
+
             var marketSegment = await _marketSegmentRepository.GetById(request.MarketSegmentId);
 
             if (marketSegment == null) {
@@ -39,7 +46,7 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
 
             var clientProfile = new ClientProfile
             (
-                id: request.UserId,
+                id: clientId.Value,
                 companyName: request.CompanyName,
                 targetAudience: targetAudience,
                 targetAudienceId: targetAudience.Id,

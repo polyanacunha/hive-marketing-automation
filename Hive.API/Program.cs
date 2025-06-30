@@ -1,4 +1,3 @@
-using Hangfire;
 using Hive.API.Handlers;
 using Hive.Infra.CrossCutting;
 using Microsoft.OpenApi.Models;
@@ -33,7 +32,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseHangfireDashboard();
+//app.UseHangfireDashboard();
 
 app.UseExceptionHandler(_ => { });
 

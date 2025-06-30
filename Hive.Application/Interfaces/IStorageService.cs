@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hive.Application.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Hive.Application.Interfaces
 {
     public interface IStorageService
     {
-        Task<List<string>> SaveFileAsync(List<Stream> files, string folderName);
+        Task<List<string>> SaveFileAsync(List<SaveImage> images);
     }
 }

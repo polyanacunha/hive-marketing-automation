@@ -8,10 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.UseCases.Midia.CreateVideo
 {
-    public record CreateVideoCommand(
-        string AlbumName,
-        List<Stream> Files
-        ) : IRequest<Result<int>>
+    public record CreateVideoCommand(string ClientObservations, List<int> inputImagesId) : IRequest<Result<int>>
     {
     }
 }

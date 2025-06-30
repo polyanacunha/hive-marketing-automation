@@ -1,62 +1,74 @@
-﻿using Hive.Application.Interfaces;
+﻿using Hive.Application.DTOs;
+using Hive.Application.Interfaces;
 using Hive.Domain.Entities;
 using Hive.Domain.Enum;
 using Hive.Domain.Interfaces;
 using Hive.Domain.Validation;
 using MediatR;
+using System.Text.Json;
 
 namespace Hive.Application.UseCases.Midia.CreateVideo
 {
     public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand, Result<int>>
     {
-        private readonly IStorageService _storageService;
         private readonly ICurrentUser _currentUser;
         private readonly IClientProfileRepository _clientProfileRepository;
-        private readonly IPromptProcessor _promptProcessor;
-        private readonly IJobGenerationRepository _jobGenerationRepository;
+        private readonly IImageUrlRepository _imageUrlRepository;
+        private readonly IPromptVideoProcessor _promptVideoProcessor;
+        private readonly IMidiaProductionRepository _midiaProductionRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IBackgroundScheduler _backgroundScheduler;
 
-        public CreateVideoCommandHandler(IStorageService storageService, ICurrentUser currentUser, IClientProfileRepository clientProfileRepository, IPromptProcessor promptProcessor, IJobGenerationRepository jobGenerationRepository, IUnitOfWork unitOfWork)
+        public CreateVideoCommandHandler(ICurrentUser currentUser, IClientProfileRepository clientProfileRepository, IPromptVideoProcessor promptProcessor, IMidiaProductionRepository midiaProductionRepository, IUnitOfWork unitOfWork, IBackgroundScheduler backgroundJobService, IImageUrlRepository imageUrlRepository)
         {
-            _storageService = storageService;
             _currentUser = currentUser;
             _clientProfileRepository = clientProfileRepository;
-            _promptProcessor = promptProcessor;
-            _jobGenerationRepository = jobGenerationRepository;
+            _promptVideoProcessor = promptProcessor;
+            _midiaProductionRepository = midiaProductionRepository;
             _unitOfWork = unitOfWork;
+            _backgroundScheduler = backgroundJobService;
+            _imageUrlRepository = imageUrlRepository;
         }
 
-        public async Task<Result<string>> Handle(CreateVideoCommand request, CancellationToken cancellationToken)
+        public async Task<Result<int>> Handle(CreateVideoCommand request, CancellationToken cancellationToken)
         {
             var clientId = _currentUser.UserId;
 
             if (clientId == null) {
-                return Result<string>.Failure("User not found");
+                return Result<int>.Failure("User are not authenticated");
             }
 
             var client = await _clientProfileRepository.GetById(clientId.Value);
 
             if (client == null)
             {
-                return Result<string>.Failure("Client profile not found.");
+                return Result<int>.Failure("Client profile not found.");
             }
 
-            var imagesUrl = await _storageService.SaveFileAsync(request.Files, request.AlbumName);
+            var images = await _imageUrlRepository.GetByIdsAndClientAsync(request.inputImagesId, clientId.Value);
 
-            var prompt = await _promptProcessor.ContextualizePrompt(client);
+       
+            if (images.Count != request.inputImagesId.Count)
+            {
+                return Result<int>.Failure("One or more images were not discovered or do not belong to you.");
+            }
 
-            var job = new JobGeneration(
+            var (promptSystem,  promptUser ) = await _promptVideoProcessor.ContextualizePromptToCreateVideo(client, request.ClientObservations);
+
+            var midia = new MidiaProduction(
                 clientProfileId: clientId.Value,
                 clientProfile: client,
-                prompt: prompt.Value!,
-                inputImageUrl: imagesUrl,
-                assetType: AssetType.VIDEO
+                systemPrompt: promptSystem,
+                userPrompt: promptUser,
+                inputImages: images
                 );
 
-            await _jobGenerationRepository.Create(job);
+            await _midiaProductionRepository.Create(midia);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result<string>.Success(job.Id);
+            await _backgroundScheduler.ScheduleScriptGeneration(midia.Id);
+
+            return Result<int>.Success(midia.Id);
 
         }
     }

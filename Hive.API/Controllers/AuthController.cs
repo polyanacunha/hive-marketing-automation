@@ -12,6 +12,7 @@ using Hive.Application.UseCases.Authentication.ConfirmEmail;
 using Hive.Application.UseCases.Authentication.ForgotPassword;
 using Hive.Application.UseCases.Authentication.RecoverPassword;
 using MimeKit.Cryptography;
+using Hive.Application.UseCases.Authentication.RefreshToken;
 
 namespace Hive.API.Controllers;
 
@@ -76,7 +77,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("confirm/email")]
-    public async Task<ActionResult> ConfirmEmail([FromQuery] ConfirmEmailCommand request)
+    public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailCommand request)
     {
         var result = await _mediator.Send(request);
 
@@ -88,7 +89,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot/password")]
-    public async Task<ActionResult> ForgotPassword([FromQuery] ForgotPasswordCommand request)
+    public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordCommand request)
     {
         var result = await _mediator.Send(request);
 
@@ -100,13 +101,24 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("reset/password")]
-    public async Task<ActionResult> ResetPassword([FromQuery] ResetPasswordCommand request)
+    public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordCommand request)
     {
         var result = await _mediator.Send(request);
         if (!result.IsFailure) 
         {
             return BadRequest(new {Errors = result.Errors});
         } 
+        return Ok();
+    }
+
+    [HttpPost("refresh/token")]
+    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (!result.IsFailure)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
         return Ok();
     }
 }

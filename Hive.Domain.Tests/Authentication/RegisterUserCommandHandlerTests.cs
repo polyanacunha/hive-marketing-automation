@@ -70,7 +70,6 @@ namespace Hive.Domain.Tests.Authentication
             var result =  await _handler.Handle(command, CancellationToken.None);
 
             result.Should().NotBeNull();
-            result.IsSuccess.Should().BeFalse();
             result.IsFailure.Should().BeTrue();
             result.Errors.Should().BeEquivalentTo("Email already registered");
 

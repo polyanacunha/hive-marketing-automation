@@ -11,6 +11,7 @@ namespace Hive.Domain.Entities
         public string CompanyName { get; private set; }
         public string TaxId { get; private set; }
         public string? WebSiteUrl { get; private set; }
+        public virtual ICollection<MidiaProduction> Midias { get; private set; } = new List<MidiaProduction>();
 
         private ClientProfile() { } 
 

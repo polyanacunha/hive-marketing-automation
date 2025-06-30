@@ -9,39 +9,56 @@ namespace Hive.Domain.Entities
 {
     public class JobGeneration : Entity
     {
-        public Guid ClientProfileId { get; private set; }
-        public ClientProfile ClientProfile { get; private set; }
+        public int MidiaProductionId { get; private set; }
+        public MidiaProduction MidiaProduction { get; private set; }
         public string Prompt { get; private set; }
-
-        public List<string>? InputImageUrl = new();
         public JobStatus Status { get; private set; } 
-        public string? ExternalPlatformfJobId { get; private set; }
-        public string? FinalVideoUrl { get; private set; }
+        public string? ExternalJobId { get; private set; }
+        public string? ExternalMediaUrl { get; private set; }
         public AssetType AssetType { get; private set; }
+        public DateTime CreatedAt { get; private set; }
+        public DateTime? CompletedAt { get; private set; }
 
         private JobGeneration()
         {
         }
 
         public JobGeneration(
-            Guid clientProfileId, 
-            ClientProfile clientProfile, 
+            int midiaProductionId,
+            MidiaProduction midiaProduction, 
             string prompt, 
-            List<string>? inputImageUrl, 
-            string? externalPlatformfJobId, 
-            string? finalVideoUrl,
             AssetType assetType)
         {
-            ClientProfileId = clientProfileId;
-            ClientProfile = clientProfile;
+            MidiaProductionId = midiaProductionId;
+            MidiaProduction = midiaProduction;
             Prompt = prompt;
-            InputImageUrl = inputImageUrl;
             Status = JobStatus.PENDING;
-            ExternalPlatformfJobId = externalPlatformfJobId;
-            FinalVideoUrl = finalVideoUrl;
             AssetType = assetType;
+
+
+            CreatedAt = DateTime.UtcNow;   
         }
 
-
+        public void MarkToProcessing()
+        {
+            Status = JobStatus.PROCESSING;
+        }
+        public void MarkToCompleted()
+        {
+            CompletedAt = DateTime.UtcNow;
+            Status = JobStatus.COMPLETED;
+        }
+        public void MarkToFailed()
+        {
+            Status = JobStatus.FAILED;
+        }
+        public void SetExternalJobId(string id)
+        {
+            ExternalJobId = id;
+        }
+        public void SetExternalMediaUrl(string url)
+        {
+            ExternalMediaUrl = url;
+        }
     }
 }

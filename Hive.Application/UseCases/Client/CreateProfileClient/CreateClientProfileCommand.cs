@@ -4,7 +4,6 @@ using MediatR;
 namespace Hive.Application.UseCases.Client
 {
     public record CreateClientProfileCommand(
-        Guid UserId,
         int MarketSegmentId, 
         int TargetAudienceId, 
         string CompanyName, 

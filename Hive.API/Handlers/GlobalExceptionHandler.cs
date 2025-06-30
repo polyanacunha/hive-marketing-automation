@@ -1,4 +1,5 @@
-﻿using Hive.Domain.Validation;
+﻿using FluentValidation;
+using Hive.Domain.Validation;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 
@@ -22,14 +23,19 @@ namespace Hive.API.Handlers
             return true;
         }
 
-        private (HttpStatusCode statusCode, string message) GetExceptionDetails(Exception exception)
+        private (HttpStatusCode statusCode, object responseBody) GetExceptionDetails(Exception exception)
         {
             return exception switch
             {
 
-                DomainExceptionValidation => (HttpStatusCode.BadRequest, exception.Message),
+                ValidationException validationException =>
+                (
+                    HttpStatusCode.BadRequest, new { Errors = validationException.Errors.Select(e => e.ErrorMessage) }
+                ),
+
+                DomainExceptionValidation => (HttpStatusCode.BadRequest, new { Errors = new[] { exception.Message } }),
                
-                _ => (HttpStatusCode.InternalServerError, $"An error unexpected error occurred: {exception.Message}"),
+                _ => (HttpStatusCode.InternalServerError, $"An error unexpected occurred: {exception.Message}"),
 
             };
 

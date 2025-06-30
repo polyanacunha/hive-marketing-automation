@@ -8,8 +8,7 @@ public class DomainToDTOMappingProfile : Profile
 {
     public DomainToDTOMappingProfile()
     {
-        CreateMap<Campaing, CampaingDTO>().ReverseMap();
-        CreateMap<Midia, MidiaDTO>().ReverseMap();
+        
  
     }
 }

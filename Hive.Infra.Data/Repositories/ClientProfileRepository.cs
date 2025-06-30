@@ -27,7 +27,9 @@ namespace Hive.Infra.Data.Repositories
         public async Task<ClientProfile?> GetById(Guid id)
         {
             return await _context.ClientProfile
-            .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(c => c.MarketSegment) 
+                .Include(c => c.TargetAudience)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }
