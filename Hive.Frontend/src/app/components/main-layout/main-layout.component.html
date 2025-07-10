@@ -1,0 +1,12 @@
+<div class="main-layout">
+  <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
+  
+  <app-sidebar 
+    [isOpen]="sidebarOpen" 
+    (closeSidebarEvent)="closeSidebar()">
+  </app-sidebar>
+  
+  <main class="main-content" [class.sidebar-open]="sidebarOpen">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,12 +1,20 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from '../components/home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { CompanyOnboardingComponent } from './components/company-onboarding/company-onboarding.component';
 import { AdCreationComponent } from './components/ad-creation/ad-creation.component';
+import { MainLayoutComponent } from './components/main-layout/main-layout.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { 
+    path: '', 
+    component: MainLayoutComponent,
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      { path: 'dashboard', component: DashboardComponent }
+    ]
+  },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'company-onboarding', component: CompanyOnboardingComponent },
