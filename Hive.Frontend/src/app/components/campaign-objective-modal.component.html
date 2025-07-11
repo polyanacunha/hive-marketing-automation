@@ -20,7 +20,12 @@
     </form>
     <div class="modal-actions">
       <button class="btn-secondary" type="button" (click)="close()">Anterior</button>
-      <button class="btn-primary" type="button" [disabled]="!selectedObjective" (click)="continue()">Continuar</button>
+      <button class="btn-primary" type="button" [disabled]="!selectedObjective" (click)="openCreateCampaignModal()">Continuar</button>
     </div>
   </div>
 </div> 
+
+<!-- <app-create-campaign-modal
+  *ngIf="showCreateCampaignModal"
+  (closeModal)="closeCreateCampaignModal()">
+</app-create-campaign-modal> -->

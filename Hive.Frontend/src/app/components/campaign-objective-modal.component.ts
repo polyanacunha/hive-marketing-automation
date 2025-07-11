@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-campaign-objective-modal',
@@ -40,12 +41,13 @@ export class CampaignObjectiveModalComponent {
 
   selectedObjective: string | null = null;
 
+  constructor(private router: Router) {}
+
   close() {
     this.closeModal.emit();
   }
 
-  continue() {
-    // Aqui você pode emitir o valor selecionado ou avançar para o próximo passo
-    this.close();
+  openCreateCampaignModal() {
+    this.router.navigate(['/create-campaign']);
   }
-} 
+}
