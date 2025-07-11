@@ -19,10 +19,10 @@
       <div class="stat-icon">
         <img src="assets/createCampaing.png" alt="">
       </div>
-      <div class="stat-content">
+      <button class="stat-content" (click)="openCampaignModal()>
         <p class="stat-number">Criar nova campanha</p>
         <h3>Criar nova campanha de marketing</h3>
-      </div>
+      </button>
     </div>
 
     <div class="stat-card">
@@ -49,7 +49,7 @@
   <div class="dashboard-content">
     <div class="content-header">
       <h2>Campanhas Recentes</h2>
-      <button class="btn-primary">
+      <button class="btn-primary" (click)="openCampaignModal()">
         <i class="fas fa-plus"></i>
         Nova Campanha
       </button>
@@ -58,3 +58,8 @@
     <app-campaigns-table></app-campaigns-table>
   </div>
 </div>
+
+<app-campaign-objective-modal
+  *ngIf="showCampaignModal"
+  (closeModal)="closeCampaignModal()">
+</app-campaign-objective-modal>

@@ -1,0 +1,26 @@
+<div class="modal-backdrop" (click)="close()"></div>
+<div class="modal-content">
+  <div class="modal-header">
+    <img src="assets/hive-logo.svg" alt="Logo" class="modal-logo">
+  </div>
+  <div class="modal-body">
+    <div class="modal-step">2 de 4</div>
+    <h2>Informe o objetivo da campanha</h2>
+    <div class="modal-subtitle">Objetivo da campanha</div>
+    <form>
+      <label *ngFor="let option of options" class="modal-option">
+        <input
+          type="radio"
+          name="objective"
+          [value]="option.value"
+          [(ngModel)]="selectedObjective"
+        />
+        <span [innerHTML]="option.label"></span>
+      </label>
+    </form>
+    <div class="modal-actions">
+      <button class="btn-secondary" type="button" (click)="close()">Anterior</button>
+      <button class="btn-primary" type="button" [disabled]="!selectedObjective" (click)="continue()">Continuar</button>
+    </div>
+  </div>
+</div> 
