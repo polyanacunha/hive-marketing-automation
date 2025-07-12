@@ -14,12 +14,12 @@ namespace Hive.Application.UseCases.Midia.CreateVideo
         private readonly ICurrentUser _currentUser;
         private readonly IClientProfileRepository _clientProfileRepository;
         private readonly IImageUrlRepository _imageUrlRepository;
-        private readonly IPromptVideoProcessor _promptVideoProcessor;
+        private readonly IPromptProcessor _promptVideoProcessor;
         private readonly IMidiaProductionRepository _midiaProductionRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IBackgroundScheduler _backgroundScheduler;
 
-        public CreateVideoCommandHandler(ICurrentUser currentUser, IClientProfileRepository clientProfileRepository, IPromptVideoProcessor promptProcessor, IMidiaProductionRepository midiaProductionRepository, IUnitOfWork unitOfWork, IBackgroundScheduler backgroundJobService, IImageUrlRepository imageUrlRepository)
+        public CreateVideoCommandHandler(ICurrentUser currentUser, IClientProfileRepository clientProfileRepository, IPromptProcessor promptProcessor, IMidiaProductionRepository midiaProductionRepository, IUnitOfWork unitOfWork, IBackgroundScheduler backgroundJobService, IImageUrlRepository imageUrlRepository)
         {
             _currentUser = currentUser;
             _clientProfileRepository = clientProfileRepository;
@@ -38,25 +38,25 @@ namespace Hive.Application.UseCases.Midia.CreateVideo
                 return Result<int>.Failure("User are not authenticated");
             }
 
-            var client = await _clientProfileRepository.GetById(clientId.Value);
+            var client = await _clientProfileRepository.GetById(clientId);
 
             if (client == null)
             {
                 return Result<int>.Failure("Client profile not found.");
             }
 
-            var images = await _imageUrlRepository.GetByIdsAndClientAsync(request.inputImagesId, clientId.Value);
+            var images = await _imageUrlRepository.GetByIdsAndClientAsync(request.InputImagesId, clientId);
 
        
-            if (images.Count != request.inputImagesId.Count)
+            if (images.Count != request.InputImagesId.Count)
             {
                 return Result<int>.Failure("One or more images were not discovered or do not belong to you.");
             }
 
-            var (promptSystem,  promptUser ) = await _promptVideoProcessor.ContextualizePromptToCreateVideo(client, request.ClientObservations);
+            var (promptSystem,  promptUser ) = await _promptVideoProcessor.PromptToCreateVideo(client, request.ClientObservations);
 
             var midia = new MidiaProduction(
-                clientProfileId: clientId.Value,
+                clientProfileId: clientId,
                 clientProfile: client,
                 systemPrompt: promptSystem,
                 userPrompt: promptUser,

@@ -9,7 +9,7 @@ namespace Hive.Application.Interfaces
     public interface IBackgroundScheduler
     {
         Task ScheduleScriptGeneration(int mediaProductionId);
-        Task ScheduleSceneProcessingJob(int sceneJobId, int mediaId, string groupName);
+        Task ScheduleSceneProcessingJob(Guid sceneJobId, int mediaId, string groupName);
         Task ScheduleStitchingJob(int mediaProductionId);
     }
 }

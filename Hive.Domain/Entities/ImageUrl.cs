@@ -8,15 +8,17 @@ namespace Hive.Domain.Entities
 {
     public class ImageUrl : Entity
     {
-        public string Url { get; private set; }
-        public Guid ClientProfileId { get; private set; }
+        public string ImageKey { get; private set; }
+        public string ClientProfileId { get; private set; }
+        public DateTime CreatedAt { get; private set; }
         public virtual ICollection<MidiaProduction> MidiaProductions { get; private set; } = new List<MidiaProduction>();
 
 
-        public ImageUrl(string url, Guid clientProfileId)
+        public ImageUrl(string clientProfileId, string imageKey)
         {
-            Url = url;
             ClientProfileId = clientProfileId;
+            ImageKey = imageKey;
+            CreatedAt = DateTime.UtcNow;
         }
     }
 }

@@ -10,6 +10,11 @@ namespace Hive.Infra.Data.EntitiesConfiguration
         public void Configure(EntityTypeBuilder<ClientProfile> builder)
         {
             builder.HasKey(p => p.Id);
+
+            //builder.HasOne<ApplicationUser>()
+            //.WithOne(u => u.ClientProfile)
+            //.HasForeignKey<ClientProfile>(c => c.Id);
+
             builder.Property(cp => cp.Id).ValueGeneratedNever();
 
             builder.Property(p => p.CompanyName)

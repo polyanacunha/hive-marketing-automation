@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Hive.Domain.Entities
 {
-    public class JobGeneration : Entity
+    public class JobGeneration 
     {
+        public Guid Id { get; init; }
         public int MidiaProductionId { get; private set; }
         public MidiaProduction MidiaProduction { get; private set; }
         public string Prompt { get; private set; }
@@ -24,18 +25,18 @@ namespace Hive.Domain.Entities
         }
 
         public JobGeneration(
+            Guid id,
             int midiaProductionId,
             MidiaProduction midiaProduction, 
             string prompt, 
             AssetType assetType)
         {
+            Id = id;
             MidiaProductionId = midiaProductionId;
             MidiaProduction = midiaProduction;
             Prompt = prompt;
             Status = JobStatus.PENDING;
             AssetType = assetType;
-
-
             CreatedAt = DateTime.UtcNow;   
         }
 

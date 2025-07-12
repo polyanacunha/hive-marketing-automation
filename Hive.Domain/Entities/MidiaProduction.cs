@@ -9,7 +9,7 @@ namespace Hive.Domain.Entities
 {
     public class MidiaProduction : Entity
     {
-        public Guid ClientProfileId { get; private set; }
+        public string ClientProfileId { get; private set; }
         public ClientProfile ClientProfile { get; private set; }
         public string SystemPrompt { get; private set; }
         public string UserPrompt { get; private set; } 
@@ -17,11 +17,13 @@ namespace Hive.Domain.Entities
         public ProductionStatus Status { get; private set; }
         public string? FinalVideoUrl { get; private set; }
         public virtual ICollection<ImageUrl> InputImageUrl { get; private set; } = new List<ImageUrl>();
-        public virtual ICollection<JobGeneration> Jobs { get; private set; } = new List<JobGeneration>();
+
+        private readonly List<JobGeneration> _jobs = new();
+        public IReadOnlyCollection<JobGeneration> Jobs => _jobs.AsReadOnly();
 
         private MidiaProduction() {}
 
-        public MidiaProduction(Guid clientProfileId, ClientProfile clientProfile, string systemPrompt, string userPrompt, ICollection<ImageUrl> inputImages)
+        public MidiaProduction(string clientProfileId, ClientProfile clientProfile, string systemPrompt, string userPrompt, ICollection<ImageUrl> inputImages)
         {
             ClientProfileId = clientProfileId;
             ClientProfile = clientProfile;
@@ -33,7 +35,8 @@ namespace Hive.Domain.Entities
 
         public void AddJob(JobGeneration job)
         {
-            Jobs.Add(job);
+            _jobs.Add(job);
+
         }
         public void MarkToScriptGenerated()
         {

@@ -1,12 +1,44 @@
-﻿using Hive.Application.Interfaces;
+﻿using Hive.Application.DTOs;
+using Hive.Application.Interfaces;
 using Hive.Domain.Entities;
 using System.Text;
+using System.Text.Json;
 
 namespace Hive.Application.Services.ProcessPrompt
 {
-    public class PromptProcessor : IPromptVideoProcessor
+    public class PromptProcessor : IPromptProcessor
     {
-        public Task<(string promptSystem, string promptUser)> ContextualizePromptToCreateVideo(ClientProfile client, string clientObservations)
+        public Task<T> DeserializeJson<T>(string json)
+        {
+            var cleanJson = json.Trim();
+
+            // Remove o ```json do início e o ``` do final
+            if (cleanJson.StartsWith("```json"))
+            {
+                cleanJson = cleanJson.Substring("```json".Length);
+            }
+            if (cleanJson.StartsWith("```"))
+            {
+                cleanJson = cleanJson.Substring("```".Length);
+            }
+            if (cleanJson.EndsWith("```"))
+            {
+                cleanJson = cleanJson.Substring(0, cleanJson.Length - "```".Length);
+            }
+            // =======================================================
+
+            // 2. Agora, desserializa a string JÁ LIMPA
+            var script = JsonSerializer.Deserialize<T>(cleanJson.Trim());
+
+            if (script is null)
+            {
+                throw new Exception("A IA retornou um roteiro em formato JSON inválido após a limpeza.");
+            }
+
+            return Task.FromResult(script);
+        }
+
+        public Task<(string promptSystem, string promptUser)> PromptToCreateVideo(ClientProfile client, string clientObservations)
         {
             var promptUser = new StringBuilder();
 
@@ -20,10 +52,8 @@ namespace Hive.Application.Services.ProcessPrompt
                 Cada objeto de cena deve ter as seguintes chaves:
                 - "scene_number": O número da cena (começando em 1).
                 - "duration_seconds": A duração estimada da cena em segundos.
-                - "visual_prompt": Uma descrição detalhada e visual da cena, em inglês, otimizada para uma IA de geração de vídeo (como Midjourney ou Pika Labs). Use palavras-chave como ângulos de câmera (close-up, wide shot), iluminação (cinematic, golden hour) e estilo (hyperrealistic, animated).
-                - "on_screen_text": Qualquer texto que deva aparecer na tela durante a cena (string vazia se não houver).
-                - "narrator_script": O texto exato para o narrador durante a cena em português do Brasil (string vazia se não houver).
-
+                - "prompt": Uma descrição clara e detalhada da cena, em inglês, incluindo: quem é o personagem, o que ele faz (com posição e objeto), cenário, tipo de iluminação, e a fala ou narração em português ressaltando o tom de voz escolhido. 
+               
                 ## 2. CONTEXTO DO CLIENTE:
                 - **Nome da Empresa:** {{client.CompanyName}}
                 - **Segmento de Mercado:** {{client.MarketSegment.Description}}
@@ -44,5 +74,62 @@ namespace Hive.Application.Services.ProcessPrompt
 
             return Task.FromResult((promptSystem, result));
         }
+
+        public Task<(string promptSystem, string promptUser)> PromptToGenerateTargeting(ClientProfile client, Campaign campaign)
+        {
+            var promptUser = new StringBuilder();
+
+            var promptSystem = "SEU PAPEL:Você é um Estrategista de Mídia Digital especialista em execução e otimização de campanhas de alta performance em plataformas de anúncios pagos como Meta Ads, Google Ads, TikTok Ads";
+
+            promptUser.Append($$"""
+                Com base nas informações da empresa e da campanha, gere uma estratégia completa em formato JSON, usando exatamente esta estrutura:
+
+                {
+                  "targeting_strategy": {
+                    "audience": {
+                      "min_age": 0,
+                      "max_age": 0,
+                      "genders": [],
+                      "interests": [],
+                      "locations": []
+                    },
+                    "placements_suggestion": [],
+                    "schedule_suggestion": {
+                      "start_time": "",
+                      "daily_hours": ""
+                    }
+                  },
+                  "creative_suggestions": {
+                    "suggested_format": "",
+                    "central_theme": "",
+                    "headlines": ["", "", ""],
+                    "descriptions": ["", "", ""],
+                    "calls_to_action": ["", "", ""],
+                    "hashtags": []
+                  },
+                  "strategy_justification": ""
+                }
+
+                **Regras**:
+                - Use no máximo 3 interesses no campo "interests"
+                - Responda em português apenas com o JSON preenchido. Nenhum comentário ou explicação externa.
+
+                **Dados de entrada (campos nulos não leve em consideração)**:
+                - Empresa: {{client.CompanyName}}  
+                - Segmento: {{client.MarketSegment.Description}}  
+                - Site: {{client.WebSiteUrl}}
+                - Público: {{client.TargetAudience.Description}}  
+                - Objetivo: {{campaign.ObjectiveCampaign.Name}}  
+                - Orçamento: {{campaign.Budget}}
+                """);
+             
+            var result = promptUser.ToString();
+
+            return Task.FromResult((promptSystem, result));
+        }
     }
 }
+//-Mídias sociais: { { client.SocialMediaLinks } }
+//-Telefone: { { client.Phone } }
+//-Produto: { { campaign.ProductDescription } }
+//-Proposta de valor: { { campaign.ValueProposition } }

@@ -18,10 +18,14 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<MidiaProduction> MidiaProduction { get; set; }
     public DbSet<JobGeneration> JobGeneration { get; set; }
     public DbSet<ImageUrl> ImageUrl { get; set; }
+    public DbSet<Campaign> Campaigns { get; set; }
+    public DbSet<ObjectiveCampaign> ObjectiveCampaigns { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
         base.OnModelCreating(builder);
         SeedRoles(builder);
         SeedUsers(builder);
@@ -61,7 +65,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 NormalizedEmail = "ADMIN@LOCALHOST.COM",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Numsey#2021"),
-                SecurityStamp = Guid.NewGuid().ToString("D")
+                SecurityStamp = Guid.NewGuid().ToString()
             }
         );
     }

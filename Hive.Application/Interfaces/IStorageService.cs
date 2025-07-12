@@ -9,6 +9,7 @@ namespace Hive.Application.Interfaces
 {
     public interface IStorageService
     {
-        Task<List<string>> SaveFileAsync(List<SaveImage> images);
+        Task<string> SaveFileAsync(Stream fileStream, string fileName);
+        Task<string> GetFileFileAsync(string key, int timeInMinutes);
     }
 }

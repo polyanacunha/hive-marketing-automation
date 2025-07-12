@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.UseCases.Midia.UploadImage
 {
-    public record UploadImageCommand(string AlbumName, List<IFormFile> Files) : IRequest<Result<List<UploadedImageDto>>>
+    public record UploadImageCommand(string AlbumName, List<IFormFile> Files) : IRequest<Result<Unit>>
     {
 
     }

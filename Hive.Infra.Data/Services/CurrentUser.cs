@@ -17,7 +17,7 @@ namespace Hive.Infra.Data.Services
             _contextAccessor = contextAccessor;
         }
 
-        public Guid? UserId
+        public string? UserId
         {
             get
             {
@@ -27,13 +27,8 @@ namespace Hive.Infra.Data.Services
                 {
                     return null;
                 }
-
-                if (!Guid.TryParse(idClaim, out var userId))
-                {
-                    return null;
-                }
             
-                return userId;
+                return idClaim;
             }
         }
     }

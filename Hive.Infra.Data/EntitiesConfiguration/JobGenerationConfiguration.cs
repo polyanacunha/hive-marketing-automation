@@ -17,7 +17,7 @@ namespace Hive.Infra.Data.EntitiesConfiguration
             builder.HasKey(p => p.Id);
            
             builder.HasOne(job => job.MidiaProduction)
-              .WithMany(client => client.Jobs)
+              .WithMany(media => media.Jobs)
               .HasForeignKey(job => job.MidiaProductionId);
         }
     }

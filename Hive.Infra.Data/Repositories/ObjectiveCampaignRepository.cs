@@ -10,24 +10,23 @@ using System.Threading.Tasks;
 
 namespace Hive.Infra.Data.Repositories
 {
-    public class JobGenerationRepository : IJobGenerationRepository
+    public class ObjectiveCampaignRepository : IObjectiveCampaignRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public JobGenerationRepository(ApplicationDbContext context)
+        public ObjectiveCampaignRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public async Task<JobGeneration> Create(JobGeneration jobGeneration)
+        public async Task<IEnumerable<ObjectiveCampaign>> GetAll()
         {
-            await _context.JobGeneration.AddAsync(jobGeneration);
-            return jobGeneration;
+            return await _context.ObjectiveCampaigns.OrderBy(c => c.Description).ToListAsync();
         }
 
-        public async Task<JobGeneration?> GetById(Guid id)
+        public async Task<ObjectiveCampaign?> GetById(int id)
         {
-            return await _context.JobGeneration
+            return await _context.ObjectiveCampaigns
             .FirstOrDefaultAsync(p => p.Id == id);
         }
     }

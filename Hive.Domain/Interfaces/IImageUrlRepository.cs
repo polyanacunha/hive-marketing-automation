@@ -11,8 +11,8 @@ namespace Hive.Domain.Interfaces
     {
         Task<ImageUrl> Create(ImageUrl imageUrl);
         Task<ImageUrl?> GetById(int id);
-        Task<IEnumerable<ImageUrl>> GetAllByClient(Guid clientId);
-        Task<List<ImageUrl>> GetByIdsAndClientAsync(IEnumerable<int> imageUrlIds, Guid clientId);
+        Task<IEnumerable<ImageUrl>> GetAllByClient(string clientId);
+        Task<List<ImageUrl>> GetByIdsAndClientAsync(IEnumerable<int> imageUrlIds, string clientId);
         Task CreateRangeAsync(IEnumerable<ImageUrl> imageUrls);
     }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hive.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250627171259_alter_table_midiaProduction")]
-    partial class alter_table_midiaProduction
+    [Migration("20250704212708_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,15 +25,53 @@ namespace Hive.Infra.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Hive.Domain.Entities.Campaign", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CampaignName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClientProfileId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ExternalCampaignName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ObjectiveCampaignId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientProfileId");
+
+                    b.HasIndex("ObjectiveCampaignId");
+
+                    b.ToTable("Campaigns");
+                });
+
             modelBuilder.Entity("Hive.Domain.Entities.ClientProfile", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int>("MarketSegmentId")
                         .HasColumnType("integer");
@@ -46,7 +84,8 @@ namespace Hive.Infra.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("WebSiteUrl")
-                        .HasColumnType("text");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.HasKey("Id");
 
@@ -65,8 +104,9 @@ namespace Hive.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("ClientProfileId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ClientProfileId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -79,11 +119,9 @@ namespace Hive.Infra.Data.Migrations
 
             modelBuilder.Entity("Hive.Domain.Entities.JobGeneration", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<int>("AssetType")
                         .HasColumnType("integer");
@@ -142,8 +180,9 @@ namespace Hive.Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid>("ClientProfileId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ClientProfileId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("FinalVideoUrl")
                         .HasColumnType("text");
@@ -167,6 +206,30 @@ namespace Hive.Infra.Data.Migrations
                     b.HasIndex("ClientProfileId");
 
                     b.ToTable("MidiaProduction");
+                });
+
+            modelBuilder.Entity("Hive.Domain.Entities.ObjectiveCampaign", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ObjectiveCampaigns");
                 });
 
             modelBuilder.Entity("Hive.Domain.Entities.TargetAudience", b =>
@@ -193,9 +256,6 @@ namespace Hive.Infra.Data.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
-
-                    b.Property<Guid?>("ClientProfileId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -249,8 +309,6 @@ namespace Hive.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientProfileId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -265,15 +323,15 @@ namespace Hive.Infra.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-002f23242002",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9b808646-aa24-4d24-8bde-5ae1b5a31207",
+                            ConcurrencyStamp = "7bfebbdc-eba2-4c98-be58-1cd4d0249145",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDSp0T+2xJ24tZU8YIexMrcXVcjKlLmeKKEnhpcFy/4IFWo2HD0gITwNbtA/TH4RiA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEwqos6ZHlq5zahHxKEgF2zCMM+BAVDoiz+S3BjYbeE8/bR6T9hOvQb1P6u9RCfJkA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d101a027-fcc6-44ae-8df1-24504f23d59b",
+                            SecurityStamp = "fd830878-5653-47a6-a0eb-4abd7e75a2b2",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -447,8 +505,81 @@ namespace Hive.Infra.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Hive.Domain.Entities.Campaign", b =>
+                {
+                    b.HasOne("Hive.Domain.Entities.ClientProfile", null)
+                        .WithMany("Campaigns")
+                        .HasForeignKey("ClientProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hive.Domain.Entities.ObjectiveCampaign", "ObjectiveCampaign")
+                        .WithMany()
+                        .HasForeignKey("ObjectiveCampaignId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Hive.Domain.ValueObjects.Budget", "Budget", b1 =>
+                        {
+                            b1.Property<int>("CampaignId")
+                                .HasColumnType("integer");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("BudgetCurrency");
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("integer")
+                                .HasColumnName("BudgetValue");
+
+                            b1.HasKey("CampaignId");
+
+                            b1.ToTable("Campaigns");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CampaignId");
+                        });
+
+                    b.OwnsOne("Hive.Domain.ValueObjects.PeriodRange", "PeriodRange", b1 =>
+                        {
+                            b1.Property<int>("CampaignId")
+                                .HasColumnType("integer");
+
+                            b1.Property<DateTime>("End")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("Period_EndDate");
+
+                            b1.Property<DateTime>("Initial")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("Period_InitialDate");
+
+                            b1.HasKey("CampaignId");
+
+                            b1.ToTable("Campaigns");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CampaignId");
+                        });
+
+                    b.Navigation("Budget")
+                        .IsRequired();
+
+                    b.Navigation("ObjectiveCampaign");
+
+                    b.Navigation("PeriodRange")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Hive.Domain.Entities.ClientProfile", b =>
                 {
+                    b.HasOne("Hive.Infra.Data.Identity.ApplicationUser", null)
+                        .WithOne("ClientProfile")
+                        .HasForeignKey("Hive.Domain.Entities.ClientProfile", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Hive.Domain.Entities.MarketSegment", "MarketSegment")
                         .WithMany("ClientProfiles")
                         .HasForeignKey("MarketSegmentId")
@@ -484,15 +615,6 @@ namespace Hive.Infra.Data.Migrations
                         .HasForeignKey("ClientProfileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ClientProfile");
-                });
-
-            modelBuilder.Entity("Hive.Infra.Data.Identity.ApplicationUser", b =>
-                {
-                    b.HasOne("Hive.Domain.Entities.ClientProfile", "ClientProfile")
-                        .WithMany()
-                        .HasForeignKey("ClientProfileId");
 
                     b.Navigation("ClientProfile");
                 });
@@ -565,6 +687,8 @@ namespace Hive.Infra.Data.Migrations
 
             modelBuilder.Entity("Hive.Domain.Entities.ClientProfile", b =>
                 {
+                    b.Navigation("Campaigns");
+
                     b.Navigation("Midias");
                 });
 
@@ -581,6 +705,11 @@ namespace Hive.Infra.Data.Migrations
             modelBuilder.Entity("Hive.Domain.Entities.TargetAudience", b =>
                 {
                     b.Navigation("ClientProfiles");
+                });
+
+            modelBuilder.Entity("Hive.Infra.Data.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("ClientProfile");
                 });
 #pragma warning restore 612, 618
         }

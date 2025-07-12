@@ -37,7 +37,7 @@ namespace Hive.Infra.Data.Services
             await scheduler.ScheduleJob(job, trigger);
         }
 
-        public async Task ScheduleSceneProcessingJob(int sceneJobId, int mediaId, string groupName)
+        public async Task ScheduleSceneProcessingJob(Guid sceneJobId, int mediaId, string groupName)
         {
             _logger.LogInformation("Processando Job-{sceneJobId} de geracao de cena referente a midia-{midiaId}", sceneJobId, mediaId);
 

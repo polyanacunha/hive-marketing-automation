@@ -46,7 +46,7 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
 
             var clientProfile = new ClientProfile
             (
-                id: clientId.Value,
+                id: clientId,
                 companyName: request.CompanyName,
                 targetAudience: targetAudience,
                 targetAudienceId: targetAudience.Id,

@@ -24,7 +24,7 @@ namespace Hive.Infra.Data.Repositories
             return clientProfile;
         }
 
-        public async Task<ClientProfile?> GetById(Guid id)
+        public async Task<ClientProfile?> GetById(string id)
         {
             return await _context.ClientProfile
                 .Include(c => c.MarketSegment) 

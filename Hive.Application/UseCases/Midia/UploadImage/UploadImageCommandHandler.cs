@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Hive.Application.UseCases.Midia.UploadImage
 {
-    public class UploadImageCommandHandler : IRequestHandler<UploadImageCommand, Result<List<UploadedImageDto>>>
+    public class UploadImageCommandHandler : IRequestHandler<UploadImageCommand, Result<Unit>>
     {
         private readonly ICurrentUser _currentUser;
         private readonly IClientProfileRepository _clientProfileRepository;
@@ -25,37 +25,28 @@ namespace Hive.Application.UseCases.Midia.UploadImage
             _imageUrlRepository = imageUrlRepository;
         }
 
-        public async Task<Result<List<UploadedImageDto>>> Handle(UploadImageCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(UploadImageCommand request, CancellationToken cancellationToken)
         {
             var clientId = _currentUser.UserId;
 
             if (clientId == null)
             {
-                return Result<List<UploadedImageDto>>.Failure("User are not authenticated");
+                return Result<Unit>.Failure("User are not authenticated");
             }
 
-            var client = await _clientProfileRepository.GetById(clientId.Value);
+            var client = await _clientProfileRepository.GetById(clientId);
 
             if (client == null)
             {
-                return Result<List<UploadedImageDto>>.Failure("Client profile not found.");
+                return Result<Unit>.Failure("Client profile not found.");
             }
-            var images = request.Files.Select(file => 
-                new SaveImage(
-                    client.Id.ToString(), 
-                    file.OpenReadStream(),
-                    file.FileName, 
-                    request.AlbumName
-                    ))
-                .ToList();
-
-            var imagesUrl = await _storageService.SaveFileAsync(images);
-
+        
             var newImagesEntity = new List<ImageUrl>();
 
-            foreach (var url in imagesUrl)
+            foreach (var file in request.Files)
             {
-                var imageEntity = new ImageUrl(url, clientId.Value);
+                var imageKey = await _storageService.SaveFileAsync(file.OpenReadStream(), file.FileName);
+                var imageEntity = new ImageUrl(clientId,imageKey);
                 newImagesEntity.Add(imageEntity);
             }
 
@@ -63,11 +54,7 @@ namespace Hive.Application.UseCases.Midia.UploadImage
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var responseDtos = newImagesEntity
-                .Select(entity => new UploadedImageDto(entity.Id, entity.Url))
-                .ToList();
-
-            return Result<List<UploadedImageDto>>.Success(responseDtos);
+            return Result<Unit>.Success(Unit.Value);
 
         }
     }

@@ -9,8 +9,8 @@ namespace Hive.Application.Interfaces
     public interface IGenerateVideosByScenes
     {
         Task GenerateScript(int videoProductionId, CancellationToken cancellationToken);
-        Task ProcessSingleScene(int sceneJobId, int mediaId, CancellationToken cancellationToken);
+        Task ProcessSingleScene(Guid sceneJobId, int mediaId, CancellationToken cancellationToken);
         Task StitchFinalVideo(int videoProductionId, CancellationToken cancellationToken);
-        Task MarkSceneAsFailedPermanently(int videoProductionId, CancellationToken cancellationToken);
+        Task MarkSceneAsFailedPermanently(Guid videoProductionId, CancellationToken cancellationToken);
     }
 }

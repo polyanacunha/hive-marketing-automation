@@ -77,9 +77,7 @@ namespace Hive.Infra.Data.Services
             }
             catch (Exception ex)
             {
-                // Logar o erro 'ex' aqui é uma boa prática
                 _logger.LogError(ex, "Ocorreu um erro inesperado ao solicitar requisicao ao ChatGpt.");
-
                 throw new Exception($"Erro to text generator:{ex.Message}");
             }
         }

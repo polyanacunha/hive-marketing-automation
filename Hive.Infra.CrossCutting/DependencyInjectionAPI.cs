@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using Amazon.Extensions.NETCore.Setup;
+using Amazon.Runtime;
+using Amazon.S3;
+using FluentValidation;
 using Hive.Application.Interfaces;
 using Hive.Application.Mappings;
 using Hive.Application.Services.CreationVideo;
@@ -25,6 +28,7 @@ public static class DependencyInjectionAPI
 
         services.Configure<SmtpSettings>(configuration.GetSection(SmtpSettings.SmtpSettingsKey));
         services.Configure<OpenAiSettings>(configuration.GetSection(OpenAiSettings.OpenAiSettingsKey));
+        services.Configure<AwsS3Settings>(configuration.GetSection(AwsS3Settings.AwsS3SettingsKey));
 
 
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -44,6 +48,27 @@ public static class DependencyInjectionAPI
         .AddEntityFrameworkStores<ApplicationDbContext>()
         .AddDefaultTokenProviders();
 
+        var awsSettings = configuration.GetSection("AwsS3Settings");
+
+        // 2. Cria o objeto de credenciais usando os valores do User Secrets/appsettings
+        var awsCredentials = new BasicAWSCredentials(
+            awsSettings["AccessKey"],
+            awsSettings["SecretKey"]
+        );
+
+        // 3. Cria as opções da AWS, combinando as credenciais e a região
+        var awsOptions = new AWSOptions
+        {
+            Credentials = awsCredentials,
+            Region = Amazon.RegionEndpoint.GetBySystemName(awsSettings["Region"])
+        };
+
+        // 4. Registra as opções padrão da AWS no contêiner de DI
+        services.AddDefaultAWSOptions(awsOptions);
+
+        // 5. Registra o cliente S3 específico. Ele usará automaticamente as opções que registramos acima.
+        services.AddAWSService<IAmazonS3>();
+
         services.AddSingleton<SceneCompletionListener>();
 
         services.AddScoped<IClientProfileRepository, ClientProfileRepository>();
@@ -51,6 +76,7 @@ public static class DependencyInjectionAPI
         services.AddScoped<IJobGenerationRepository, JobGenerationRepository>();
         services.AddScoped<IMarketSegmentRepository, MarketSegmentRepository>();
         services.AddScoped<IMidiaProductionRepository, MidiaProductionRepository>();
+        services.AddScoped<IObjectiveCampaignRepository, ObjectiveCampaignRepository>();
         services.AddScoped<ITargetAudienceRepository, TargetAudienceRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -60,8 +86,8 @@ public static class DependencyInjectionAPI
         services.AddScoped<ICurrentUser, CurrentUser>();
         services.AddTransient<IEmailService, EmailService>();
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-        services.AddScoped<IPromptVideoProcessor, PromptProcessor>();
-        services.AddScoped<IStorageService, StorageService>();
+        services.AddScoped<IPromptProcessor, PromptProcessor>();
+        services.AddScoped<IStorageService, AwsBucketS3>();
         services.AddScoped<ITextGenerationService, ChatGptTextGenerator>();
         services.AddScoped<IGenerateVideosByScenes, GenerateVideosByScenes>();
         services.AddScoped<IVideoGenerator, PikaLabsGenerator>();

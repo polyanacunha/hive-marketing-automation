@@ -1,4 +1,5 @@
 ﻿using Hive.Domain.Entities;
+using System.Threading.Tasks;
 
 
 namespace Hive.Domain.Interfaces

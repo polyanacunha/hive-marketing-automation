@@ -25,7 +25,7 @@ namespace Hive.Infra.Data.Services
         {
             try
             {
-                if (int.TryParse(context.JobDetail.JobDataMap.GetString("SceneJobId"), out var sceneJobId))
+                if (Guid.TryParse(context.JobDetail.JobDataMap.GetString("SceneJobId"), out var sceneJobId))
                 {
                     int.TryParse(context.JobDetail.JobDataMap.GetString("mediaId"), out var mediaId);
                     // Chama o método específico no orquestrador para processar esta cena.
@@ -46,7 +46,7 @@ namespace Hive.Infra.Data.Services
                 }
                 
                 _logger.LogError("Job {JobKey} falhou permanentemente após {MaxRetries} tentativas.", context.JobDetail.Key, MAX_RETRIES);
-                var productionId = int.Parse(context.JobDetail.JobDataMap.GetString("SceneJobId")!);
+                var productionId = Guid.Parse(context.JobDetail.JobDataMap.GetString("SceneJobId")!);
                 await _processVideo.MarkSceneAsFailedPermanently(productionId, context.CancellationToken);
                 
             }

@@ -19,7 +19,7 @@ public class MidiaController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("video")]
+    [HttpPost("create-video")]
     public async Task<ActionResult> CreateVideo([FromBody] CreateVideoCommand command)
     {
         var result = await _mediator.Send(command);

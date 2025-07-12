@@ -26,7 +26,7 @@ namespace Hive.Infra.Data.Repositories
             await _context.ImageUrl.AddRangeAsync(imageUrls);
         }
 
-        public async Task<IEnumerable<ImageUrl>> GetAllByClient(Guid clientId)
+        public async Task<IEnumerable<ImageUrl>> GetAllByClient(string clientId)
         {
             return await _context.ImageUrl                                 
             .Where(imageUrl => imageUrl.ClientProfileId == clientId)                                         
@@ -39,7 +39,7 @@ namespace Hive.Infra.Data.Repositories
             .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<List<ImageUrl>> GetByIdsAndClientAsync(IEnumerable<int> imageUrlIds, Guid clientId)
+        public async Task<List<ImageUrl>> GetByIdsAndClientAsync(IEnumerable<int> imageUrlIds, string clientId)
         {
             var idsToSearch = imageUrlIds.ToList();
 

@@ -60,8 +60,10 @@ namespace Hive.Application.Services.CreationVideo
 
             foreach (var scene in script.Script)
             {
+                var id = Guid.NewGuid();
                 // Salva o registro da cena no nosso banco
                 var job = new JobGeneration(
+                    id: id,
                     midiaProductionId: videoProductionId,
                     midiaProduction: production,
                     prompt: scene.VisualPrompt,
@@ -69,19 +71,21 @@ namespace Hive.Application.Services.CreationVideo
                     );
 
                 production.AddJob(job);
+
+                await _backgroundScheduler.ScheduleSceneProcessingJob(id, production.Id, jobGroupName);
+
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             foreach (var job in production.Jobs)
             {
-                await _backgroundScheduler.ScheduleSceneProcessingJob(job.Id, production.Id, jobGroupName);
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task MarkSceneAsFailedPermanently(int videoProductionId, CancellationToken cancellationToken)
+        public async Task MarkSceneAsFailedPermanently(Guid videoProductionId, CancellationToken cancellationToken)
         {
             var jobEntity = await _jobGenerationRepository.GetById(videoProductionId);
 
@@ -93,7 +97,7 @@ namespace Hive.Application.Services.CreationVideo
             
         }
 
-        public async Task ProcessSingleScene(int sceneJobId, int mediaId, CancellationToken cancellationToken)
+        public async Task ProcessSingleScene(Guid sceneJobId, int mediaId, CancellationToken cancellationToken)
         {
             var job = await _jobGenerationRepository.GetById(sceneJobId);
 
@@ -114,7 +118,7 @@ namespace Hive.Application.Services.CreationVideo
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var urlsList = midia.InputImageUrl
-                .Select(imageUrl => imageUrl.Url)
+                .Select(imageUrl => imageUrl.ImageKey)
                 .ToList();
 
             var urlScene = await _videoGenerator.Generator(job.Prompt, urlsList);

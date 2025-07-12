@@ -3,8 +3,10 @@
 
 namespace Hive.Application.Interfaces
 {
-    public interface IPromptVideoProcessor
+    public interface IPromptProcessor
     {
-        Task<(string promptSystem, string promptUser)> ContextualizePromptToCreateVideo(ClientProfile client, string clientObservations);
+        Task<(string promptSystem, string promptUser)> PromptToCreateVideo(ClientProfile client, string clientObservations);
+        Task<(string promptSystem, string promptUser)> PromptToGenerateTargeting(ClientProfile client, Campaign campaign);
+        Task<T> DeserializeJson<T>(string json);
     }
 }
