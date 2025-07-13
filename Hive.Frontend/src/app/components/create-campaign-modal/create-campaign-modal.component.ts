@@ -1,16 +1,19 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SidebarComponent } from '../sidebar/sidebar.component';
+import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-create-campaign-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SidebarComponent, NavbarComponent],
   templateUrl: './create-campaign-modal.component.html',
   styleUrls: ['./create-campaign-modal.component.css']
 })
 export class CreateCampaignModalComponent {
   @Output() close = new EventEmitter<void>();
+  sidebarOpen = false;
 
   campaign = {
     name: '',
@@ -40,5 +43,13 @@ export class CreateCampaignModalComponent {
     // enviar dados ou chamar serviço
     console.log('Criar campanha', this.campaign);
     this.onClose();
+  }
+
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+  }
+
+  closeSidebar() {
+    this.sidebarOpen = false;
   }
 }
