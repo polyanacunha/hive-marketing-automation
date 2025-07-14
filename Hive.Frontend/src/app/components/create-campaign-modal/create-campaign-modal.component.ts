@@ -40,7 +40,6 @@ export class CreateCampaignModalComponent {
   }
 
   onCreate() {
-    // enviar dados ou chamar serviço
     console.log('Criar campanha', this.campaign);
     this.onClose();
   }
