@@ -1,0 +1,29 @@
+<div class="onboarding-step">
+  <div class="onboarding-progress">
+    <div class="progress-bar">
+      <div class="progress-bar-fill" style="width: 75%"></div>
+    </div>
+    <span class="progress-label">3 de 4</span>
+  </div>
+  <h2>Quem é o seu público-alvo?</h2>
+  <p class="onboarding-desc">Nos diga quem você deseja atingir com seus anúncios.</p>
+  <form [formGroup]="form" (ngSubmit)="onContinue()" autocomplete="off">
+    <div class="form-group">
+      <div class="audience-options">
+        <div *ngFor="let aud of audiences">
+          <label class="radio-label">
+            <input type="radio" formControlName="audience" [value]="aud" /> {{ aud }}
+          </label>
+        </div>
+        <div class="custom-audience" *ngIf="form.value.audience === 'Outro'">
+          <label for="customAudience">Interesses personalizado</label>
+          <input id="customAudience" formControlName="customAudience" type="text" placeholder="Digite os interesses" />
+        </div>
+      </div>
+    </div>
+    <div class="onboarding-actions">
+      <button class="onboarding-btn-secondary" type="button" (click)="onPrev()">Anterior</button>
+      <button class="onboarding-btn" type="submit" [disabled]="form.invalid || (form.value.audience === 'Outro' && !form.value.customAudience)">Continuar</button>
+    </div>
+  </form>
+</div>

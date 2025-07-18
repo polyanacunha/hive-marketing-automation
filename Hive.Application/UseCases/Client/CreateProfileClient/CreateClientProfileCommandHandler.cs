@@ -21,7 +21,6 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
             _marketSegmentRepository = marketSegmentRepository;
             _currentUser = currentUser;
         }
-
         public async Task<Result<Unit>> Handle(CreateClientProfileCommand request, CancellationToken cancellationToken)
         {
             var clientId = _currentUser.UserId;
@@ -58,7 +57,6 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
 
             await _clientProfileRepository.Create(clientProfile);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-
             return Result<Unit>.Success(Unit.Value);
         }
     }

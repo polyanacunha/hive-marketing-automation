@@ -55,6 +55,28 @@ public static class DependencyInjectionAPI
             awsSettings["AccessKey"],
             awsSettings["SecretKey"]
         );
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+
+            options.AddPolicy("AllowSpecificOrigins", policy =>
+            {
+                policy
+                    .WithOrigins(
+                        "http://localhost:4200",
+                        "https://localhost:4200"
+                    )
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+        });
 
         // 3. Cria as opções da AWS, combinando as credenciais e a região
         var awsOptions = new AWSOptions

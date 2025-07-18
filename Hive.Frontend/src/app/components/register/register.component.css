@@ -1,0 +1,144 @@
+.register-bg {
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(135deg, #f5f7fa 0%, #b8aaff 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.register-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 18px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+  padding: 32px 32px 28px 32px;
+  max-width: 420px;
+  width: 100%;
+  margin: 40px 0;
+}
+
+.register-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.register-header .logo {
+  width: 40px;
+  height: 40px;
+}
+
+.register-header .brand {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.register-content {
+  text-align: center;
+}
+
+.register-progress {
+  margin-bottom: 18px;
+}
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: #4f46e5;
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+.progress-label {
+  font-size: 1rem;
+  color: #888;
+  font-weight: 500;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+  color: #222;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.form-group label {
+  font-size: 0.98rem;
+  color: #444;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+.form-group input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1.5px solid #b8aaff;
+  border-radius: 7px;
+  background: #f8f7ff;
+  font-size: 1rem;
+  color: #222;
+  outline: none;
+  transition: border-color 0.2s;
+}
+ #firstName{
+  width: 180px !important;
+}
+.form-group input:focus {
+  border-color: #7c5fff;
+}
+.nome{
+  width: 50px ;
+}
+.register-btn {
+  width: 100%;
+  background: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.2s;
+}
+.register-btn:disabled {
+  background: #b8aaff;
+  cursor: not-allowed;
+}
+.register-btn:not(:disabled):hover {
+  background: #7c5fff;
+}
+
+@media (max-width: 600px) {
+  .register-container {
+    padding: 16px 4px 12px 4px;
+    max-width: 98vw;
+  }
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}

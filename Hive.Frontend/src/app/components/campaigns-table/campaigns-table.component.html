@@ -1,0 +1,72 @@
+<div class="campaigns-table">
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome da Campanha</th>
+          <th>Plataforma</th>
+          <th>Status</th>
+          <th>Orçamento</th>
+          <th>Gasto</th>
+          <th>Resultados</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let campaign of campaigns">
+          <td class="campaign-name">
+            <div class="campaign-info">
+              <h4>{{ campaign.name }}</h4>
+              <span class="campaign-date">{{ campaign.startDate | date:'dd/MM/yyyy' }} - {{ campaign.endDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="platform-badge" [class]="'platform-' + campaign.platform.toLowerCase()">
+              <i [class]="getPlatformIcon(campaign.platform)"></i>
+              {{ campaign.platform }}
+            </div>
+          </td>
+          <td>
+            <span class="status-badge" [class]="'status-' + campaign.status.toLowerCase()">
+              {{ campaign.status }}
+            </span>
+          </td>
+          <td class="budget">
+            <span class="amount">R$ {{ campaign.budget | number:'1.0-0' }}</span>
+          </td>
+          <td class="spent">
+            <span class="amount">R$ {{ campaign.spent | number:'1.0-0' }}</span>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="(campaign.spent / campaign.budget) * 100"></div>
+            </div>
+          </td>
+          <td class="results">
+            <div class="result-item">
+              <span class="label">Impressões:</span>
+              <span class="value">{{ campaign.impressions | number }}</span>
+            </div>
+            <div class="result-item">
+              <span class="label">Cliques:</span>
+              <span class="value">{{ campaign.clicks | number }}</span>
+            </div>
+            <div class="result-item">
+              <span class="label">CTR:</span>
+              <span class="value">{{ campaign.ctr | number:'1.2-2' }}%</span>
+            </div>
+          </td>
+          <td class="actions">
+            <button class="action-btn edit" (click)="editCampaign(campaign)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="action-btn view" (click)="viewCampaign(campaign)">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="action-btn delete" (click)="deleteCampaign(campaign)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

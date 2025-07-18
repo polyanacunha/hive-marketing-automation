@@ -13,6 +13,17 @@ builder.Services.AddInfrastructureSwagger();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:4200", "https://localhost:4200") // Allow both HTTP and HTTPS
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -26,6 +37,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use CORS
+app.UseCors("AllowSpecificOrigin");
 
 app.UseStatusCodePages();
 app.UseRouting();

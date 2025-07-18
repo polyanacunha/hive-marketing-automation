@@ -1,0 +1,17 @@
+<div class="onboarding-step">
+  <div class="onboarding-progress">
+    <div class="progress-bar">
+      <div class="progress-bar-fill" style="width: 25%"></div>
+    </div>
+    <span class="progress-label">1 de 4</span>
+  </div>
+  <h2>Informação básica</h2>
+  <form [formGroup]="form" (ngSubmit)="onContinue()" autocomplete="off">
+    <div class="form-group">
+      <label for="companyName">Nome da empresa</label>
+      <input id="companyName" formControlName="companyName" type="text" placeholder="Nome da empresa" />
+    </div>
+    <button class="onboarding-btn" type="submit" [disabled]="form.invalid">Continuar</button>
+    <button class="onboarding-btn-secondary" type="button" disabled>Anterior</button>
+  </form>
+</div>
