@@ -37,8 +37,6 @@ export class RegisterComponent {
       this.success = null;
       const { firstName, lastName, email, password } = this.registerForm.value;
       const payload = {
-        firstName,
-        lastName,
         email,
         password
       };
