@@ -1,5 +1,7 @@
-﻿using Hive.Domain.Entities;
+﻿using Hive.Application.Interfaces;
+using Hive.Domain.Entities;
 using Hive.Infra.Data.Identity;
+using Hive.Infra.Data.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,9 +10,12 @@ namespace Hive.Infra.Data.Context;
 
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string>
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    private readonly IEncryptionService _encryptionService;
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IEncryptionService encryptionService)
         : base(options)
-    { }
+    {
+        _encryptionService = encryptionService;
+    }
 
     public DbSet<ClientProfile> ClientProfile { get; set; }
     public DbSet<MarketSegment> MarketSegment { get; set; }
@@ -20,6 +25,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<ImageUrl> ImageUrl { get; set; }
     public DbSet<Campaign> Campaigns { get; set; }
     public DbSet<ObjectiveCampaign> ObjectiveCampaigns { get; set; }
+    public DbSet<PublishConnection> PublishConnections { get; set; }
     
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -31,7 +37,11 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
         SeedUsers(builder);
         SeedUserRoles(builder);
 
+        var converter = new EncryptedStringConverter(_encryptionService);
 
+        builder.Entity<PublishConnection>()
+               .Property(p => p.AccessToken)
+               .HasConversion(converter);
     }
     private static void SeedRoles(ModelBuilder modelBuilder)
     {

@@ -1,7 +1,7 @@
 ﻿using Hive.Application.DTOs;
 using Hive.Domain.Validation;
 using MediatR;
-using System.Numerics;
+
 
 namespace Hive.Application.Interfaces
 {
@@ -16,6 +16,7 @@ namespace Hive.Application.Interfaces
         Task<Result<string>> GeneratePasswordResetToken(string email);
         Task<Result<Unit>> ConfirmEmail(string userID, string token);
         Task<Result<Unit>> ResetPassword(string userID, string token, string newPassword);
+        Task<Result<Unit>> LoginWithFacebook();
     }
 }
     

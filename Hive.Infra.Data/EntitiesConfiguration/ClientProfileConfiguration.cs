@@ -11,10 +11,6 @@ namespace Hive.Infra.Data.EntitiesConfiguration
         {
             builder.HasKey(p => p.Id);
 
-            //builder.HasOne<ApplicationUser>()
-            //.WithOne(u => u.ClientProfile)
-            //.HasForeignKey<ClientProfile>(c => c.Id);
-
             builder.Property(cp => cp.Id).ValueGeneratedNever();
 
             builder.Property(p => p.CompanyName)
@@ -24,9 +20,9 @@ namespace Hive.Infra.Data.EntitiesConfiguration
             builder.Property(p => p.WebSiteUrl)
             .HasMaxLength(200);
 
-             builder.HasOne<ApplicationUser>()
-               .WithOne(u => u.ClientProfile)
-               .HasForeignKey<ClientProfile>(c => c.Id);
+            builder.HasOne<ApplicationUser>()
+              .WithOne(u => u.ClientProfile)
+              .HasForeignKey<ClientProfile>(c => c.Id);
 
             builder.HasOne(p => p.MarketSegment)
                .WithMany(a => a.ClientProfiles)
@@ -35,7 +31,17 @@ namespace Hive.Infra.Data.EntitiesConfiguration
             builder.HasOne(p => p.TargetAudience)
                .WithMany(a => a.ClientProfiles)
                .HasForeignKey(p => p.TargetAudienceId);
-            
+
+            builder.HasMany(p => p.MidiaLinks)
+               .WithOne()
+               .HasForeignKey(p => p.ClientProfileId);
+
+            builder.HasMany(p => p.PublishConnections)
+               .WithOne()
+               .HasForeignKey(p => p.ClientProfileId);
+
+
+
         }
     }
 }
