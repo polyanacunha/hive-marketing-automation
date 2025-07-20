@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Hive.Domain.Entities;
 using Hive.Domain.Interfaces;
 using Hive.Domain.Validation;
@@ -25,21 +21,31 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
             _marketSegmentRepository = marketSegmentRepository;
             _currentUser = currentUser;
         }
- 
         public async Task<Result<Unit>> Handle(CreateClientProfileCommand request, CancellationToken cancellationToken)
         {
-            var userId = _currentUser.UserId
-                ?? throw new DomainExceptionValidation("User not authenticated or invalid token.");
+            var clientId = _currentUser.UserId;
 
-            var marketSegment = await _marketSegmentRepository.GetById(request.MarketSegmentId)
-                ?? throw new DomainExceptionValidation("invalid market segment.");
+            if (clientId == null)
+            {
+                return Result<Unit>.Failure("User are not authenticate");
+            }
 
-            var targetAudience = await _targetAudienceRepository.GetById(request.TargetAudienceId)
-                ?? throw new DomainExceptionValidation("invalid target audience.");
+            var marketSegment = await _marketSegmentRepository.GetById(request.MarketSegmentId);
+
+            if (marketSegment == null) {
+                return Result<Unit>.Failure("invalid market segment.");            
+            }
+
+            var targetAudience = await _targetAudienceRepository.GetById(request.TargetAudienceId);
+
+            if (targetAudience == null)
+            {
+                return Result<Unit>.Failure("invalid target audience.");
+            }
 
             var clientProfile = new ClientProfile
             (
-                id: userId,
+                id: clientId,
                 companyName: request.CompanyName,
                 targetAudience: targetAudience,
                 targetAudienceId: targetAudience.Id,
@@ -51,7 +57,6 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
 
             await _clientProfileRepository.Create(clientProfile);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
-            
             return Result<Unit>.Success(Unit.Value);
         }
     }

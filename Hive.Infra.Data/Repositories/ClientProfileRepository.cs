@@ -24,10 +24,12 @@ namespace Hive.Infra.Data.Repositories
             return clientProfile;
         }
 
-        public async Task<ClientProfile?> GetById(Guid id)
+        public async Task<ClientProfile?> GetById(string id)
         {
             return await _context.ClientProfile
-            .FirstOrDefaultAsync(p => p.Id == id);
+                .Include(c => c.MarketSegment) 
+                .Include(c => c.TargetAudience)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

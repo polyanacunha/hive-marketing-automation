@@ -15,12 +15,17 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<ClientProfile> ClientProfile { get; set; }
     public DbSet<MarketSegment> MarketSegment { get; set; }
     public DbSet<TargetAudience> TargetAudience { get; set; }
-    public DbSet<Campaing> Campaing { get; set; }
-    public DbSet<Midia> Midia { get; set; }
-    public DbSet<Post> Post { get; set; }
+    public DbSet<MidiaProduction> MidiaProduction { get; set; }
+    public DbSet<JobGeneration> JobGeneration { get; set; }
+    public DbSet<ImageUrl> ImageUrl { get; set; }
+    public DbSet<Campaign> Campaigns { get; set; }
+    public DbSet<ObjectiveCampaign> ObjectiveCampaigns { get; set; }
+    
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
         base.OnModelCreating(builder);
         SeedRoles(builder);
         SeedUsers(builder);
@@ -60,7 +65,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
                 NormalizedEmail = "ADMIN@LOCALHOST.COM",
                 EmailConfirmed = true,
                 PasswordHash = hasher.HashPassword(null, "Numsey#2021"),
-                SecurityStamp = Guid.NewGuid().ToString("D")
+                SecurityStamp = Guid.NewGuid().ToString()
             }
         );
     }

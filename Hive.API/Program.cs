@@ -46,6 +46,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+//app.UseHangfireDashboard();
+
 app.UseExceptionHandler(_ => { });
 
 app.MapControllers();

@@ -12,6 +12,7 @@ using Hive.Application.UseCases.Authentication.ConfirmEmail;
 using Hive.Application.UseCases.Authentication.ForgotPassword;
 using Hive.Application.UseCases.Authentication.RecoverPassword;
 using MimeKit.Cryptography;
+using Hive.Application.UseCases.Authentication.RefreshToken;
 
 namespace Hive.API.Controllers;
 
@@ -51,7 +52,7 @@ public class AuthController : ControllerBase
 
     }
 
-    [HttpPost("login/google")]
+    [HttpPost("login-google")]
     public async Task<IResult> GoogleLogin([FromQuery] string ReturnUrl, LinkGenerator linkGenerator)
     {
         var propeties = _signInManager.ConfigureExternalAuthenticationProperties("Google",
@@ -60,7 +61,7 @@ public class AuthController : ControllerBase
         return Results.Challenge(propeties, ["Google"]);
     }
 
-    [HttpGet("login/google/callback", Name = "GoogleLoginCallback")]
+    [HttpGet("login/google-callback", Name = "GoogleLoginCallback")]
     public async Task<IResult> GoogleLoginCallback([FromQuery] string ReturnUrl)
     {
         var result = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
@@ -75,8 +76,8 @@ public class AuthController : ControllerBase
         return Results.Redirect(ReturnUrl);
     }
 
-    [HttpPost("confirm/email")]
-    public async Task<ActionResult> ConfirmEmail([FromQuery] ConfirmEmailCommand request)
+    [HttpPost("confirm-email")]
+    public async Task<ActionResult> ConfirmEmail([FromBody] ConfirmEmailCommand request)
     {
         var result = await _mediator.Send(request);
 
@@ -87,8 +88,8 @@ public class AuthController : ControllerBase
         return Ok();
     }
 
-    [HttpPost("forgot/password")]
-    public async Task<ActionResult> ForgotPassword([FromQuery] ForgotPasswordCommand request)
+    [HttpPost("forgot-password")]
+    public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordCommand request)
     {
         var result = await _mediator.Send(request);
 
@@ -99,14 +100,25 @@ public class AuthController : ControllerBase
         return Ok(new {Message = result.Value});
     }
 
-    [HttpPost("reset/password")]
-    public async Task<ActionResult> ResetPassword([FromQuery] ResetPasswordCommand request)
+    [HttpPost("reset-password")]
+    public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordCommand request)
     {
         var result = await _mediator.Send(request);
         if (!result.IsFailure) 
         {
             return BadRequest(new {Errors = result.Errors});
         } 
+        return Ok();
+    }
+
+    [HttpPost("refresh-token")]
+    public async Task<ActionResult> RefreshToken([FromBody] RefreshTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (!result.IsFailure)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
         return Ok();
     }
 }
