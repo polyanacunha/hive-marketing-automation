@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <button class="menu-toggle" (click)="toggleSidebar()">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="logo">
+      <img src="assets/hive-logo.svg" alt="Hive Creator" class="logo-img">
+      <span class="logo-text">Hive</span>
+    </div>
+  </div>
+  
+  <div class="navbar-right">
+    <div class="profile-section">
+      <div class="user-info">
+        <span class="user-name">João Silva</span>
+        <span class="user-role">Administrador</span>
+      </div>
+      <div class="profile-avatar" (click)="openProfileMenu()">
+        <i class="fas fa-user-circle"></i>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,60 @@
+<div class="sidebar" [class.sidebar-open]="isOpen">
+  <div class="sidebar-header">
+    <button class="close-btn" (click)="closeSidebar()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+  
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li class="nav-item">
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/campanhas" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">
+          <i class="fas fa-bullhorn"></i>
+          <span>Campanhas</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/relatorios" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">
+          <i class="fas fa-chart-line"></i>
+          <span>Relatórios</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/usuarios" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">
+          <i class="fas fa-users"></i>
+          <span>Usuários</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/configuracoes" routerLinkActive="active" class="nav-link" (click)="closeSidebar()">
+          <i class="fas fa-cog"></i>
+          <span>Configurações</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  
+  <div class="sidebar-footer">
+    <div class="user-profile">
+      <div class="user-avatar">
+        <i class="fas fa-user-circle"></i>
+      </div>
+      <div class="user-details">
+        <span class="user-name">João Silva</span>
+        <span class="user-email">joao&#64;hive.com</span>
+      </div>
+    </div>
+    <button class="logout-btn" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Sair</span>
+    </button>
+  </div>
+</div>
+
+<div class="sidebar-overlay" [class.overlay-open]="isOpen" (click)="closeSidebar()"></div>
