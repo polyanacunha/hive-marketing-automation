@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  error: string | null = null;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
@@ -22,8 +24,17 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      // lógica de autenticação
-      console.log(this.loginForm.value);
+      const { email, password } = this.loginForm.value;
+      this.authService.login(email, password).subscribe({
+        next: (res) => {
+          this.error = null;
+          // Exemplo: salvar token, redirecionar, etc
+          // localStorage.setItem('token', res.token);
+        },
+        error: (err) => {
+          this.error = 'E-mail ou senha inválidos';
+        }
+      });
     }
   }
 }

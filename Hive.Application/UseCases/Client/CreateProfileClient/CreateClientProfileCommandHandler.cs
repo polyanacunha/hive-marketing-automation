@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Hive.Application.UseCases.Client.CreateProfileClient
 {
-    public class ClientProfileCommandHandler : IRequestHandler<CreateClientProfileCommand>
+    public class ClientProfileCommandHandler : IRequestHandler<CreateClientProfileCommand, Result<Unit>>
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IClientProfileRepository _clientProfileRepository;
@@ -26,32 +26,33 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
             _currentUser = currentUser;
         }
  
-        public async Task Handle(CreateClientProfileCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Unit>> Handle(CreateClientProfileCommand request, CancellationToken cancellationToken)
         {
             var userId = _currentUser.UserId
                 ?? throw new DomainExceptionValidation("User not authenticated or invalid token.");
 
-            var marketSegment = await _marketSegmentRepository.GetById(request.ClientProfileDTO.MarketSegmentId)
+            var marketSegment = await _marketSegmentRepository.GetById(request.MarketSegmentId)
                 ?? throw new DomainExceptionValidation("invalid market segment.");
 
-            var targetAudience = await _targetAudienceRepository.GetById(request.ClientProfileDTO.TargetAudienceId)
+            var targetAudience = await _targetAudienceRepository.GetById(request.TargetAudienceId)
                 ?? throw new DomainExceptionValidation("invalid target audience.");
 
             var clientProfile = new ClientProfile
             (
                 id: userId,
-                companyName: request.ClientProfileDTO.CompanyName,
+                companyName: request.CompanyName,
                 targetAudience: targetAudience,
                 targetAudienceId: targetAudience.Id,
                 marketSegment: marketSegment,
                 marketSegmentId: marketSegment.Id,
-                taxId: request.ClientProfileDTO.TaxId,
-                webSiteUrl: request.ClientProfileDTO.WebSiteUrl
+                taxId: request.TaxId,
+                webSiteUrl: request.WebSiteUrl
             );
 
             await _clientProfileRepository.Create(clientProfile);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }
