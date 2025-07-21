@@ -57,7 +57,6 @@ namespace Hive.Application.UseCases.Midia.CreateVideo
 
             var midia = new MidiaProduction(
                 clientProfileId: clientId,
-                clientProfile: client,
                 systemPrompt: promptSystem,
                 userPrompt: promptUser,
                 inputImages: images

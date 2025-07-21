@@ -29,6 +29,8 @@ public static class DependencyInjectionAPI
         services.Configure<SmtpSettings>(configuration.GetSection(SmtpSettings.SmtpSettingsKey));
         services.Configure<OpenAiSettings>(configuration.GetSection(OpenAiSettings.OpenAiSettingsKey));
         services.Configure<AwsS3Settings>(configuration.GetSection(AwsS3Settings.AwsS3SettingsKey));
+        services.Configure<MetaApiSettings>(configuration.GetSection(MetaApiSettings.MetaApiSettingsKey));
+        services.Configure<Encryption>(configuration.GetSection(Encryption.EncryptionKey));
 
 
         services.AddDbContext<ApplicationDbContext>(options =>
@@ -100,6 +102,7 @@ public static class DependencyInjectionAPI
         services.AddScoped<IMidiaProductionRepository, MidiaProductionRepository>();
         services.AddScoped<IObjectiveCampaignRepository, ObjectiveCampaignRepository>();
         services.AddScoped<ITargetAudienceRepository, TargetAudienceRepository>();
+        services.AddScoped<IPublishConnectionRepository, PublishConnectionsRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
@@ -112,7 +115,9 @@ public static class DependencyInjectionAPI
         services.AddScoped<IStorageService, AwsBucketS3>();
         services.AddScoped<ITextGenerationService, ChatGptTextGenerator>();
         services.AddScoped<IGenerateVideosByScenes, GenerateVideosByScenes>();
+        services.AddScoped<IEncryptionService, AesEncryptionService>();
         services.AddScoped<IVideoGenerator, PikaLabsGenerator>();
+        services.AddScoped<IMetaApiService, MetaApi>();
 
         services.AddTransient<ScriptGenerationJob>();
         services.AddTransient<SceneProcessingJob>();

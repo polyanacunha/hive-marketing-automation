@@ -3,21 +3,21 @@ using Hive.Application.Interfaces;
 using Hive.Domain.Entities;
 using Hive.Domain.Enum;
 using Hive.Domain.Interfaces;
-using System.Text.Json;
-using System.Xml;
+
 
 namespace Hive.Application.Services.CreationVideo
 {
     public class GenerateVideosByScenes : IGenerateVideosByScenes
     {
         private readonly IMidiaProductionRepository _midiaProductionRespository;
+        private readonly IPromptProcessor _promptProcessor;
         private readonly ITextGenerationService _textGenerationService;
         private readonly IJobGenerationRepository _jobGenerationRepository;
         private readonly IVideoGenerator _videoGenerator;
         private readonly IBackgroundScheduler _backgroundScheduler;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GenerateVideosByScenes(IMidiaProductionRepository midiaProductionRespository, ITextGenerationService textGenerationService, IJobGenerationRepository jobGenerationRepository, IVideoGenerator videoGenerator, IUnitOfWork unitOfWork, IBackgroundScheduler backgroundScheduler)
+        public GenerateVideosByScenes(IMidiaProductionRepository midiaProductionRespository, ITextGenerationService textGenerationService, IJobGenerationRepository jobGenerationRepository, IVideoGenerator videoGenerator, IUnitOfWork unitOfWork, IBackgroundScheduler backgroundScheduler, IPromptProcessor promptProcessor)
         {
             _midiaProductionRespository = midiaProductionRespository;
             _textGenerationService = textGenerationService;
@@ -25,6 +25,7 @@ namespace Hive.Application.Services.CreationVideo
             _videoGenerator = videoGenerator;
             _unitOfWork = unitOfWork;
             _backgroundScheduler = backgroundScheduler;
+            _promptProcessor = promptProcessor;
         }
 
         public async Task GenerateScript(int videoProductionId, CancellationToken cancellationToken)
@@ -46,8 +47,7 @@ namespace Hive.Application.Services.CreationVideo
                 return;
             }
 
-            var script = JsonSerializer.Deserialize<ScriptDto>(scriptJson.Value!)
-                ?? throw new Exception("An error occurred while deserializing json");
+            var script = await _promptProcessor.DeserializeJson<ScriptDto>(scriptJson.Value!);
 
             // 2. Atualiza o estado da Produção
             production.AddGeneratedScriptJson(scriptJson.Value!);
@@ -70,16 +70,9 @@ namespace Hive.Application.Services.CreationVideo
                     assetType: AssetType.VIDEO
                     );
 
-                production.AddJob(job);
+                production.JobsGenerations.Add(job);
 
                 await _backgroundScheduler.ScheduleSceneProcessingJob(id, production.Id, jobGroupName);
-
-            }
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            foreach (var job in production.Jobs)
-            {
             }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
@@ -106,18 +99,10 @@ namespace Hive.Application.Services.CreationVideo
                 return;
             }
 
-            var midia = await _midiaProductionRespository.GetById(job.MidiaProductionId);
-
-            if (midia is null)
-            {
-                return;
-            }
-
-
             job.MarkToProcessing();
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            var urlsList = midia.InputImageUrl
+            var urlsList = job.MidiaProduction.InputImageUrl
                 .Select(imageUrl => imageUrl.ImageKey)
                 .ToList();
 

@@ -17,27 +17,19 @@ namespace Hive.Domain.Entities
         public ProductionStatus Status { get; private set; }
         public string? FinalVideoUrl { get; private set; }
         public virtual ICollection<ImageUrl> InputImageUrl { get; private set; } = new List<ImageUrl>();
-
-        private readonly List<JobGeneration> _jobs = new();
-        public IReadOnlyCollection<JobGeneration> Jobs => _jobs.AsReadOnly();
+        public virtual ICollection<JobGeneration> JobsGenerations { get; private set; } = new List<JobGeneration>();
 
         private MidiaProduction() {}
 
-        public MidiaProduction(string clientProfileId, ClientProfile clientProfile, string systemPrompt, string userPrompt, ICollection<ImageUrl> inputImages)
+        public MidiaProduction(string clientProfileId, string systemPrompt, string userPrompt, ICollection<ImageUrl> inputImages)
         {
             ClientProfileId = clientProfileId;
-            ClientProfile = clientProfile;
             SystemPrompt = systemPrompt;
             UserPrompt = userPrompt;
             Status = ProductionStatus.Pending;
             InputImageUrl = inputImages;
         }
 
-        public void AddJob(JobGeneration job)
-        {
-            _jobs.Add(job);
-
-        }
         public void MarkToScriptGenerated()
         {
             Status = ProductionStatus.ScriptGenerated;

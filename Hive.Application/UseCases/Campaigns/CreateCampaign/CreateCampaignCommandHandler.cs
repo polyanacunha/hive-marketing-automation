@@ -4,7 +4,6 @@ using MediatR;
 using Hive.Domain.Entities;
 using Hive.Application.Interfaces;
 using Hive.Application.DTOs;
-using System.Text.Json;
 
 
 namespace Hive.Application.UseCases.Campaigns.CreateCampaign
@@ -53,6 +52,7 @@ namespace Hive.Application.UseCases.Campaigns.CreateCampaign
             var campaing = new Campaign(
                 clientProfileId: clientId,
                 campaignName: request.CampaignName,
+                produtoDescription: request.ProductDescription,
                 externalCampaignName: "hive",
                 objectiveCampaign: objectiveCampaign,
                 objectiveCampaignId: request.ObjectiveCampaignId,
@@ -67,13 +67,12 @@ namespace Hive.Application.UseCases.Campaigns.CreateCampaign
 
             if (targetingJson.IsFailure)
             {
-                return Result<CampaignStrategy>.Failure("Erro ao gerar estrategia de campanha.");
+                return Result<CampaignStrategy>.Failure("Erro ao gerar estratégia de campanha.");
             }
 
             var targeting = await _promptProcessor.DeserializeJson<CampaignStrategy>(targetingJson.Value!);
 
             return Result<CampaignStrategy>.Success(targeting);
-
         }
     }
 }

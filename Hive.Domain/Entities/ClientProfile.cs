@@ -13,8 +13,10 @@ namespace Hive.Domain.Entities
         public string? WebSiteUrl { get; private set; }
         public virtual ICollection<MidiaProduction> Midias { get; private set; } = new List<MidiaProduction>();
         public virtual ICollection<Campaign> Campaigns { get; private set; } = new List<Campaign>();
+        public virtual ICollection<MidiaLinks> MidiaLinks { get; private set; } = new List<MidiaLinks>();
+        public virtual ICollection<PublishConnection> PublishConnections { get; private set; } = new List<PublishConnection>();
 
-        private ClientProfile() { } 
+        private ClientProfile() { }
 
         public ClientProfile(string id, MarketSegment marketSegment, int marketSegmentId, TargetAudience targetAudience, int targetAudienceId, string companyName, string taxId, string? webSiteUrl)
         {

@@ -35,7 +35,7 @@ namespace Hive.Infra.Data.Repositories
         public async Task<MidiaProduction?> GetByIdWithJobsAsync(int id)
         {
             return await _context.MidiaProduction
-                .Include(midiaProduction => midiaProduction.Jobs)
+                .Include(midiaProduction => midiaProduction.JobsGenerations)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
