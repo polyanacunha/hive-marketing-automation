@@ -1,5 +1,5 @@
 export const environment = {
     production: false,
-    apiUrl: 'https://localhost:5001' // URL do Hive.API
+    apiUrl: 'https://localhost:7143'
   };
   
