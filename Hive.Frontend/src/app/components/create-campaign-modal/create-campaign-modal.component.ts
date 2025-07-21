@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { CampaingService } from '../../services/campaing.service'; // Import the service
-import { CreateCampaignParams } from '../../services/campaing.service'; // Import the interface
-import { CampaingDTO } from '../../models/campaing.dto'; // Correct import for CampaingDTO
+import { CreateCampaignParams } from '../../services/campaing.service';
+import { CampaingDTO } from '../../models/campaing.dto';
+import { CampaignService } from '../../services/campaing.service';
 
 @Component({
   selector: 'app-create-campaign-modal',
@@ -21,6 +21,7 @@ export class CreateCampaignModalComponent {
   campaign = {
     name: '',
     description: '',
+    productDescription: '', // Add this field
     objective: '',
     ageMin: 18,
     ageMax: 65,
@@ -39,12 +40,12 @@ export class CreateCampaignModalComponent {
     'reconhecimento': 1,
     'trafego': 2,
     'engajamento': 3,
-    'leads': 4,
+    'leads': 1,
     'vendas': 5,
     'promocao-app': 6
   };
 
-  constructor(private campaingService: CampaingService) {} // Inject the service
+  constructor(private campaingService: CampaignService) {} // Inject the service
 
   selectObjective(value: string) {
     this.campaign.objective = value;
@@ -57,12 +58,17 @@ export class CreateCampaignModalComponent {
   }
 
   onCreate() {
+    // Convert dates to ISO strings
+    const initialDateISO = new Date(this.campaign.startDate).toISOString();
+    const endDateISO = new Date(this.campaign.endDate).toISOString();
+
     const campaignData: CreateCampaignParams = {
       campaignName: this.campaign.name,
       budget: this.campaign.budget,
-      initialDate: this.campaign.startDate,
-      endDate: this.campaign.endDate,
-      objectiveCampaignId: this.campaign.objectiveCampaignId
+      initialDate: initialDateISO,
+      endDate: endDateISO,
+      objectiveCampaignId: this.campaign.objectiveCampaignId,
+      productDescription: this.campaign.productDescription // Include this field
     };
 
     console.log('Campaign data being sent:', campaignData);

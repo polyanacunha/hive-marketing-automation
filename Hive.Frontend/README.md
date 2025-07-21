@@ -38,4 +38,8 @@ ng e2e
 ```
 
 ## para rodar as migrations, rodar com o startup-project
+
+ dotnet ef migrations add InitialCreate --startup-project ../Hive.API 
+
+ 
 dotnet ef database update --startup-project ../Hive.API

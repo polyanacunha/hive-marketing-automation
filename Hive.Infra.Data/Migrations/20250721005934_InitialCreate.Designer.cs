@@ -3,6 +3,7 @@ using System;
 using Hive.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,13 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hive.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250721005934_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.1")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -379,15 +382,15 @@ namespace Hive.Infra.Data.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-002f23242002",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ab1d4ffb-522e-4f74-8dd8-4ffd27275337",
+                            ConcurrencyStamp = "90f50916-128e-4a6b-9920-6a9033ed9d57",
                             Email = "admin@localhost.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN@LOCALHOST.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEHZ+IJpmzLliHfi9sNnoh2adTea/IxGycM/IhX6g9Wgq85addj7kjaBdsCEjgUjB1A==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEB0QBVMZlMPB7V4Bz5NiQHAh2SZVXYqwQrXVbNADKoGhWYNvrfKiLeLPJsx2M90+0A==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "42083a3f-9219-4105-917f-81956e296519",
+                            SecurityStamp = "976bfbd0-47a4-4508-90bf-4d24ff1773c6",
                             TwoFactorEnabled = false,
                             UserName = "admin@localhost.com"
                         });
@@ -432,6 +435,20 @@ namespace Hive.Infra.Data.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-002f23242000",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "a18be9c0-aa65-4af8-bd17-002f23242001",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -519,6 +536,13 @@ namespace Hive.Infra.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "a18be9c0-aa65-4af8-bd17-002f23242002",
+                            RoleId = "a18be9c0-aa65-4af8-bd17-002f23242000"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

@@ -11,10 +11,11 @@ export interface CreateCampaignParams {
   initialDate: string;
   endDate: string;
   objectiveCampaignId: number;
+  productDescription: string; // Add this field
 }
 
 @Injectable({ providedIn: 'root' })
-export class CampaingService {
+export class CampaignService {
   private url = `${environment.apiUrl}/api/campaing`;
   private url2 = `${environment.apiUrl}/api/campaign/create`;
 
@@ -27,7 +28,18 @@ export class CampaingService {
     return this.http.get<CampaingDTO>(`${this.url}/${id}`);
   }
   create(params: CreateCampaignParams): Observable<CampaingDTO> {
-    return this.http.post<CampaingDTO>(this.url2, params);
+    // Convert dates to ISO strings
+    const initialDateISO = new Date(params.initialDate).toISOString();
+    const endDateISO = new Date(params.endDate).toISOString();
+
+    // Create a new object with the converted dates
+    const paramsWithISO = {
+      ...params,
+      initialDate: initialDateISO,
+      endDate: endDateISO
+    };
+
+    return this.http.post<CampaingDTO>(this.url2, paramsWithISO);
   }
   update(dto: CampaingDTO): Observable<void> {
     return this.http.put<void>(`${this.url}/${dto.id}`, dto);
