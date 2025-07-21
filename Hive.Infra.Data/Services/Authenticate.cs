@@ -95,6 +95,11 @@ namespace Hive.Infra.Data.Services
             return Result<Unit>.Success(Unit.Value);
         }
 
+        public Task<Result<Unit>> LoginWithFacebook()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Result<Unit>> LoginWithGoogle(string email)
         {
             if (email == null)

@@ -13,6 +13,12 @@ using Hive.Application.UseCases.Authentication.ForgotPassword;
 using Hive.Application.UseCases.Authentication.RecoverPassword;
 using MimeKit.Cryptography;
 using Hive.Application.UseCases.Authentication.RefreshToken;
+using Google.Rpc;
+using System.Text.Json;
+using Hive.Application.DTOs;
+using Hive.Infra.Data.Options;
+using Microsoft.Extensions.Options;
+using Hive.Application.UseCases.Authentication.SaveMetaAccessToken;
 
 namespace Hive.API.Controllers;
 
@@ -22,11 +28,13 @@ public class AuthController : ControllerBase
 {
     private readonly ISender _mediator;
     private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly MetaApiSettings _metaApiSettings;
 
-    public AuthController(ISender mediator, SignInManager<ApplicationUser> signInManager)
+    public AuthController(ISender mediator, SignInManager<ApplicationUser> signInManager, IOptions<MetaApiSettings> metaApiSettings)
     {
         _mediator = mediator;
         _signInManager = signInManager;
+        _metaApiSettings = metaApiSettings.Value;
     }
 
     [HttpPost("register")]
@@ -119,6 +127,38 @@ public class AuthController : ControllerBase
         {
             return BadRequest(new { Errors = result.Errors });
         }
+        return Ok();
+    }
+
+    [HttpGet("login/facebook")]
+    public async Task<IActionResult> FacebookLogin()
+    {
+        var state = Guid.NewGuid().ToString();
+
+        var authUrl = $"{_metaApiSettings.FacebookUrlBase}/dialog/oauth" +
+                      $"?client_id={_metaApiSettings.ClientId}" +
+                      $"&redirect_uri={Uri.EscapeDataString(_metaApiSettings.RedirectUri)}" +
+                      $"&state={state}" +
+                      $"&response_type=code" +
+                      $"&scope={Uri.EscapeDataString(_metaApiSettings.Scopes)}";
+
+        return Redirect(authUrl);
+    }
+
+    [HttpGet("facebook/callback")]
+    public async Task<IActionResult> FacebookCallback([FromQuery] string Code, [FromQuery] string State)
+    {
+        if (string.IsNullOrEmpty(Code))
+            return BadRequest("Código de autorização ausente.");
+
+        var command = new SaveMetaAccessTokenCommand(Code);
+        var result = await _mediator.Send(command);
+
+        if(result.IsFailure)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
+
         return Ok();
     }
 }

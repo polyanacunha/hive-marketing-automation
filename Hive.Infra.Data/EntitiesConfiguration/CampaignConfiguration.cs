@@ -2,6 +2,7 @@
 using Hive.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 
 namespace Hive.Infra.Data.EntitiesConfiguration
@@ -22,7 +23,6 @@ namespace Hive.Infra.Data.EntitiesConfiguration
 
             builder.OwnsOne(c => c.Budget, budget =>
             {
-          
                 budget.Property(b => b.Value).HasColumnName("BudgetValue");
                 budget.Property(b => b.Currency).HasColumnName("BudgetCurrency").HasMaxLength(3);
             });

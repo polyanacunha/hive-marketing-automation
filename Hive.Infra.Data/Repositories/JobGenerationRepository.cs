@@ -28,7 +28,8 @@ namespace Hive.Infra.Data.Repositories
         public async Task<JobGeneration?> GetById(Guid id)
         {
             return await _context.JobGeneration
-            .FirstOrDefaultAsync(p => p.Id == id);
+             .Include(x => x.MidiaProduction)
+             .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }

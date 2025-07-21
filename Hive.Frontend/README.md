@@ -36,3 +36,6 @@ For end-to-end (e2e) testing, run:
 ```bash
 ng e2e
 ```
+
+## para rodar as migrations, rodar com o startup-project
+dotnet ef database update --startup-project ../Hive.API

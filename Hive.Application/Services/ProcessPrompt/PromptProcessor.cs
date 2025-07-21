@@ -112,7 +112,10 @@ namespace Hive.Application.Services.ProcessPrompt
 
                 **Regras**:
                 - Use no máximo 3 interesses no campo "interests"
-                - Responda em português apenas com o JSON preenchido. Nenhum comentário ou explicação externa.
+                - Gêneros deve conter apenas: "masculino", "feminino" ou "ambos".
+                - Responda apenas com o JSON preenchido sempre em português (sem explicações).
+                - Localizações devem conter apenas nomes completos de países, estados ou cidades, (ex: "Brasil", "São Paulo", "Rio de Janeiro").
+                - Todos os campos devem ser preenchidos de forma coerente com os dados de entrada abaixo.
 
                 **Dados de entrada (campos nulos não leve em consideração)**:
                 - Empresa: {{client.CompanyName}}  
@@ -121,6 +124,7 @@ namespace Hive.Application.Services.ProcessPrompt
                 - Público: {{client.TargetAudience.Description}}  
                 - Objetivo: {{campaign.ObjectiveCampaign.Name}}  
                 - Orçamento: {{campaign.Budget}}
+                - Produto: {{campaign.ProdutoDescription}}
                 """);
              
             var result = promptUser.ToString();
@@ -131,5 +135,3 @@ namespace Hive.Application.Services.ProcessPrompt
 }
 //-Mídias sociais: { { client.SocialMediaLinks } }
 //-Telefone: { { client.Phone } }
-//-Produto: { { campaign.ProductDescription } }
-//-Proposta de valor: { { campaign.ValueProposition } }

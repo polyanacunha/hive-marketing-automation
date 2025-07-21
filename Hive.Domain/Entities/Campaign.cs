@@ -13,9 +13,12 @@ namespace Hive.Domain.Entities
         public ObjectiveCampaign ObjectiveCampaign { get; private set; }
         public int ObjectiveCampaignId { get; private set; }
         public Budget Budget { get; private set; }
+        public string ProdutoDescription { get; private set; }
         public PeriodRange PeriodRange { get; private set; }
         public DateTime CreatedAt { get; private set; }
         public StatusCampaign Status { get; private set; }
+
+        
 
         private Campaign()
         {
@@ -26,7 +29,8 @@ namespace Hive.Domain.Entities
             string campaignName, 
             string externalCampaignName, 
             ObjectiveCampaign objectiveCampaign, 
-            int objectiveCampaignId, 
+            int objectiveCampaignId,
+            string produtoDescription,
             int budget, 
             DateTime initial, 
             DateTime end)
@@ -37,6 +41,7 @@ namespace Hive.Domain.Entities
             ObjectiveCampaign = objectiveCampaign;
             ObjectiveCampaignId = objectiveCampaignId;
             Budget = Budget.Create(budget);
+            ProdutoDescription = produtoDescription;
             PeriodRange = new PeriodRange(initial, end);
             CreatedAt = DateTime.UtcNow;
             Status = StatusCampaign.DRAFT;
@@ -61,5 +66,7 @@ namespace Hive.Domain.Entities
         {
             Budget = Budget.Create(budget);
         }
+
+        
     }
 }

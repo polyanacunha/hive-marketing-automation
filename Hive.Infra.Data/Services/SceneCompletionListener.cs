@@ -46,7 +46,7 @@ namespace Hive.Infra.Data.Services
                 var production = await midiaProductionRepository.GetByIdWithJobsAsync(productionId)
                     ?? throw new Exception("Midia not found");
 
-                if (production.Jobs.All(j => j.Status == JobStatus.COMPLETED))
+                if (production.JobsGenerations.All(j => j.Status == JobStatus.COMPLETED))
                 {
                     // ...dispara o job de montagem que estava esperando!
                     _logger.LogInformation("Processando Job juncao de videos referente a midia-{productionId}", productionId);
