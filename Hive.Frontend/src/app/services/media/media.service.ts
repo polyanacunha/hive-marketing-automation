@@ -15,6 +15,9 @@ export class MediaService {
     return this.http.post(`${this.apiUrl}/media/create-video`, media);
   }
 
+  getImagesToCreateAds(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/asset/images`);
+  }
   uploadImages(media: FormData): Observable<any> {
     return this.http.post(`${this.apiUrl}/asset/upload`, media);
   }

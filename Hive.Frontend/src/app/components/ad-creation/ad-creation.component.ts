@@ -73,6 +73,12 @@ export class AdCreationComponent {
     this.selectedImages = [];
   }
 
+  uploadAndCreateAds(): void {
+    this.uploadImages();
+    this.getImagesToCreateAds();
+    this.createAds();
+  }
+
   uploadImages(): void {
     const formData = new FormData();
   
@@ -84,14 +90,28 @@ export class AdCreationComponent {
   
     this.mediaService.uploadImages(formData).subscribe({
       next: (response) => {
-        console.log('Ads created successfully', response);
+        console.log('Images uploaded successfully', response);
       },
       error: (error) => {
-        console.error('Error creating ads', error);
+        console.error('Error uploading images', error);
       }
     });
   }
 
+  getImagesToCreateAds() {
+    this.mediaService.getImagesToCreateAds().subscribe({
+      next: (response: any[]) => {
+        console.log('Images fetched successfully', response);
+        response.map((img: any) => ({
+          url: img.url,
+        }));
+      },
+      error: (error) => {
+        console.error('Error fetching images', error);
+      }
+    });
+  }
+  
   createAds(): void {
     const campaignData = {
       images: this.selectedImages.map(img => img.file),
