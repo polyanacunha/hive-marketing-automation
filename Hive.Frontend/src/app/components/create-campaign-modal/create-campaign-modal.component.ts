@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { CreateCampaignParams } from '../../services/campaing.service';
+import { CreateCampaignParams } from '../../services/campaign/campaing.service';
 import { CampaingDTO } from '../../models/campaing.dto';
-import { CampaignService } from '../../services/campaing.service';
+import { CampaignService } from '../../services/campaign/campaing.service';
 
 @Component({
   selector: 'app-create-campaign-modal',
@@ -21,7 +21,7 @@ export class CreateCampaignModalComponent {
   campaign = {
     name: '',
     description: '',
-    productDescription: '', // Add this field
+    productDescription: '',
     objective: '',
     ageMin: 18,
     ageMax: 65,
@@ -68,7 +68,7 @@ export class CreateCampaignModalComponent {
       initialDate: initialDateISO,
       endDate: endDateISO,
       objectiveCampaignId: this.campaign.objectiveCampaignId,
-      productDescription: this.campaign.productDescription // Include this field
+      productDescription: this.campaign.productDescription
     };
 
     console.log('Campaign data being sent:', campaignData);

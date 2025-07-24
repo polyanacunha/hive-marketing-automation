@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MediaService } from '../../services/media/media.service';
 
 interface SelectedImage {
   file: File;
@@ -15,6 +16,7 @@ interface SelectedImage {
   styleUrl: './ad-creation.component.css'
 })
 export class AdCreationComponent {
+  constructor(private mediaService: MediaService) {}
   selectedImages: SelectedImage[] = [];
 
   onFileSelected(event: Event): void {
@@ -71,7 +73,37 @@ export class AdCreationComponent {
     this.selectedImages = [];
   }
 
-  onSave(): void {
-    alert('Imagens salvas! (implemente a integração com backend)');
+  uploadImages(): void {
+    const formData = new FormData();
+  
+    formData.append('AlbumName', 'YourAlbumName');
+  
+    this.selectedImages.forEach(img => {
+      formData.append('Files', img.file);
+    });
+  
+    this.mediaService.uploadImages(formData).subscribe({
+      next: (response) => {
+        console.log('Ads created successfully', response);
+      },
+      error: (error) => {
+        console.error('Error creating ads', error);
+      }
+    });
+  }
+
+  createAds(): void {
+    const campaignData = {
+      images: this.selectedImages.map(img => img.file),
+    };
+
+    this.mediaService.createAds(campaignData).subscribe({
+      next: (response) => {
+        console.log('Ads created successfully', response);
+      },
+      error: (error) => {
+        console.error('Error creating ads', error);
+      }
+    });
   }
 }

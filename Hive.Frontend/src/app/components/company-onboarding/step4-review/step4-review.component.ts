@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { OnboardingStateService } from '../../../services/onboarding-state.service';
-import { ProfileService } from '../../../services/profile.service';
+import { OnboardingStateService } from '../../../services/onboarding/onboarding-state.service';
+import { ProfileService } from '../../../services/profile/profile.service';
 
 @Component({
   selector: 'app-step4-review',
@@ -27,7 +27,14 @@ export class Step4ReviewComponent {
   onFinish() {
     this.error = null;
     this.success = false;
-    this.profileService.createProfile(this.onboardingData).subscribe({
+    const profileData = {
+      marketSegmentId: this.onboardingData.marketSegmentId || 0,
+      targetAudienceId: this.onboardingData.targetAudienceId || 0,
+      companyName: this.onboardingData.companyName,
+      webSiteUrl: this.onboardingData.webSiteUrl || '',
+      taxId: this.onboardingData.taxId || ''
+    };
+    this.profileService.createClientProfile(profileData).subscribe({
       next: () => {
         this.success = true;
         alert('Cadastro da empresa finalizado!');

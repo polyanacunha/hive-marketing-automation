@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CampaingDTO } from '../models/campaing.dto';
-import { environment } from '../../environments/environment';
+import { CampaingDTO } from '../../models/campaing.dto';
+import { environment } from '../../../environments/environment';
 
 // Export the CreateCampaignParams interface
 export interface CreateCampaignParams {
@@ -40,6 +40,16 @@ export class CampaignService {
     };
 
     return this.http.post<CampaingDTO>(this.url2, paramsWithISO);
+  }
+  createClientProfile(data: {
+    marketSegmentId: number;
+    targetAudienceId: number;
+    companyName: string;
+    webSiteUrl: string;
+    taxId: string;
+  }): Observable<void> {
+    const url = `${environment.apiUrl}/api/client/profile`;
+    return this.http.post<void>(url, data);
   }
   update(dto: CampaingDTO): Observable<void> {
     return this.http.put<void>(`${this.url}/${dto.id}`, dto);

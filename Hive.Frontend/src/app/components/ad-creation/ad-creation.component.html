@@ -35,10 +35,14 @@
           </div>
           <button class="add-more-btn" (click)="fileInput.click()">+ Adicionar mais imagens</button>
         </div>
+        <div class="description-section">
+          <label> Insira uma descrição do(s) produto(s)</label>
+          <input type="text" placeholder="Descrição do anúncio">
+        </div>
       </div>
       <div class="ad-creation-actions">
         <button class="cancel-btn" (click)="onCancel()">Cancelar</button>
-        <button class="save-btn" [disabled]="selectedImages.length === 0" (click)="onSave()">Salvar mídias</button>
+        <button class="save-btn" [disabled]="selectedImages.length === 0" (click)="uploadImages()">Gerar anúncios</button>
       </div>
     </div>
   </div>

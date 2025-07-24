@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { OnboardingStateService } from '../../../services/onboarding-state.service';
+import { OnboardingStateService } from '../../../services/onboarding/onboarding-state.service';
 
 @Component({
   selector: 'app-step1-basic-info',
