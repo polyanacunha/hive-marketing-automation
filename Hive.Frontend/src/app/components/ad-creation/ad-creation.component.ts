@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaService } from '../../services/media/media.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 interface SelectedImage {
   file: File;
@@ -74,12 +76,24 @@ export class AdCreationComponent {
   }
 
   uploadAndCreateAds(): void {
-    this.uploadImages();
-    this.getImagesToCreateAds();
-    this.createAds();
+    this.uploadImages().subscribe({
+      next: () => {
+        this.getImagesToCreateAds().subscribe({
+          next: () => {
+            this.createAds();
+          },
+          error: (error: any) => {
+            console.error('Error fetching images', error);
+          }
+        });
+      },
+      error: (error: any) => {
+        console.error('Error uploading images', error);
+      }
+    });
   }
 
-  uploadImages(): void {
+  uploadImages(): Observable<any> {
     const formData = new FormData();
   
     formData.append('AlbumName', 'YourAlbumName');
@@ -87,31 +101,21 @@ export class AdCreationComponent {
     this.selectedImages.forEach(img => {
       formData.append('Files', img.file);
     });
-  
-    this.mediaService.uploadImages(formData).subscribe({
-      next: (response) => {
-        console.log('Images uploaded successfully', response);
-      },
-      error: (error) => {
-        console.error('Error uploading images', error);
-      }
-    });
+
+    return this.mediaService.uploadImages(formData);
   }
 
-  getImagesToCreateAds() {
-    this.mediaService.getImagesToCreateAds().subscribe({
-      next: (response: any[]) => {
+  getImagesToCreateAds(): Observable<any[]> {
+    return this.mediaService.getImagesToCreateAds().pipe(
+      tap((response: any[]) => {
         console.log('Images fetched successfully', response);
         response.map((img: any) => ({
           url: img.url,
         }));
-      },
-      error: (error) => {
-        console.error('Error fetching images', error);
-      }
-    });
+      })
+    );
   }
-  
+
   createAds(): void {
     const campaignData = {
       images: this.selectedImages.map(img => img.file),
