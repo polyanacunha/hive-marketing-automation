@@ -62,10 +62,9 @@
         <div class="preview-section">
           <h3>Post da campanha</h3>
           <div class="post-preview">
-            <!-- Placeholder para preview do anúncio -->
             <div class="ad-card">
               <h4>sua_marca</h4>
-              <p>Coleção exclusiva de vestidos leves e coloridos para a primavera. Tecidos em algodão, veja mais...</p>
+              <button (click)="toggleAdCreationModal()">clique para adicionar os produtos a serem anunciados</button>
               <img src="assets/sample-ad.jpg" alt="Ad Preview" />
             </div>
           </div>
@@ -94,8 +93,10 @@
 
       <div class="modal-footer">
         <button (click)="onClose()">Cancelar</button>
-        <button class="primary" (click)="onCreate()">+ Criar Campanha</button>
+        <button class="primary" (click)="saveCampaignDataAndCreateAds()">Criar anúncios</button>
       </div>
     </div>
   </div>
 </div>
+
+<app-ad-creation *ngIf="isAdCreationModalVisible" (close)="toggleAdCreationModal()"></app-ad-creation>

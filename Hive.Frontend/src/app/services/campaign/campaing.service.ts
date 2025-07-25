@@ -3,16 +3,23 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CampaingDTO } from '../../models/campaing.dto';
 import { environment } from '../../../environments/environment';
-
-// Export the CreateCampaignParams interface
 export interface CreateCampaignParams {
   campaignName: string;
   budget: number;
   initialDate: string;
   endDate: string;
   objectiveCampaignId: number;
-  productDescription: string; // Add this field
+  productDescription: string;
 }
+
+interface MIDIA {
+  images: File[]; 
+}
+
+interface SelectedImages {
+  images: string[];
+}
+
 
 @Injectable({ providedIn: 'root' })
 export class CampaignService {
@@ -27,7 +34,7 @@ export class CampaignService {
   getById(id: number): Observable<CampaingDTO> {
     return this.http.get<CampaingDTO>(`${this.url}/${id}`);
   }
-  create(params: CreateCampaignParams): Observable<CampaingDTO> {
+  createCampaign(params: CreateCampaignParams): Observable<CampaingDTO> {
     // Convert dates to ISO strings
     const initialDateISO = new Date(params.initialDate).toISOString();
     const endDateISO = new Date(params.endDate).toISOString();
@@ -56,5 +63,9 @@ export class CampaignService {
   }
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+    createAds(media: SelectedImages[]): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/api/media/create-video`, media);
   }
 }

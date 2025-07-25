@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaService } from '../../services/media/media.service';
 import { Observable } from 'rxjs';
@@ -18,8 +18,14 @@ interface SelectedImage {
   styleUrl: './ad-creation.component.css'
 })
 export class AdCreationComponent {
+  @Output() close = new EventEmitter<void>();
   constructor(private mediaService: MediaService) {}
   selectedImages: SelectedImage[] = [];
+  isVisible = false; // Add this property
+
+  closeModal(): void {
+    this.close.emit();
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -75,25 +81,7 @@ export class AdCreationComponent {
     this.selectedImages = [];
   }
 
-  uploadAndCreateAds(): void {
-    this.uploadImages().subscribe({
-      next: () => {
-        this.getImagesToCreateAds().subscribe({
-          next: () => {
-            this.createAds();
-          },
-          error: (error: any) => {
-            console.error('Error fetching images', error);
-          }
-        });
-      },
-      error: (error: any) => {
-        console.error('Error uploading images', error);
-      }
-    });
-  }
-
-  uploadImages(): Observable<any> {
+  uploadImages(): void {
     const formData = new FormData();
   
     formData.append('AlbumName', 'YourAlbumName');
@@ -102,7 +90,14 @@ export class AdCreationComponent {
       formData.append('Files', img.file);
     });
 
-    return this.mediaService.uploadImages(formData);
+    this.mediaService.uploadImages(formData).subscribe({
+      next: (response) => {
+        console.log('Images uploaded successfully', response);
+      },
+      error: (error) => {
+        console.error('Error uploading images', error);
+      }
+    });
   }
 
   getImagesToCreateAds(): Observable<any[]> {
@@ -114,20 +109,5 @@ export class AdCreationComponent {
         }));
       })
     );
-  }
-
-  createAds(): void {
-    const campaignData = {
-      images: this.selectedImages.map(img => img.file),
-    };
-
-    this.mediaService.createAds(campaignData).subscribe({
-      next: (response) => {
-        console.log('Ads created successfully', response);
-      },
-      error: (error) => {
-        console.error('Error creating ads', error);
-      }
-    });
   }
 }
