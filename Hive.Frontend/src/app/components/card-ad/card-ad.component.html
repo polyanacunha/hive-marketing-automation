@@ -1,0 +1,71 @@
+<div class="card-container" [class.selected]="item.selected">
+  <!-- Thumbnail -->
+  <div class="card-thumbnail" (click)="onSelect()">
+    <img [src]="item.thumbnailUrl" [alt]="item.title" />
+    
+    <!-- Duration Badge -->
+    <div class="duration-badge">{{ item.duration }}</div>
+    
+    <!-- Selection Checkbox -->
+    <div class="selection-checkbox" [class.checked]="item.selected">
+      <div class="checkbox-inner" *ngIf="item.selected">✓</div>
+    </div>
+    
+    <!-- Status Badge -->
+    <div class="status-badge" [style.background-color]="getStatusColor()">
+      {{ getStatusText() }}
+    </div>
+  </div>
+
+  <!-- Card Content -->
+  <div class="card-content">
+    <h3 class="card-title">{{ item.title }}</h3>
+    <p class="card-description">{{ item.description }}</p>
+    
+    <!-- Card Actions -->
+    <div class="card-actions">
+      <!-- Status Button -->
+      <button class="status-btn" [style.background-color]="getStatusColor()">
+        {{ getStatusText() }}
+      </button>
+      
+      <!-- Action Icons -->
+      <div class="action-icons">
+        <button class="action-icon" (click)="onAction('edit')" title="Editar">
+          <i class="icon-edit">✏️</i>
+        </button>
+        
+        <button class="action-icon" (click)="onAction('download')" title="Baixar">
+          <i class="icon-download">⬇️</i>
+        </button>
+        
+        <button class="action-icon" (click)="onAction('delete')" title="Excluir">
+          <i class="icon-delete">🗑️</i>
+        </button>
+        
+        <!-- More Options -->
+        <div class="dropdown-container">
+          <button class="action-icon dropdown-trigger" (click)="toggleDropdown()" title="Mais opções">
+            <i class="icon-more">⋮</i>
+          </button>
+          
+          <!-- Dropdown Menu -->
+          <div class="dropdown-menu" *ngIf="showDropdown">
+            <button class="dropdown-item" (click)="onAction('edit')">
+              <i class="dropdown-icon">✏️</i>
+              Editar
+            </button>
+            <button class="dropdown-item" (click)="onAction('download')">
+              <i class="dropdown-icon">⬇️</i>
+              Baixar
+            </button>
+            <button class="dropdown-item delete" (click)="onAction('delete')">
+              <i class="dropdown-icon">🗑️</i>
+              Excluir
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

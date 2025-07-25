@@ -6,6 +6,7 @@ import { AdCreationComponent } from './components/ad-creation/ad-creation.compon
 import { MainLayoutComponent } from './components/main-layout/main-layout.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateCampaignModalComponent } from './components/create-campaign-modal/create-campaign-modal.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
 
 export const routes: Routes = [
   { 
@@ -21,5 +22,7 @@ export const routes: Routes = [
   { path: 'company-onboarding', component: CompanyOnboardingComponent },
   { path: 'ad-creation', component: AdCreationComponent},
   { path: 'create-campaign', component: CreateCampaignModalComponent },
-
+  {
+    path: 'media-gallery', component: GalleryComponent,
+  }
 ];

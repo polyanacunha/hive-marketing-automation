@@ -1,0 +1,73 @@
+<app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
+
+<div class="gallery-layout">
+  <app-sidebar 
+    [isOpen]="sidebarOpen" 
+    (closeSidebarEvent)="closeSidebar()">
+  </app-sidebar>
+
+  <div class="gallery-content">
+    <div class="gallery-container">
+      <!-- Header -->
+      <div class="gallery-header">
+        <h1 class="gallery-title">Galeria de Mídias</h1>
+        <p class="gallery-subtitle">Gerencie seus vídeos antes de criar uma campanha</p>
+      </div>
+
+      <!-- Controls -->
+      <div class="gallery-controls">
+        <div class="controls-left">
+          <div class="category-dropdown">
+            <select [(ngModel)]="selectedCategory" (change)="onCategoryChange(selectedCategory)">
+              <option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+              </option>
+            </select>
+            <i class="dropdown-icon">▼</i>
+          </div>
+
+          <button class="create-video-btn" (click)="createNewVideo()">
+            <i class="plus-icon">+</i>
+            Criar novo vídeo
+          </button>
+
+          <button class="select-btn" (click)="selectAll()">
+            Selecionar
+          </button>
+        </div>
+
+        <!-- Info Banner -->
+        <div class="info-banner" *ngIf="remainingVideos > 0">
+          <i class="info-icon">ℹ</i>
+          <span>Você ainda pode adicionar {{ remainingVideos }} vídeos neste plano.</span>
+        </div>
+      </div>
+
+      <!-- Media Grid -->
+      <div class="media-grid">
+        <app-card-ad 
+          *ngFor="let item of filteredItems" 
+          [item]="item"
+          [isSelected]="item.selected"
+          (select)="selectItem($event)"
+          (action)="onCardAction($event.action, $event.item)">
+        </app-card-ad>
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="gallery-footer" *ngIf="hasSelectedItems">
+        <button class="advance-btn" (click)="advance()">
+          Criar campanha
+        </button>
+      </div>
+
+      <!-- Exit Button -->
+      <div class="exit-section">
+        <button class="exit-btn">
+          <i class="exit-icon">🚪</i>
+          Sair
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

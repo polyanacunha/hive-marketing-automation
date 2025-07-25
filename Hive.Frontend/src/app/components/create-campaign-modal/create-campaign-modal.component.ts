@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CampaignService } from '../../services/campaign/campaing.service'; // Import the service
@@ -53,7 +54,7 @@ export class CreateCampaignModalComponent {
     'promocao-app': 6
   };
 
-  constructor(private campaignService: CampaignService) {}
+  constructor(private campaignService: CampaignService, private router: Router) {}
 
   selectObjective(value: string) {
     this.campaign.objective = value;
@@ -117,6 +118,8 @@ export class CreateCampaignModalComponent {
   saveCampaignDataAndCreateAds() {
     this.saveCampaignData();
     this.createAds();
+    this.router.navigate(['/media-gallery']);
+
   }
 
   toggleAdCreationModal(): void {
