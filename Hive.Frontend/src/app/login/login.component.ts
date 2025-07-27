@@ -10,7 +10,7 @@ import { AuthService } from '../services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+ export class LoginComponent {
   loginForm: FormGroup;
   error: string | null = null;
 
@@ -37,4 +37,30 @@ export class LoginComponent {
       });
     }
   }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle('google-auth-token').subscribe({
+      next: (res) => {
+        this.error = null;
+        console.log('Usuário autenticado com Google:', res);
+
+      },
+      error: (err) => {
+        this.error = 'Erro ao autenticar com o Google';
+      }
+    });
+  }
+
+  loginWithFacebook() {
+    this.authService.loginWithFacebook('facebook-auth-token').subscribe({
+      next: (res) => {
+        this.error = null;
+        console.log('Usuário autenticado com Facebook:', res);
+      },
+      error: (err) => {
+        this.error = 'Erro ao autenticar com o Facebook';
+      }
+    });
+  }
+
 }

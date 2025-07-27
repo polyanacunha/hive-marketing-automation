@@ -99,4 +99,4 @@
   </div>
 </div>
 
-<app-ad-creation *ngIf="isAdCreationModalVisible" (close)="toggleAdCreationModal()"></app-ad-creation>
+<app-ad-creation (imagesSelected)="onImagesSelected($event)" *ngIf="isAdCreationModalVisible" (close)="toggleAdCreationModal()"></app-ad-creation>

@@ -8,6 +8,9 @@ import { CampaignService } from '../../services/campaign/campaing.service'; // I
 import { CreateCampaignParams } from '../../services/campaign/campaing.service'; // Import the interface
 import { CampaingDTO } from '../../models/campaing.dto'; // Correct import for CampaingDTO
 import { AdCreationComponent } from '../ad-creation/ad-creation.component'; // Import AdCreationComponent
+import { MediaService } from '../../services/media/media.service'; // Import MediaService
+import { Observable } from 'rxjs'; // Import Observable
+import { map } from 'rxjs/operators'; // Import map
 
 interface SelectedImages {
   images: string[];
@@ -23,7 +26,7 @@ interface SelectedImages {
 export class CreateCampaignModalComponent {
   @Output() close = new EventEmitter<void>();
   sidebarOpen = false;
-  selectedImages: SelectedImages = { images: [] };
+  selectedImages: File[] = [];
   isAdCreationModalVisible = false;
 
 
@@ -54,7 +57,7 @@ export class CreateCampaignModalComponent {
     'promocao-app': 6
   };
 
-  constructor(private campaignService: CampaignService, private router: Router) {}
+  constructor(private campaignService: CampaignService, private router: Router, private mediaService: MediaService) {}
 
   selectObjective(value: string) {
     this.campaign.objective = value;
@@ -101,23 +104,39 @@ export class CreateCampaignModalComponent {
   }
 
   createAds(): void {
-    const campaignData: SelectedImages = {
-      images: this.selectedImages.images,
-    };
+    // Assume you have a method to upload images and get their IDs
+    this.uploadImagesAndGetIds().subscribe((imageIds: number[]) => {
 
-    this.campaignService.createAds([campaignData]).subscribe({
-      next: (response) => {
-        console.log('Ads created successfully', response);
-      },
-      error: (error) => {
-        console.error('Error creating ads', error);
-      }
+      const clientObservations = 'Your observations here'; // Replace with actual observations
+      const inputImagesId = imageIds;
+
+      this.campaignService.createAds(clientObservations, inputImagesId).subscribe({
+        next: (response) => {
+          console.log('Ads created successfully', response);
+        },
+        error: (error) => {
+          console.error('Error creating ads', error);
+        }
+      });
     });
+  }
+//mudar a implementacao desse metodo para buscar as imagens do bucket
+  uploadImagesAndGetIds(): Observable<number[]> {
+    const formData = new FormData();
+    this.selectedImages.forEach(file => {
+      formData.append('Files', file);
+    });
+
+    return this.mediaService.uploadImages(formData).pipe(
+      map(response => response.imageIds)
+    );
   }
 
   saveCampaignDataAndCreateAds() {
     this.saveCampaignData();
+    console.log('Creating ads with images:', this.selectedImages);
     this.createAds();
+    console.log('Creating ads with images:', this.selectedImages);
     this.router.navigate(['/media-gallery']);
 
   }
@@ -126,5 +145,9 @@ export class CreateCampaignModalComponent {
     console.log('Toggle Ad Creation Modal called. Current state:', this.isAdCreationModalVisible);
     this.isAdCreationModalVisible = !this.isAdCreationModalVisible;
     console.log('New state:', this.isAdCreationModalVisible);
+  }
+
+  onImagesSelected(files: File[]): void {
+    this.selectedImages = files;
   }
 }

@@ -19,6 +19,7 @@ interface SelectedImage {
 })
 export class AdCreationComponent {
   @Output() close = new EventEmitter<void>();
+  @Output() imagesSelected = new EventEmitter<File[]>()
   constructor(private mediaService: MediaService) {}
   selectedImages: SelectedImage[] = [];
   isVisible = false; // Add this property
@@ -26,7 +27,11 @@ export class AdCreationComponent {
   closeModal(): void {
     this.close.emit();
   }
-
+  emitSelectedImages(): void {
+    const files = this.selectedImages.map(img => img.file);
+    this.imagesSelected.emit(files);
+  }
+  
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;

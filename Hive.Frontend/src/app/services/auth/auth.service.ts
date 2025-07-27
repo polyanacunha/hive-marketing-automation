@@ -18,4 +18,11 @@ export class AuthService {
     const url = `${this.apiUrl}/login-google`;
     return this.http.post(url, { token });
   }
+
+  loginWithFacebook(token: string): Observable<any> {
+    const url = `${this.apiUrl}/login/facebook`;
+    return this.http.post(url, { token });
+  }
+
+  
 }

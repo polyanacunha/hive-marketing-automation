@@ -65,7 +65,7 @@ export class CampaignService {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 
-    createAds(media: SelectedImages[]): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/api/media/create-video`, media);
+  createAds(ClientObservations: string, InputImagesId: number[]): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/api/media/create-video`, {ClientObservations, InputImagesId});
   }
 }

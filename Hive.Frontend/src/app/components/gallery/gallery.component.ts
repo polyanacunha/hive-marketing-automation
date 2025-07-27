@@ -11,7 +11,7 @@ interface MediaItem {
   description: string;
   duration: string;
   thumbnailUrl: string;
-  status: 'aprovado' | 'aprovando' | 'excluir';
+  status: 'aprovado' | 'excluir';
   selected: boolean;
 }
 
@@ -50,7 +50,7 @@ export class GalleryComponent implements OnInit {
       description: 'Descrição sobre o produto',
       duration: '1:45',
       thumbnailUrl: 'assets/video-thumb2.jpg',
-      status: 'aprovando',
+      status: 'aprovado',
       selected: false
     },
     {
@@ -77,7 +77,7 @@ export class GalleryComponent implements OnInit {
       description: 'Descrição sobre o produto',
       duration: '1:30',
       thumbnailUrl: 'assets/video-thumb5.jpg',
-      status: 'aprovando',
+      status: 'excluir',
       selected: false
     },
     {
@@ -104,7 +104,7 @@ export class GalleryComponent implements OnInit {
       description: 'Descrição sobre o produto',
       duration: '3:10',
       thumbnailUrl: 'assets/video-thumb8.jpg',
-      status: 'aprovando',
+      status: 'excluir',
       selected: false
     }
   ];
@@ -199,7 +199,6 @@ export class GalleryComponent implements OnInit {
     
     const statusMap: { [key: string]: string } = {
       'Vídeos Aprovados': 'aprovado',
-      'Em Aprovação': 'aprovando',
       'Rascunhos': 'excluir'
     };
     

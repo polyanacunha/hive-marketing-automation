@@ -7,7 +7,7 @@ interface MediaItem {
   description: string;
   duration: string;
   thumbnailUrl: string;
-  status: 'aprovado' | 'aprovando' | 'excluir';
+  status: 'aprovado' | 'excluir';
   selected: boolean;
 }
 
@@ -43,8 +43,6 @@ export class CardAdComponent {
     switch (this.item.status) {
       case 'aprovado':
         return '#4CAF50';
-      case 'aprovando':
-        return '#FF9800';
       case 'excluir':
         return '#F44336';
       default:
@@ -56,10 +54,8 @@ export class CardAdComponent {
     switch (this.item.status) {
       case 'aprovado':
         return 'Aprovado';
-      case 'aprovando':
-        return 'Aprovando';
       case 'excluir':
-        return 'Aprovado';
+        return 'Excluir';
       default:
         return 'Unknown';
     }
