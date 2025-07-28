@@ -7,6 +7,7 @@ import { MainLayoutComponent } from './components/main-layout/main-layout.compon
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateCampaignModalComponent } from './components/create-campaign-modal/create-campaign-modal.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   { 
@@ -24,5 +25,6 @@ export const routes: Routes = [
   { path: 'create-campaign', component: CreateCampaignModalComponent },
   {
     path: 'media-gallery', component: GalleryComponent,
-  }
+  },
+  { path: 'reset-password', component: ResetPasswordComponent },
 ];

@@ -27,7 +27,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule,
-    DashboardModule
+    DashboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
