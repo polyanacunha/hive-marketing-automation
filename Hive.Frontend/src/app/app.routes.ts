@@ -8,6 +8,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateCampaignModalComponent } from './components/create-campaign-modal/create-campaign-modal.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { PasswordResetConfirmComponent } from './components/password-reset-confirm/password-reset-confirm.component';
 
 export const routes: Routes = [
   { 
@@ -26,5 +27,6 @@ export const routes: Routes = [
   {
     path: 'media-gallery', component: GalleryComponent,
   },
-  { path: 'reset-password', component: ResetPasswordComponent },
+  { path: 'forgot-password', component: ResetPasswordComponent },
+  { path: 'reset-password', component: PasswordResetConfirmComponent }
 ];

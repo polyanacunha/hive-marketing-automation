@@ -12,6 +12,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { CompanyOnboardingComponent } from './components/company-onboarding/company-onboarding.component';
 import { AdCreationComponent } from './components/ad-creation/ad-creation.component';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { PasswordResetConfirmComponent } from './components/password-reset-confirm/password-reset-confirm.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     LoginComponent,
     RegisterComponent,
     CompanyOnboardingComponent,
-    AdCreationComponent
+    AdCreationComponent,
+    PasswordResetConfirmComponent
   ],
   imports: [
     BrowserModule,
