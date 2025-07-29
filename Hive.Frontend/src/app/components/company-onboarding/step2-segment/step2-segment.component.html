@@ -1,0 +1,29 @@
+<div class="onboarding-step">
+  <div class="onboarding-progress">
+    <div class="progress-bar">
+      <div class="progress-bar-fill" style="width: 50%"></div>
+    </div>
+    <span class="progress-label">2 de 4</span>
+  </div>
+  <h2>Segmento de Mercado</h2>
+  <form [formGroup]="form" (ngSubmit)="onContinue()" autocomplete="off">
+    <div class="form-group">
+      <label class="form-label">Setor de atuação</label>
+      <div class="segment-options">
+        <div *ngFor="let seg of segments">
+          <label class="radio-label">
+            <input type="radio" formControlName="segment" [value]="seg" /> {{ seg }}
+          </label>
+        </div>
+        <div class="custom-segment" *ngIf="form.value.segment === 'Outro'">
+          <label for="customSegment">Segmento personalizado</label>
+          <input id="customSegment" formControlName="customSegment" type="text" placeholder="Digite o segmento" />
+        </div>
+      </div>
+    </div>
+    <div class="onboarding-actions">
+      <button class="onboarding-btn-secondary" type="button" (click)="onPrev()">Anterior</button>
+      <button class="onboarding-btn" type="submit" [disabled]="form.invalid || (form.value.segment === 'Outro' && !form.value.customSegment)">Continuar</button>
+    </div>
+  </form>
+</div>

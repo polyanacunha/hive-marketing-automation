@@ -9,9 +9,7 @@ namespace Hive.Domain.Entities
     {
         public string ClientProfileId { get; private set; }
         public string CampaignName { get; private set; }
-        public string ExternalCampaignName { get; private set; }
-        public ObjectiveCampaign ObjectiveCampaign { get; private set; }
-        public int ObjectiveCampaignId { get; private set; }
+        public ObjectiveCampaignEnum ObjectiveCampaign { get; private set; }
         public Budget Budget { get; private set; }
         public string ProdutoDescription { get; private set; }
         public PeriodRange PeriodRange { get; private set; }
@@ -19,7 +17,6 @@ namespace Hive.Domain.Entities
         public StatusCampaign Status { get; private set; }
 
         
-
         private Campaign()
         {
         }
@@ -27,9 +24,7 @@ namespace Hive.Domain.Entities
         public Campaign(
             string clientProfileId,
             string campaignName, 
-            string externalCampaignName, 
-            ObjectiveCampaign objectiveCampaign, 
-            int objectiveCampaignId,
+            ObjectiveCampaignEnum objectiveCampaign, 
             string produtoDescription,
             int budget, 
             DateTime initial, 
@@ -37,9 +32,7 @@ namespace Hive.Domain.Entities
         {
             ClientProfileId = clientProfileId;
             CampaignName = campaignName;
-            ExternalCampaignName = externalCampaignName;
             ObjectiveCampaign = objectiveCampaign;
-            ObjectiveCampaignId = objectiveCampaignId;
             Budget = Budget.Create(budget);
             ProdutoDescription = produtoDescription;
             PeriodRange = new PeriodRange(initial, end);

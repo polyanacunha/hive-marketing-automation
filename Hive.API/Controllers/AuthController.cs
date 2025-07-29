@@ -19,6 +19,8 @@ using Hive.Application.DTOs;
 using Hive.Infra.Data.Options;
 using Microsoft.Extensions.Options;
 using Hive.Application.UseCases.Authentication.SaveMetaAccessToken;
+using Microsoft.AspNetCore.Authorization;
+using Hive.Application.UseCases.Authentication.GenerateConfirmationToken;
 
 namespace Hive.API.Controllers;
 
@@ -46,6 +48,17 @@ public class AuthController : ControllerBase
             return BadRequest(new {Errors = result.Errors});
         }
         return Ok(new { Id = result.Value, Message = "Um link de confirmacao foi enviado ao seu email"});
+    }
+
+    [HttpGet("generate-confirmation-token")]
+    public async Task<ActionResult> GenerateConfirmationToken([FromQuery] GenerateConfirmationTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (result.IsFailure)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
+        return Ok(result.Value);
     }
 
     [HttpPost("login")]
@@ -159,7 +172,7 @@ public class AuthController : ControllerBase
             return BadRequest(new { Errors = result.Errors });
         }
 
-        return Ok();
+        return Ok(result.Value);
     }
 }
 

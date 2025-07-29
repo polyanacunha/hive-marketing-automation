@@ -1,0 +1,65 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1>Olá, pronto para criar algo incrível hoje?</h1>
+    <p>Use os atalhos abaixo para começar uma nova tarefa rapidamente.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">
+        <img src="assets/createVideo.png" alt="">
+      </div>
+      <button class="stat-content">
+        <p class="stat-number">Criar novo vídeo</p>
+        <h3>Crie novos vídeos para inserir nas campanhas</h3>
+      </button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <img src="assets/createCampaing.png" alt="">
+      </div>
+      <button class="stat-content" (click)="openCampaignModal()">
+        <p class="stat-number">Criar nova campanha</p>
+        <h3>Criar nova campanha de marketing</h3>
+      </button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <img src="assets/seeMetrics.png" alt="">
+      </div>
+      <div class="stat-content">
+        <p class="stat-number">Ver desempenho</p>
+        <h3>Acesse o dashboard de métricas</h3>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">
+        <img src="assets/accessGalery.png" alt="">
+      </div>
+      <div class="stat-content">
+        <p class="stat-number">Gerencie seus álbuns </p>
+        <h3>Acessar álbuns</h3>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <div class="content-header">
+      <h2>Campanhas Recentes</h2>
+      <button class="btn-primary" (click)="openCampaignModal()">
+        <i class="fas fa-plus"></i>
+        Nova Campanha
+      </button>
+    </div>
+
+    <app-campaigns-table></app-campaigns-table>
+  </div>
+</div>
+
+<app-campaign-objective-modal
+  *ngIf="showCampaignModal"
+  (closeModal)="closeCampaignModal()">
+</app-campaign-objective-modal>

@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace Hive.Application.UseCases.Authentication.UrlRedirectFacebook
 {
-    public class SaveMetaAccessTokenCommandHandler : IRequestHandler<SaveMetaAccessTokenCommand, Result<Unit>>
+    public class SaveMetaAccessTokenCommandHandler : IRequestHandler<SaveMetaAccessTokenCommand, Result<string>>
     {
         private readonly IMetaApiService _metaApiService;
         private readonly IPublishConnectionRepository _connectionRepository;
@@ -25,41 +25,49 @@ namespace Hive.Application.UseCases.Authentication.UrlRedirectFacebook
             _currentUser = currentUser;
         }
 
-        public async Task<Result<Unit>> Handle(SaveMetaAccessTokenCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(SaveMetaAccessTokenCommand request, CancellationToken cancellationToken)
         {
             var clientId = _currentUser.UserId;
 
-            if (clientId == null)
-            {
-                return Result<Unit>.Failure("User are not authenticated");
-            }
+            var userToken = await _connectionRepository.GetMetaByClient(clientId!);
 
             var tokenJson = await _metaApiService.GetMetaAccessToken(request.Code);
 
             if (tokenJson.IsFailure)
             {
-                return Result<Unit>.Failure("Erro ao obter token de acesso.");
+                return Result<string>.Failure("Erro ao obter token de acesso.");
             }
 
             var token = JsonSerializer.Deserialize<FacebookToken>(tokenJson.Value!);
 
             if (token == null)
             {
-                return Result<Unit>.Failure("Erro ao obter token de acesso.");
+                throw new Exception("Erro ao desserializar json");
             }
 
-            var publishConnection = new PublishConnection
-                (
-                    clientId, 
-                    Platform.Meta, 
-                    DateTime.UtcNow.AddSeconds(token!.ExpiresIn), 
-                    token.AccessToken
-                );
+            if (userToken == null)
+            {
+                var publishConnection = new PublishConnection
+                    (
+                        clientId!,
+                        Platform.Meta,
+                        DateTime.UtcNow.AddSeconds(token!.ExpiresIn),
+                        token.AccessToken
+                    );
 
-            await _connectionRepository.Create(publishConnection);
+                await _connectionRepository.Create(publishConnection);
+
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+                return Result<string>.Success("Ok");
+            }
+
+            userToken.SetAccessToken(token.AccessToken);
+            userToken.UpdateExpiresDate(DateTime.UtcNow.AddSeconds(token.ExpiresIn));
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return Result<Unit>.Success(Unit.Value);
+            return Result<string>.Success("Ok");
 
         }
     }

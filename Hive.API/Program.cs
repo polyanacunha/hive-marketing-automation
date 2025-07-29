@@ -12,11 +12,27 @@ builder.Services.AddInfrastructureJWT(builder.Configuration);
 builder.Services.AddInfrastructureSwagger();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder
+            .WithOrigins("http://localhost:4200", "https://localhost:4200") // Allow both HTTP and HTTPS
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
+
+//app.UseExceptionHandler(_ => { });
+app.UseExceptionHandler();
+
 
 // Configure the HTTP request pipeline. 
 if (app.Environment.IsDevelopment())
@@ -27,15 +43,17 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStatusCodePages();
+app.UseCors("AllowSpecificOrigin");
+
+//app.UseStatusCodePages();
+
 app.UseRouting();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
 
-//app.UseHangfireDashboard();
-
-app.UseExceptionHandler(_ => { });
-
 app.MapControllers();
+
 
 app.Run();

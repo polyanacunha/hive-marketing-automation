@@ -43,7 +43,7 @@ namespace Hive.Infra.Data.Services
 
                 var requestBody = new
                 {
-                    model = "gpt-4o", 
+                    model = _openAiSettings.ChatGptModel, 
                     messages = new[]
                     {
                         new { role = "system", content = promptSystem },

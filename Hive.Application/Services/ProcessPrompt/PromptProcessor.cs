@@ -89,9 +89,22 @@ namespace Hive.Application.Services.ProcessPrompt
                     "audience": {
                       "min_age": 0,
                       "max_age": 0,
-                      "genders": [],
+                      "genders": 0,
                       "interests": [],
-                      "locations": []
+                      "locations": [
+                        {
+                            "country_code": ""
+                            "regions": []
+                            "city": [
+                                {
+                                    "name": "",
+                                    "latitude": 0.0,
+                                    "longitude": 0.0,
+                                    "radius": 0
+                                }
+                            ]
+                        }
+                      ]
                     },
                     "placements_suggestion": [],
                     "schedule_suggestion": {
@@ -107,14 +120,16 @@ namespace Hive.Application.Services.ProcessPrompt
                     "calls_to_action": ["", "", ""],
                     "hashtags": []
                   },
+
+
                   "strategy_justification": ""
                 }
 
                 **Regras**:
                 - Use no máximo 3 interesses no campo "interests"
-                - Gêneros deve conter apenas: "masculino", "feminino" ou "ambos".
+                - Gêneros: 0 - todos, 1 - masculino, - feminino.
                 - Responda apenas com o JSON preenchido sempre em português (sem explicações).
-                - Localizações devem conter apenas nomes completos de países, estados ou cidades, (ex: "Brasil", "São Paulo", "Rio de Janeiro").
+                - O campo "country" deve conter apenas o código do país no formato ISO 3166-1 alpha-2, estados ou cidades devem conter nomes completos (ex: "São Paulo", "Rio de Janeiro") ou null.
                 - Todos os campos devem ser preenchidos de forma coerente com os dados de entrada abaixo.
 
                 **Dados de entrada (campos nulos não leve em consideração)**:
@@ -122,7 +137,7 @@ namespace Hive.Application.Services.ProcessPrompt
                 - Segmento: {{client.MarketSegment.Description}}  
                 - Site: {{client.WebSiteUrl}}
                 - Público: {{client.TargetAudience.Description}}  
-                - Objetivo: {{campaign.ObjectiveCampaign.Name}}  
+                - Objetivo: {{campaign.ObjectiveCampaign}}  
                 - Orçamento: {{campaign.Budget}}
                 - Produto: {{campaign.ProdutoDescription}}
                 """);
