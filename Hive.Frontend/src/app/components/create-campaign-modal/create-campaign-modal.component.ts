@@ -19,16 +19,21 @@ interface SelectedImages {
 @Component({
   selector: 'app-create-campaign-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent, NavbarComponent, AdCreationComponent], // Add AdCreationComponent to imports
+  imports: [
+    CommonModule,
+    FormsModule,
+    SidebarComponent,
+    NavbarComponent,
+    AdCreationComponent,
+  ], // Add AdCreationComponent to imports
   templateUrl: './create-campaign-modal.component.html',
-  styleUrls: ['./create-campaign-modal.component.css']
+  styleUrls: ['./create-campaign-modal.component.css'],
 })
 export class CreateCampaignModalComponent {
   @Output() close = new EventEmitter<void>();
   sidebarOpen = false;
   selectedImages: File[] = [];
   isAdCreationModalVisible = false;
-
 
   campaign = {
     name: '',
@@ -41,28 +46,42 @@ export class CreateCampaignModalComponent {
     startDate: '',
     endDate: '',
     budget: 0,
-    objectiveCampaignId: 0
+    objectiveCampaignId: 0,
   };
 
   objectives = [
-    'reconhecimento', 'trafego', 'engajamento', 'leads', 'vendas', 'promocao-app'
+    'reconhecimento',
+    'trafego',
+    'engajamento',
+    'leads',
+    'vendas',
+    'promocao-app',
   ];
 
   private objectiveIdMap: { [key: string]: number } = {
-    'reconhecimento': 1,
-    'trafego': 2,
-    'engajamento': 3,
-    'leads': 1,
-    'vendas': 5,
-    'promocao-app': 6
+    reconhecimento: 1,
+    trafego: 2,
+    engajamento: 3,
+    leads: 1,
+    vendas: 5,
+    'promocao-app': 6,
   };
 
-  constructor(private campaignService: CampaignService, private router: Router, private mediaService: MediaService) {}
+  constructor(
+    private campaignService: CampaignService,
+    private router: Router,
+    private mediaService: MediaService
+  ) {}
 
   selectObjective(value: string) {
     this.campaign.objective = value;
     this.campaign.objectiveCampaignId = this.objectiveIdMap[value] || 0; // Set the ID or default to 0
-    console.log('Objective selected:', value, 'ID:', this.campaign.objectiveCampaignId); 
+    console.log(
+      'Objective selected:',
+      value,
+      'ID:',
+      this.campaign.objectiveCampaignId
+    );
   }
 
   onClose() {
@@ -79,7 +98,7 @@ export class CreateCampaignModalComponent {
       initialDate: initialDateISO,
       endDate: endDateISO,
       objectiveCampaignId: this.campaign.objectiveCampaignId,
-      productDescription: this.campaign.productDescription
+      productDescription: this.campaign.productDescription,
     };
 
     console.log('Campaign data being sent:', campaignData);
@@ -91,7 +110,7 @@ export class CreateCampaignModalComponent {
       },
       error: (error: any) => {
         console.error('Error creating campaign', error);
-      }
+      },
     });
   }
 
@@ -106,30 +125,31 @@ export class CreateCampaignModalComponent {
   createAds(): void {
     // Assume you have a method to upload images and get their IDs
     this.uploadImagesAndGetIds().subscribe((imageIds: number[]) => {
-
       const clientObservations = 'Your observations here'; // Replace with actual observations
       const inputImagesId = imageIds;
 
-      this.campaignService.createAds(clientObservations, inputImagesId).subscribe({
-        next: (response) => {
-          console.log('Ads created successfully', response);
-        },
-        error: (error) => {
-          console.error('Error creating ads', error);
-        }
-      });
+      this.campaignService
+        .createAds(clientObservations, inputImagesId)
+        .subscribe({
+          next: (response) => {
+            console.log('Ads created successfully', response);
+          },
+          error: (error) => {
+            console.error('Error creating ads', error);
+          },
+        });
     });
   }
-//mudar a implementacao desse metodo para buscar as imagens do bucket
+  //mudar a implementacao desse metodo para buscar as imagens do bucket
   uploadImagesAndGetIds(): Observable<number[]> {
     const formData = new FormData();
-    this.selectedImages.forEach(file => {
+    this.selectedImages.forEach((file) => {
       formData.append('Files', file);
     });
 
-    return this.mediaService.uploadImages(formData).pipe(
-      map(response => response.imageIds)
-    );
+    return this.mediaService
+      .uploadImages(formData)
+      .pipe(map((response) => response.imageIds));
   }
 
   saveCampaignDataAndCreateAds() {
@@ -138,11 +158,13 @@ export class CreateCampaignModalComponent {
     this.createAds();
     console.log('Creating ads with images:', this.selectedImages);
     this.router.navigate(['/media-gallery']);
-
   }
 
   toggleAdCreationModal(): void {
-    console.log('Toggle Ad Creation Modal called. Current state:', this.isAdCreationModalVisible);
+    console.log(
+      'Toggle Ad Creation Modal called. Current state:',
+      this.isAdCreationModalVisible
+    );
     this.isAdCreationModalVisible = !this.isAdCreationModalVisible;
     console.log('New state:', this.isAdCreationModalVisible);
   }

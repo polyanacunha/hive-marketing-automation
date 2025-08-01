@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OnboardingStateService } from '../../../services/onboarding/onboarding-state.service';
 
@@ -8,7 +13,7 @@ import { OnboardingStateService } from '../../../services/onboarding/onboarding-
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './step2-segment.component.html',
-  styleUrl: './step2-segment.component.css'
+  styleUrl: './step2-segment.component.css',
 })
 export class Step2SegmentComponent {
   @Output() next = new EventEmitter<void>();
@@ -16,10 +21,16 @@ export class Step2SegmentComponent {
   form: FormGroup;
   segments = ['Tecnologia', 'Saúde', 'Educação', 'Moda', 'Outro'];
 
-  constructor(private fb: FormBuilder, private onboarding: OnboardingStateService) {
+  constructor(
+    private fb: FormBuilder,
+    private onboarding: OnboardingStateService
+  ) {
     this.form = this.fb.group({
-      segment: [this.onboarding.onboardingData.segment || 'Tecnologia', Validators.required],
-      customSegment: [this.onboarding.onboardingData.customSegment || '']
+      segment: [
+        this.onboarding.onboardingData.segment || 'Tecnologia',
+        Validators.required,
+      ],
+      customSegment: [this.onboarding.onboardingData.customSegment || ''],
     });
   }
 

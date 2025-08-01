@@ -22,7 +22,7 @@ import { PasswordResetConfirmComponent } from './components/password-reset-confi
     RegisterComponent,
     CompanyOnboardingComponent,
     AdCreationComponent,
-    PasswordResetConfirmComponent
+    PasswordResetConfirmComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +32,6 @@ import { PasswordResetConfirmComponent } from './components/password-reset-confi
     DashboardModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

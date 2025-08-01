@@ -28,7 +28,10 @@ namespace Hive.Infra.Data.Repositories
 
         public async Task<IEnumerable<MarketSegment>> GetAll()
         {
-            return await _context.MarketSegment.OrderBy(c => c.Description).ToListAsync();
+            return await _context.MarketSegment
+                .OrderBy(c => c.Description)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

@@ -21,7 +21,10 @@ namespace Hive.Infra.Data.Repositories
 
         public async Task<IEnumerable<ObjectiveCampaign>> GetAll()
         {
-            return await _context.ObjectiveCampaigns.OrderBy(c => c.Description).ToListAsync();
+            return await _context.ObjectiveCampaigns
+                .Where(ob => ob.IsActive  == true)
+                .AsNoTracking()
+                .OrderBy(c => c.Name).ToListAsync();
         }
 
         public async Task<ObjectiveCampaign?> GetById(int id)

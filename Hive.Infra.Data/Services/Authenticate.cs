@@ -40,6 +40,7 @@ namespace Hive.Infra.Data.Services
                 return Result<Unit>.Failure(erros);
 
             }
+
             return Result<Unit>.Success(Unit.Value);
         }
         
@@ -61,25 +62,28 @@ namespace Hive.Infra.Data.Services
             return Result<string>.Success(token);
         }
 
-        public async Task<Result<bool>> IsValidPassword(string email, string password)
+        public async Task<Result<Unit>> Login(string email, string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
             {
-                return Result<bool>.Failure("User not found");
+                return Result<Unit>.Failure("Não há uma conta cadastrada com esse email.");
             }
 
             var result = await _userManager.CheckPasswordAsync(user, password);
 
-            return Result<bool>.Success(result);
-        }
+            if (result == false)
+            {
+                return Result<Unit>.Failure("Email ou senha inválidos");
+            }
 
-        public async Task<Result<Unit>> Login(string email, string password)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
+            if (user.EmailConfirmed == false)
+            {
+                return Result<Unit>.Failure("Confirmação de conta pendente. Verifique seu email.");
+            }
 
-            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id.ToString(), user.UserName));
+            var (jwtToken, expirationDateInUtc) = _jwtTokenGenerator.GenerateJwtToken(new InfoUser(user.Id.ToString(), user.UserName!));
 
             var refreshTokenValue = _jwtTokenGenerator.GenerateRefreshToken();
             var refreshTokenExpirationdDateInUtc = DateTime.UtcNow.AddDays(7);
@@ -93,11 +97,6 @@ namespace Hive.Infra.Data.Services
             _jwtTokenGenerator.WriteAuthTokenAsHttpOnlyCookie("HIVE_REFRESH_TOKEN", user.RefreshToken, refreshTokenExpirationdDateInUtc);
 
             return Result<Unit>.Success(Unit.Value);
-        }
-
-        public Task<Result<Unit>> LoginWithFacebook()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Result<Unit>> LoginWithGoogle(string email)
@@ -237,6 +236,25 @@ namespace Hive.Infra.Data.Services
         {
             var result = await _userManager.FindByEmailAsync(email) != null;
             return Result<bool>.Success(result);
+        }
+
+        public async Task<Result<(string userId, string token)>> GenerateEmailConfirmationToken(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return Result<(string userId, string token)>.Failure("Não há uma conta cadastrada com esse email.");
+            }
+
+            if(user.EmailConfirmed == true)
+            {
+                return Result<(string userId, string token)>.Failure("Email já foi verificado.");
+            }
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            return Result<(string userId, string token)>.Success((user.Id,token));
         }
     }
 }

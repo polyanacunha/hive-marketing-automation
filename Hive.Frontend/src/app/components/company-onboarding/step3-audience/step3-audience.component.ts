@@ -1,5 +1,10 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { OnboardingStateService } from '../../../services/onboarding/onboarding-state.service';
 
@@ -8,7 +13,7 @@ import { OnboardingStateService } from '../../../services/onboarding/onboarding-
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './step3-audience.component.html',
-  styleUrl: './step3-audience.component.css'
+  styleUrl: './step3-audience.component.css',
 })
 export class Step3AudienceComponent {
   @Output() next = new EventEmitter<void>();
@@ -16,10 +21,16 @@ export class Step3AudienceComponent {
   form: FormGroup;
   audiences = ['Jovens adultos', 'Adultos', 'Mães', 'Terceira idade', 'Outro'];
 
-  constructor(private fb: FormBuilder, private onboarding: OnboardingStateService) {
+  constructor(
+    private fb: FormBuilder,
+    private onboarding: OnboardingStateService
+  ) {
     this.form = this.fb.group({
-      audience: [this.onboarding.onboardingData.audience || 'Jovens adultos', Validators.required],
-      customAudience: [this.onboarding.onboardingData.customAudience || '']
+      audience: [
+        this.onboarding.onboardingData.audience || 'Jovens adultos',
+        Validators.required,
+      ],
+      customAudience: [this.onboarding.onboardingData.customAudience || ''],
     });
   }
 

@@ -36,7 +36,7 @@ namespace Hive.Application.UseCases.Authentication.Command
             var (userId, token) = result.Value;
             var toEmail = request.Email;
             var subject = "Confirmacão de Email";
-            var body = $"Clique no para confirmar email: https://localhost:7121?token={token}";
+            var body = $"Clique no para confirmar email: https://localhost:4200?token={token}&userId={userId}";
 
             await _emailService.SendEmail(toEmail, subject, body);
 

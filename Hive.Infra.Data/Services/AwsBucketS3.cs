@@ -21,7 +21,7 @@ namespace Hive.Infra.Data.Services
             _settings = settings.Value;
         }
 
-        public async Task<string> GetFileFileAsync(string key, int timeInMinutes)
+        public string GetFileFile(string key, int timeInMinutes)
         {
             var request = new GetPreSignedUrlRequest
             {

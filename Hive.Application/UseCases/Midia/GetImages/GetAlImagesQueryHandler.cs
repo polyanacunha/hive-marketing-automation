@@ -40,7 +40,7 @@ namespace Hive.Application.UseCases.Midia.GetImages
 
             foreach (var img in images)
             {
-                var url = await _storageService.GetFileFileAsync(img.ImageKey, 15);
+                var url = _storageService.GetFileFile(img.ImageKey, 15);
                 result.Add(new ImageResponse(img.Id, url));
             }
 

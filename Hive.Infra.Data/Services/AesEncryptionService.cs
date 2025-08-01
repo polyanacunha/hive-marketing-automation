@@ -1,5 +1,4 @@
-﻿using Amazon.S3.Model;
-using Hive.Application.Interfaces;
+﻿using Hive.Application.Interfaces;
 using Hive.Infra.Data.Options;
 using Microsoft.Extensions.Options;
 using System.Security.Cryptography;

@@ -11,14 +11,11 @@ using Hive.Application.UseCases.Authentication.LoginWithGoogle;
 using Hive.Application.UseCases.Authentication.ConfirmEmail;
 using Hive.Application.UseCases.Authentication.ForgotPassword;
 using Hive.Application.UseCases.Authentication.RecoverPassword;
-using MimeKit.Cryptography;
 using Hive.Application.UseCases.Authentication.RefreshToken;
-using Google.Rpc;
-using System.Text.Json;
-using Hive.Application.DTOs;
 using Hive.Infra.Data.Options;
 using Microsoft.Extensions.Options;
-using Hive.Application.UseCases.Authentication.SaveMetaAccessToken;
+using Hive.Application.UseCases.Authentication.GenerateConfirmationToken;
+using Hive.Application.UseCases.Campaigns.Meta.SaveMetaAccessToken;
 
 namespace Hive.API.Controllers;
 
@@ -48,6 +45,17 @@ public class AuthController : ControllerBase
         return Ok(new { Id = result.Value, Message = "Um link de confirmacao foi enviado ao seu email"});
     }
 
+    [HttpGet("generate-confirmation-token")]
+    public async Task<ActionResult> GenerateConfirmationToken([FromQuery] GenerateConfirmationTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+        if (result.IsFailure)
+        {
+            return BadRequest(new { Errors = result.Errors });
+        }
+        return Ok(result.Value);
+    }
+
     [HttpPost("login")]
     public async Task<ActionResult> Login([FromBody] LoginUserQuery request)
     {
@@ -61,7 +69,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login-google")]
-    public async Task<IResult> GoogleLogin([FromQuery] string ReturnUrl, LinkGenerator linkGenerator)
+    public IResult GoogleLogin([FromQuery] string ReturnUrl, LinkGenerator linkGenerator)
     {
         var propeties = _signInManager.ConfigureExternalAuthenticationProperties("Google",
             linkGenerator.GetPathByName(HttpContext, "GoogleLoginCallback") + $"?returnUrl={ReturnUrl}");
@@ -131,7 +139,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("login/facebook")]
-    public async Task<IActionResult> FacebookLogin()
+    public IActionResult FacebookLogin()
     {
         var state = Guid.NewGuid().ToString();
 
@@ -159,7 +167,7 @@ public class AuthController : ControllerBase
             return BadRequest(new { Errors = result.Errors });
         }
 
-        return Ok();
+        return Ok(result.Value);
     }
 }
 
