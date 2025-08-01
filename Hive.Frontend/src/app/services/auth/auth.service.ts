@@ -33,7 +33,11 @@ export class AuthService {
   }
 
   confirmEmail(token: string, userId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/confirm-email`, { token, userId });
+    return this.http.post(`${this.apiUrl}/confirm-email`, { Token: token, UserId: userId });
+  }
+
+  resendConfirmationEmail(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/generate-confirmation-token`, { email });
   }
 
 }

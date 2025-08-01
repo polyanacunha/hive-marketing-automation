@@ -1,0 +1,43 @@
+<div class="confirm-password-container">
+    <!-- Estado de carregamento inicial -->
+    <div *ngIf="isLoading" class="loading-content">
+        <div class="spinner"></div>
+        <span>Confirmando seu email...</span>
+    </div>
+
+    <!-- Estado de sucesso -->
+    <div *ngIf="isConfirmed" class="success-message">
+        <span>✅ Email confirmado com sucesso!</span>
+        <p>Você será redirecionado para completar seu perfil em alguns segundos...</p>
+    </div>
+
+    <!-- Estado de erro -->
+    <div *ngIf="errorMessage && !isLoading && !isConfirmed" class="error-message">
+        <span>❌ {{ errorMessage }}</span>
+        
+        <div *ngIf="!showEmailInput" class="error-actions">
+            <button 
+                (click)="showResendEmailInput()"
+                class="resend-btn">
+                Reenviar Email
+            </button>
+        </div>
+
+        <div *ngIf="showEmailInput" class="email-input-section">
+            <p>Digite seu email para receber um novo link de confirmação:</p>
+            <input 
+                type="email" 
+                [(ngModel)]="userEmail" 
+                placeholder="seu@email.com"
+                class="email-input"
+                [disabled]="isResending">
+            <button 
+                (click)="resendConfirmationEmail()" 
+                [disabled]="isResending || !userEmail.trim()"
+                class="confirm-resend-btn">
+                <span *ngIf="isResending">Enviando...</span>
+                <span *ngIf="!isResending">Enviar</span>
+            </button>
+        </div>
+    </div>
+</div>
