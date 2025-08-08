@@ -44,7 +44,7 @@ namespace Hive.Application.Services.Meta.CampaingMapper
             return new MetaCampaignConfig
             {
                 Objective = DetermineObjective(campaign.ObjectiveCampaign),
-                Name = $"",
+                Name = $"gref",
                 Status = "PAUSED",
                 SpecialAdCategories = new() { "NONE" }
             };

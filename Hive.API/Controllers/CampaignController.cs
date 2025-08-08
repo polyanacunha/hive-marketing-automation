@@ -1,5 +1,5 @@
-﻿using Hive.Application.UseCases.Campaigns.CreateCampaign;
-using Hive.Application.UseCases.Campaigns.ListPages;
+﻿using Hive.Application.UseCases.Campaigns.ListPages;
+using Hive.Application.UseCases.Campaigns.Meta.CreateCampaign;
 using Hive.Application.UseCases.Campaigns.Meta.CreateCampaign.ListPages;
 using Hive.Application.UseCases.Campaigns.Meta.ListPages;
 using MediatR;
@@ -33,7 +33,7 @@ namespace Hive.API.Controllers
         }
 
         [HttpGet("list-pages")]
-        public async Task<ActionResult> ListPages([FromBody] ListPagesQuery command)
+        public async Task<ActionResult> ListPages([FromQuery] ListPagesQuery command)
         {
             var result = await _mediator.Send(command);
 

@@ -14,6 +14,8 @@ namespace Hive.Application.Services.Meta.AdSetMapper
 
         public MetaAdSetConfig BuildAdSetAsync(CampaignStrategy campaignStrategy, string campaignId, MetaGeoLocationsConfig locations, List<MetaInterestConfig> interests)
         {
+            
+
             return new MetaAdSetConfig
             {
                 CampaignId = campaignId,
@@ -43,13 +45,13 @@ namespace Hive.Application.Services.Meta.AdSetMapper
 
                     GeoLocations = locations,
 
-                    UserOs = campaignStrategy.CustomParamerters!.UserOs!
+                    UserOs = campaignStrategy.MetaParamerters!.UserOs!
                 },
 
                 PromotedObject = new()
                 {
-                    ApplicationId = campaignStrategy.CustomParamerters!.ApplicationId!,
-                    ObjectStoreUrl = campaignStrategy.CustomParamerters!.ObjectStoreUrl!
+                    ApplicationId = campaignStrategy.MetaParamerters!.ApplicationId!,
+                    ObjectStoreUrl = campaignStrategy.MetaParamerters!.ObjectStoreUrl!
                 }
             };
         }

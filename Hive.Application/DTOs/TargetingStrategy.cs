@@ -1,4 +1,5 @@
-﻿using Hive.Domain.Entities;
+﻿using Hive.Application.UseCases.Campaigns.Meta.CreateCampaign;
+using Hive.Domain.Entities;
 using System.Text.Json.Serialization;
 
 namespace Hive.Application.DTOs
@@ -17,27 +18,21 @@ namespace Hive.Application.DTOs
         [JsonPropertyName("strategy_justification")]
         public string StrategyJustification { get; set; }
 
-        public CustomParamerters? CustomParamerters { get; set; }
+        public MetaParamerters? MetaParamerters { get; set; }
     }
 
-    public record CustomParamerters
+    public record MetaParamerters
     {
+        public string AccountId { get; set; }
         public string? PageId { get; set; }
-
+        public string? PixelId { get; set; }
         public string? InstagramActorId { get; set; }
-
         public string? ApplicationId { get; set; }
-
         public string? ObjectStoreUrl { get; set; }
-
         public string? FormId { get; set; }
-
         public string? PrivacyPolicyUrl { get; set; }
-
         public string? ProductCatalogId { get; set; }
-
         public string? ProductSetId { get; set; }
-
         public List<string>? UserOs { get; set; }
     }
 

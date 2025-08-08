@@ -13,22 +13,31 @@ namespace Hive.Application.UseCases.Campaigns.Meta.SaveMetaAccessToken
     {
         private readonly IMetaApiService _metaApiService;
         private readonly IPublishConnectionRepository _connectionRepository;
+        private readonly IClientProfileRepository _clientProfileRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICurrentUser _currentUser;
 
-        public SaveMetaAccessTokenCommandHandler(IMetaApiService metaApiService, IPublishConnectionRepository connectionRepository, IUnitOfWork unitOfWork, ICurrentUser currentUser)
+        public SaveMetaAccessTokenCommandHandler(IMetaApiService metaApiService, IPublishConnectionRepository connectionRepository, IUnitOfWork unitOfWork, ICurrentUser currentUser, IClientProfileRepository clientProfileRepository)
         {
             _metaApiService = metaApiService;
             _connectionRepository = connectionRepository;
             _unitOfWork = unitOfWork;
             _currentUser = currentUser;
+            _clientProfileRepository = clientProfileRepository;
         }
 
         public async Task<Result<string>> Handle(SaveMetaAccessTokenCommand request, CancellationToken cancellationToken)
         {
-            var clientId = _currentUser.UserId;
+            var userId = _currentUser.UserId;
 
-            var userToken = await _connectionRepository.GetMetaByClient(clientId!);
+            var clientProfile = await _clientProfileRepository.GetById(userId!);
+
+            if (clientProfile == null)
+            {
+                return Result<string>.Failure("Perfil de empresa não preenchido");
+            }
+            
+            var userToken = await _connectionRepository.GetMetaByClient(clientProfile.Id);
 
             var tokenJson = await _metaApiService.GetMetaAccessToken(request.Code);
 
@@ -48,10 +57,10 @@ namespace Hive.Application.UseCases.Campaigns.Meta.SaveMetaAccessToken
             {
                 var publishConnection = new PublishConnection
                     (
-                        clientId!,
-                        Platform.Meta,
-                        DateTime.UtcNow.AddSeconds(token!.ExpiresIn),
-                        token.AccessToken
+                        clientProfileId: clientProfile.Id,
+                        platform: Platform.Meta,
+                        expires: DateTime.UtcNow.AddSeconds(token!.ExpiresIn),
+                        accessToken: token.AccessToken
                     );
 
                 await _connectionRepository.Create(publishConnection);

@@ -6,6 +6,7 @@ using Hive.Infra.Data.Dtos.Meta;
 using Hive.Infra.Data.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
@@ -109,17 +110,17 @@ namespace Hive.Infra.Data.Services
             return Result<string>.Success(json);
         }
 
-        public async Task<Result<string>> GetAllPages(string AdAccountId, string AccessToken)
+        public async Task<Result<List<PagesMeta>>> GetAllPages(string AccessToken)
         {
             if (string.IsNullOrEmpty(AccessToken))
-                return Result<string>.Failure("Token de autorização ausente.");
+                return Result<List<PagesMeta>>.Failure("Token de autorização ausente.");
 
             var secretProof = GenerateAppSecretProof(AccessToken);
 
             var request = $"{_metaApiSettings.MarketingApiUrlBase}" +
-                          $"/act_{AdAccountId}/promotable_pages" +
-                          "?fields=id,name,picture{url}" +
-                          $"?appsecret_proof={secretProof}";
+                          $"/me/accounts" +
+                          "?fields=id,name,picture" +
+                          $"&appsecret_proof={secretProof}";
 
             var client = _httpClientFactory.CreateClient();
 
@@ -133,17 +134,26 @@ namespace Hive.Infra.Data.Services
                 var metaError = JsonSerializer.Deserialize<MetaError>(errorContent);
                 var MessageError = VerifyMetaError(response.StatusCode, metaError);
 
-                return Result<string>.Failure(MessageError);
+                return Result<List<PagesMeta>>.Failure(MessageError);
             }
 
             var json = await response.Content.ReadAsStringAsync();
 
+            var result = JsonSerializer.Deserialize<ResponseDataMeta<PagesResponse>>(json);
+
             if (string.IsNullOrEmpty(json))
             {
-                return Result<string>.Failure("erro ao ler json");
+                return Result<List<PagesMeta>>.Failure("erro ao ler json");
             }
 
-            return Result<string>.Success(json);
+            var pages = result!.Data.Select(p => new PagesMeta() 
+            { 
+                AccountId = p.Id, 
+                Name = p.Name, 
+                UrlPicture = p.Picture.Data.Url 
+            }).ToList();
+
+            return Result<List<PagesMeta>>.Success(pages);
         }
 
         public async Task<Result<List<Interest>>> SearchInterests(List<string> Interest, string AccessToken)
@@ -356,8 +366,8 @@ namespace Hive.Infra.Data.Services
             try
             {
                 var request = $"{_metaApiSettings.MarketingApiUrlBase}" +
-                        $"/act_{AccountId}/campaings" +
-                        $"&appsecret_proof={secretProof}";
+                        $"/act_{AccountId}/campaigns" +
+                        $"?appsecret_proof={secretProof}";
 
                 var client = _httpClientFactory.CreateClient();
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AccessToken);

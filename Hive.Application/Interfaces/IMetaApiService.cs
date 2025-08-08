@@ -8,7 +8,7 @@ namespace Hive.Application.Interfaces
         Result<string> GetUrlRedirect();
         Task<Result<string>> GetMetaAccessToken(string Code);
         Task<Result<string>> GetInfoUser(string AccessToken);
-        Task<Result<string>> GetAllPages(string AdAccountId, string AccessToken);
+        Task<Result<List<PagesMeta>>> GetAllPages(string AccessToken);
         Task<Result<List<AdAccount>>> GetAllAdAccounts(string AccessToken);
         Task<Result<List<Interest>>> SearchInterests(List<string> Interest, string AccessToken);
         Task<Result<List<MetaInterestConfig>>> SearchInterestsBatch(List<string> interests, string accessToken);

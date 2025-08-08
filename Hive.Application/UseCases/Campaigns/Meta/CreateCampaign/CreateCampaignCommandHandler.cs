@@ -4,9 +4,10 @@ using MediatR;
 using Hive.Domain.Entities;
 using Hive.Application.Interfaces;
 using Hive.Application.DTOs;
+using Hive.Domain.Enum;
 
 
-namespace Hive.Application.UseCases.Campaigns.CreateCampaign
+namespace Hive.Application.UseCases.Campaigns.Meta.CreateCampaign
 {
     public class CreateCampaignCommandHandler : IRequestHandler<CreateCampaignCommand, Result<CampaignStrategy>>
     {
@@ -16,7 +17,6 @@ namespace Hive.Application.UseCases.Campaigns.CreateCampaign
         private readonly IPublishConnectionRepository _connectionRepository;
         private readonly ITextGenerationService _textGenerationService;
         private readonly IMetaCampaignStrategyMapper _campaignMapper;
-
         private readonly IMetaApiService _metaApiService;
 
 
@@ -72,8 +72,12 @@ namespace Hive.Application.UseCases.Campaigns.CreateCampaign
             var targeting = await _promptProcessor.DeserializeJson<CampaignStrategy>(targetingJson.Value!);
 
             targeting.Campaign = campaign;
+            targeting.MetaParamerters = request.MetaConfig;
 
-            var campaignMeta = _campaignMapper.CreateMetaCampaign(targeting, userToken.AccessToken, request.AccountIdMeta);
+            if (request.Platform == Platform.Meta) 
+            {
+                var campaignMeta = _campaignMapper.CreateMetaCampaign(targeting, userToken.AccessToken, request.MetaConfig.AccountId);
+            }
 
             return Result<CampaignStrategy>.Success(targeting);
         }

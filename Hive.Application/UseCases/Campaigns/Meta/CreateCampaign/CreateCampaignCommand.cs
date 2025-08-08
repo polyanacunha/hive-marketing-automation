@@ -1,9 +1,10 @@
 ﻿using Hive.Application.DTOs;
+using Hive.Application.DTOs.Meta;
 using Hive.Domain.Enum;
 using Hive.Domain.Validation;
 using MediatR;
 
-namespace Hive.Application.UseCases.Campaigns.CreateCampaign
+namespace Hive.Application.UseCases.Campaigns.Meta.CreateCampaign
 {
     public record CreateCampaignCommand(
         string CampaignName, 
@@ -12,9 +13,8 @@ namespace Hive.Application.UseCases.Campaigns.CreateCampaign
         DateTime InitialDate, 
         DateTime EndDate, 
         ObjectiveCampaignEnum ObjectiveCampaign,
-        string? PageId,
-        string AccountIdMeta
-        // e etc ...
+        Platform Platform,
+        MetaParamerters? MetaConfig
         ) : IRequest<Result<CampaignStrategy>>
     {
     }

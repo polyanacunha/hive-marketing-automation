@@ -1,8 +1,6 @@
-﻿using Hive.Application.DTOs;
-using Hive.Application.Interfaces;
+﻿using Hive.Application.Interfaces;
 using Hive.Domain.Validation;
 using MediatR;
-
 
 namespace Hive.Application.UseCases.Authentication.Command
 {
@@ -36,7 +34,7 @@ namespace Hive.Application.UseCases.Authentication.Command
             var (userId, token) = result.Value;
             var toEmail = request.Email;
             var subject = "Confirmacão de Email";
-            var body = $"Clique no para confirmar email: https://localhost:4200?token={token}&userId={userId}";
+            var body = $"Clique no para confirmar email: https://localhost:4200/confirm-email?token={token}&userId={userId}";
 
             await _emailService.SendEmail(toEmail, subject, body);
 

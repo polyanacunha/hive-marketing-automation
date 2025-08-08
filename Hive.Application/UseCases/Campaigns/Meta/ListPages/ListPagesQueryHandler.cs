@@ -1,4 +1,5 @@
-﻿using Hive.Application.Interfaces;
+﻿using Hive.Application.DTOs.Meta;
+using Hive.Application.Interfaces;
 using Hive.Domain.Interfaces;
 using Hive.Domain.Validation;
 using MediatR;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Hive.Application.UseCases.Campaigns.Meta.ListPages
 {
-    public class ListPagesQueryHandler : IRequestHandler<ListPagesQuery, Result<string>>
+    public class ListPagesQueryHandler : IRequestHandler<ListPagesQuery, Result<List<PagesMeta>>>
     {
         private readonly IMetaApiService _metaApiService;
         private readonly ICurrentUser _currentUser;
@@ -19,7 +20,7 @@ namespace Hive.Application.UseCases.Campaigns.Meta.ListPages
             _connectionRepository = connectionRepository;
         }
 
-        public async Task<Result<string>> Handle(ListPagesQuery request, CancellationToken cancellationToken)
+        public async Task<Result<List<PagesMeta>>> Handle(ListPagesQuery request, CancellationToken cancellationToken)
         {
             var clientId = _currentUser.UserId;
 
@@ -27,17 +28,17 @@ namespace Hive.Application.UseCases.Campaigns.Meta.ListPages
 
             if (userToken == null)
             {
-                return Result<string>.Failure("Conta de anunciante Meta não vinculada.");
+                return Result<List<PagesMeta>>.Failure("Conta de anunciante Meta não vinculada.");
             }
 
-            var pagesJson = await _metaApiService.GetAllPages(request.AccountId, userToken.AccessToken);
+            var pages = await _metaApiService.GetAllPages(userToken.AccessToken);
 
-            if(pagesJson.IsFailure)
+            if(pages.IsFailure)
             {
-                return Result<string>.Failure(pagesJson.Errors);
+                return Result<List<PagesMeta>>.Failure(pages.Errors);
             }
 
-            return Result<string>.Success(pagesJson.Value!);
+            return Result<List<PagesMeta>>.Success(pages.Value!);
         }
     }
 }

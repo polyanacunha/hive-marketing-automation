@@ -143,7 +143,7 @@ public class AuthController : ControllerBase
     {
         var state = Guid.NewGuid().ToString();
 
-        var authUrl = $"{_metaApiSettings.FacebookUrlBase}/dialog/oauth" +
+        var authUrl = $"{_metaApiSettings.FacebookUrlBase}dialog/oauth" +
                       $"?client_id={_metaApiSettings.ClientId}" +
                       $"&redirect_uri={Uri.EscapeDataString(_metaApiSettings.RedirectUri)}" +
                       $"&state={state}" +

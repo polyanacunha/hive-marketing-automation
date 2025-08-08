@@ -25,11 +25,6 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
         {
             var clientId = _currentUser.UserId;
 
-            if (clientId == null)
-            {
-                return Result<Unit>.Failure("User are not authenticate");
-            }
-
             var marketSegment = await _marketSegmentRepository.GetById(request.MarketSegmentId);
 
             if (marketSegment == null) {
@@ -45,7 +40,7 @@ namespace Hive.Application.UseCases.Client.CreateProfileClient
 
             var clientProfile = new ClientProfile
             (
-                id: clientId,
+                id: clientId!,
                 companyName: request.CompanyName,
                 targetAudience: targetAudience,
                 targetAudienceId: targetAudience.Id,

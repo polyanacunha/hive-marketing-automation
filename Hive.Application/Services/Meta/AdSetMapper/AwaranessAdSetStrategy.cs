@@ -42,7 +42,7 @@ namespace Hive.Application.Services.Meta.AdSetMapper
 
                 PromotedObject = new()
                 {
-                    PageId =  campaignStrategy.CustomParamerters!.PageId!
+                    PageId =  campaignStrategy.MetaParamerters!.PageId!
                 }
             };
         }

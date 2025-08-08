@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = 'https://localhost:7143/api/auth';
@@ -24,8 +24,16 @@ export class AuthService {
     return this.http.post(url, { token });
   }
 
-  resetPassword(userId: string, token: string, password: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/reset-password`, { userId, token, password });
+  resetPassword(
+    userId: string,
+    token: string,
+    password: string
+  ): Observable<any> {
+    return this.http.post(`${this.apiUrl}/reset-password`, {
+      userId,
+      token,
+      password,
+    });
   }
 
   forgotPassword(email: string): Observable<any> {
@@ -33,7 +41,15 @@ export class AuthService {
   }
 
   confirmEmail(token: string, userId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/confirm-email`, { token, userId });
+    return this.http.post(`${this.apiUrl}/confirm-email`, {
+      token: token,
+      userId: userId,
+    });
   }
 
+  resendConfirmationEmail(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/generate-confirmation-token`, {
+      email,
+    });
+  }
 }

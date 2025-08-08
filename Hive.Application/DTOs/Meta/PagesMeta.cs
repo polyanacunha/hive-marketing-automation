@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Hive.Application.DTOs.Meta
 {
-    public record AdAccount
+    public record PagesMeta
     {
-        [JsonPropertyName("id")]
-        public string AccountId  { get; set; }
+        public string AccountId { get; set; }
 
-        [JsonPropertyName("name")]
-        public string Name  { get; set; }
+        public string Name { get; set; }
+
+        public string UrlPicture { get; set; }
 
     }
 }

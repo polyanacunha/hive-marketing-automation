@@ -5,7 +5,9 @@ using Hive.Infra.Data.Context;
 using Hive.Infra.Data.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 
 namespace Hive.Infra.Data.Services
@@ -31,8 +33,9 @@ namespace Hive.Infra.Data.Services
             {
                 return Result<Unit>.Failure("User not found.");
             }
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
             if (!result.Succeeded)
             {
@@ -210,7 +213,9 @@ namespace Hive.Infra.Data.Services
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-            return Result<(string userId, string token)>.Success((user.Id.ToString(), token));
+            var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+            return Result<(string userId, string token)>.Success((user.Id.ToString(), encodedToken));
         }
 
         public async Task<Result<Unit>> ResetPassword(string userID, string token, string newPassword)
