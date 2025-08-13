@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 export interface OnboardingData {
@@ -12,6 +13,10 @@ export interface OnboardingData {
   providedIn: 'root'
 })
 export class OnboardingStateService {
+  private apiUrl = 'https://localhost:7143/api';
+
+  constructor(private http: HttpClient) {}
+
   private data: OnboardingData = {
     companyName: '',
     segment: '',
@@ -46,5 +51,9 @@ export class OnboardingStateService {
       audience: '',
       customAudience: ''
     };
+  }
+
+  getMarketSegments() {
+    return this.http.get(`${this.apiUrl}/client/market-segment`);
   }
 }

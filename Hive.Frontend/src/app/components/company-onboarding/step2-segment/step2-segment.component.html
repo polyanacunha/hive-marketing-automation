@@ -10,11 +10,9 @@
     <div class="form-group">
       <label class="form-label">Setor de atuação</label>
       <div class="segment-options">
-        <div *ngFor="let seg of segments">
-          <label class="radio-label">
-            <input type="radio" formControlName="segment" [value]="seg" /> {{ seg }}
-          </label>
-        </div>
+        <select name="segment" id="segment" formControlName="segment">
+          <option *ngFor="let seg of segments" [value]="seg">{{ seg }}</option>
+        </select>
         <div class="custom-segment" *ngIf="form.value.segment === 'Outro'">
           <label for="customSegment">Segmento personalizado</label>
           <input id="customSegment" formControlName="customSegment" type="text" placeholder="Digite o segmento" />
