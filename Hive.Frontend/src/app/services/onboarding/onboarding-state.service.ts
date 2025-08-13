@@ -43,6 +43,10 @@ export class OnboardingStateService {
     this.data.customAudience = customAudience;
   }
 
+getAudiences(){
+  return this.http.get(`${this.apiUrl}/client/target-audience`);
+}
+
   reset() {
     this.data = {
       companyName: '',
