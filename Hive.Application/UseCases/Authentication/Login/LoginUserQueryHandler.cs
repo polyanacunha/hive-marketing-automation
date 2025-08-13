@@ -17,18 +17,6 @@ namespace Hive.Application.UseCases.Authentication.Login
 
         public async Task<Result<Unit>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
         {
-            var isValid = await _authenticate.IsValidPassword(request.Email, request.Password);
-
-            if (isValid.IsFailure) 
-            {
-                return Result<Unit>.Failure(isValid.Errors);
-            }
-
-            if (!isValid.Value)
-            {
-                return Result<Unit>.Failure("Email or password invalid.");
-            }
-
             return await _authenticate.Login(request.Email, request.Password);
         }
     }

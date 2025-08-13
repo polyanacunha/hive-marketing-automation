@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth/auth.service';
 
@@ -8,9 +13,9 @@ import { AuthService } from '../services/auth/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
- export class LoginComponent {
+export class LoginComponent {
   loginForm: FormGroup;
   error: string | null = null;
 
@@ -18,7 +23,7 @@ import { AuthService } from '../services/auth/auth.service';
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
-      remember: [false]
+      remember: [false],
     });
   }
 
@@ -33,7 +38,7 @@ import { AuthService } from '../services/auth/auth.service';
         },
         error: (err) => {
           this.error = 'E-mail ou senha inválidos';
-        }
+        },
       });
     }
   }
@@ -43,11 +48,10 @@ import { AuthService } from '../services/auth/auth.service';
       next: (res) => {
         this.error = null;
         console.log('Usuário autenticado com Google:', res);
-
       },
       error: (err) => {
         this.error = 'Erro ao autenticar com o Google';
-      }
+      },
     });
   }
 
@@ -59,8 +63,7 @@ import { AuthService } from '../services/auth/auth.service';
       },
       error: (err) => {
         this.error = 'Erro ao autenticar com o Facebook';
-      }
+      },
     });
   }
-
 }

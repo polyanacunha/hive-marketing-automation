@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Hive.Application.UseCases.Authentication.SaveMetaAccessToken
+namespace Hive.Application.UseCases.Campaigns.Meta.SaveMetaAccessToken
 {
-    public record SaveMetaAccessTokenCommand(string Code) : IRequest<Result<Unit>>
+    public record SaveMetaAccessTokenCommand(string Code) : IRequest<Result<string>>
     {
     }
 }

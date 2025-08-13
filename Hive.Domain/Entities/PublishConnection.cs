@@ -21,5 +21,16 @@ namespace Hive.Domain.Entities
             Expires = expires;
             AccessToken = accessToken;
         }
+
+        public void SetAccessToken(string token)
+        {
+            AccessToken = token;
+        }
+
+        public void UpdateExpiresDate(DateTime datetime)
+        {
+            Expires = datetime;
+        }
+
     }
 }

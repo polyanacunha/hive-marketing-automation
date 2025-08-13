@@ -8,7 +8,7 @@ import { OnboardingStateService } from '../../../services/onboarding/onboarding-
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './step3-audience.component.html',
-  styleUrl: './step3-audience.component.css'
+  styleUrl: './step3-audience.component.css',
 })
 export class Step3AudienceComponent implements OnInit {
   @Output() next = new EventEmitter<void>();
@@ -16,7 +16,10 @@ export class Step3AudienceComponent implements OnInit {
   form: FormGroup;
   audiences: string[] = [];
 
-  constructor(private fb: FormBuilder, private onboarding: OnboardingStateService) {
+  constructor(
+    private fb: FormBuilder,
+    private onboarding: OnboardingStateService
+  ) {
     this.form = this.fb.group({
       audience: [this.onboarding.onboardingData.audience || '', Validators.required],
       customAudience: [this.onboarding.onboardingData.customAudience || '']

@@ -2,11 +2,12 @@
 
 ## Development server
 
-To run the application on development, without CORS errors, run the Hive.Frontend project with: 
+To run the application on development, without CORS errors, run the Hive.Frontend project with:
 
 ```bash
 ng serve --ssl
 ```
+
 And then run the Hive.API project with:
 
 ```bash
@@ -39,7 +40,6 @@ ng e2e
 
 ## para rodar as migrations, rodar com o startup-project
 
- dotnet ef migrations add InitialCreate --startup-project ../Hive.API 
+dotnet ef migrations add InitialCreate --startup-project ../Hive.API
 
- 
 dotnet ef database update --startup-project ../Hive.API

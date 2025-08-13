@@ -25,11 +25,11 @@ namespace Hive.Infra.Data.EntitiesConfiguration
               .HasForeignKey<ClientProfile>(c => c.Id);
 
             builder.HasOne(p => p.MarketSegment)
-               .WithMany(a => a.ClientProfiles)
+               .WithMany()
                .HasForeignKey(p => p.MarketSegmentId);
 
             builder.HasOne(p => p.TargetAudience)
-               .WithMany(a => a.ClientProfiles)
+               .WithMany()
                .HasForeignKey(p => p.TargetAudienceId);
 
             builder.HasMany(p => p.MidiaLinks)
@@ -39,9 +39,7 @@ namespace Hive.Infra.Data.EntitiesConfiguration
             builder.HasMany(p => p.PublishConnections)
                .WithOne()
                .HasForeignKey(p => p.ClientProfileId);
-
-
-
         }
     }
 }
+

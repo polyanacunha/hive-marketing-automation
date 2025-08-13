@@ -10,5 +10,6 @@ namespace Hive.Infra.Data.Options
     {
         public const string OpenAiSettingsKey = "OpenAI";
         public string ApiKey { get; set; }
+        public string ChatGptModel { get; set; }
     }
 }

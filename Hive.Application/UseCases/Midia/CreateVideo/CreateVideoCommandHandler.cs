@@ -1,11 +1,8 @@
-﻿using Hive.Application.DTOs;
-using Hive.Application.Interfaces;
+﻿using Hive.Application.Interfaces;
 using Hive.Domain.Entities;
-using Hive.Domain.Enum;
 using Hive.Domain.Interfaces;
 using Hive.Domain.Validation;
 using MediatR;
-using System.Text.Json;
 
 namespace Hive.Application.UseCases.Midia.CreateVideo
 {
@@ -34,18 +31,14 @@ namespace Hive.Application.UseCases.Midia.CreateVideo
         {
             var clientId = _currentUser.UserId;
 
-            if (clientId == null) {
-                return Result<int>.Failure("User are not authenticated");
-            }
-
-            var client = await _clientProfileRepository.GetById(clientId);
+            var client = await _clientProfileRepository.GetById(clientId!);
 
             if (client == null)
             {
                 return Result<int>.Failure("Client profile not found.");
             }
 
-            var images = await _imageUrlRepository.GetByIdsAndClientAsync(request.InputImagesId, clientId);
+            var images = await _imageUrlRepository.GetByIdsAndClientAsync(request.InputImagesId, client.Id);
 
        
             if (images.Count != request.InputImagesId.Count)
@@ -56,7 +49,7 @@ namespace Hive.Application.UseCases.Midia.CreateVideo
             var (promptSystem,  promptUser ) = await _promptVideoProcessor.PromptToCreateVideo(client, request.ClientObservations);
 
             var midia = new MidiaProduction(
-                clientProfileId: clientId,
+                clientProfileId: client.Id,
                 systemPrompt: promptSystem,
                 userPrompt: promptUser,
                 inputImages: images

@@ -32,7 +32,10 @@ namespace Hive.Infra.Data.Repositories
 
         public async Task<IEnumerable<TargetAudience>> GetAll()
         {
-            return await _context.TargetAudience.OrderBy(c => c.Description).ToListAsync();
+            return await _context.TargetAudience
+                .OrderBy(c => c.Description)
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

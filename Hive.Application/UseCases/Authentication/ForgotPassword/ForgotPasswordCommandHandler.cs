@@ -26,11 +26,11 @@ namespace Hive.Application.UseCases.Authentication.ForgotPassword
 
             var toEmail = request.Email;
             var subject = "Recuperação de Senha";
-            var body = $"Seu link de recuperação é: https://localhost:7121?token={token}";
+            var body = $"Seu link de recuperação é: https://localhost:4200?token={token.Value}";
 
             await _emailService.SendEmail(toEmail, subject, body);
 
-            return Result<string>.Success("A password recovery link has been sent. Please check your email.");
+            return Result<string>.Success("Enviamos um e-mail com o link para redefinir sua senha. Verifique sua caixa de entrada (e o spam também, se necessário).");
         }
     }
 }

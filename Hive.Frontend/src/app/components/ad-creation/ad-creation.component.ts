@@ -15,11 +15,11 @@ interface SelectedImage {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './ad-creation.component.html',
-  styleUrl: './ad-creation.component.css'
+  styleUrl: './ad-creation.component.css',
 })
 export class AdCreationComponent {
   @Output() close = new EventEmitter<void>();
-  @Output() imagesSelected = new EventEmitter<File[]>()
+  @Output() imagesSelected = new EventEmitter<File[]>();
   constructor(private mediaService: MediaService) {}
   selectedImages: SelectedImage[] = [];
   isVisible = false; // Add this property
@@ -28,14 +28,14 @@ export class AdCreationComponent {
     this.close.emit();
   }
   emitSelectedImages(): void {
-    const files = this.selectedImages.map(img => img.file);
+    const files = this.selectedImages.map((img) => img.file);
     this.imagesSelected.emit(files);
   }
-  
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
-    Array.from(input.files).forEach(file => {
+    Array.from(input.files).forEach((file) => {
       if (this.isValidImage(file)) {
         const imgObj: SelectedImage = { file, url: '', loading: true };
         this.selectedImages.push(imgObj);
@@ -53,7 +53,7 @@ export class AdCreationComponent {
   onDrop(event: DragEvent): void {
     event.preventDefault();
     if (event.dataTransfer && event.dataTransfer.files) {
-      Array.from(event.dataTransfer.files).forEach(file => {
+      Array.from(event.dataTransfer.files).forEach((file) => {
         if (this.isValidImage(file)) {
           const imgObj: SelectedImage = { file, url: '', loading: true };
           this.selectedImages.push(imgObj);
@@ -88,10 +88,10 @@ export class AdCreationComponent {
 
   uploadImages(): void {
     const formData = new FormData();
-  
+
     formData.append('AlbumName', 'YourAlbumName');
-  
-    this.selectedImages.forEach(img => {
+
+    this.selectedImages.forEach((img) => {
       formData.append('Files', img.file);
     });
 
@@ -101,7 +101,7 @@ export class AdCreationComponent {
       },
       error: (error) => {
         console.error('Error uploading images', error);
-      }
+      },
     });
   }
 

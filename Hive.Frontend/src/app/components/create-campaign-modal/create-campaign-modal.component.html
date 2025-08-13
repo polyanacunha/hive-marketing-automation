@@ -1,10 +1,10 @@
 <app-navbar (sidebarToggle)="toggleSidebar()"></app-navbar>
 
 <div class="create-campaign-layout">
-
-  <app-sidebar     
-    [isOpen]="sidebarOpen" 
-    (closeSidebarEvent)="closeSidebar()"></app-sidebar>
+  <app-sidebar
+    [isOpen]="sidebarOpen"
+    (closeSidebarEvent)="closeSidebar()"
+  ></app-sidebar>
 
   <div class="create-campaign-content">
     <div class="create-campaign-modal">
@@ -15,32 +15,62 @@
       <div class="modal-body">
         <div class="form-section">
           <label>Nome da campanha</label>
-          <input type="text" placeholder="Digite o nome da campanha" [(ngModel)]="campaign.name" />
+          <input
+            type="text"
+            placeholder="Digite o nome da campanha"
+            [(ngModel)]="campaign.name"
+          />
 
           <label>Descrição</label>
-          <textarea placeholder="Breve descrição desta campanha" [(ngModel)]="campaign.description"></textarea>
+          <textarea
+            placeholder="Breve descrição desta campanha"
+            [(ngModel)]="campaign.description"
+          ></textarea>
 
           <label>Descrição do Produto</label>
-          <textarea placeholder="Breve descrição do produto" [(ngModel)]="campaign.productDescription"></textarea>
+          <textarea
+            placeholder="Breve descrição do produto"
+            [(ngModel)]="campaign.productDescription"
+          ></textarea>
 
           <label>Objetivos da Campanha</label>
           <div class="objectives">
-            <button *ngFor="let obj of objectives"
-                    [class.selected]="campaign.objective === obj"
-                    (click)="selectObjective(obj)">
+            <button
+              *ngFor="let obj of objectives"
+              [class.selected]="campaign.objective === obj"
+              (click)="selectObjective(obj)"
+            >
               {{ obj | titlecase }}
             </button>
           </div>
 
-          <label>Faixa Etária Alvo: {{ campaign.ageMin }}-{{ campaign.ageMax }}</label>
+          <label
+            >Faixa Etária Alvo: {{ campaign.ageMin }}-{{
+              campaign.ageMax
+            }}</label
+          >
           <div class="age-range">
-            <input type="range" min="18" max="100" [(ngModel)]="campaign.ageMin" />
-            <input type="range" min="18" max="100" [(ngModel)]="campaign.ageMax" />
+            <input
+              type="range"
+              min="18"
+              max="100"
+              [(ngModel)]="campaign.ageMin"
+            />
+            <input
+              type="range"
+              min="18"
+              max="100"
+              [(ngModel)]="campaign.ageMax"
+            />
           </div>
 
           <label>Interesses do público alvo</label>
           <div class="interests">
-            <input type="text" placeholder="Adicionar interesses (moda, roupa)" [(ngModel)]="campaign.interests" />
+            <input
+              type="text"
+              placeholder="Adicionar interesses (moda, roupa)"
+              [(ngModel)]="campaign.interests"
+            />
             <button>Adicionar</button>
           </div>
 
@@ -64,7 +94,9 @@
           <div class="post-preview">
             <div class="ad-card">
               <h4>sua_marca</h4>
-              <button (click)="toggleAdCreationModal()">clique para adicionar os produtos a serem anunciados</button>
+              <button (click)="toggleAdCreationModal()">
+                clique para adicionar os produtos a serem anunciados
+              </button>
               <img src="assets/sample-ad.jpg" alt="Ad Preview" />
             </div>
           </div>
@@ -84,19 +116,34 @@
 
           <div class="platforms">
             <label>Plataforma de divulgação</label>
-            <label><input type="checkbox" /> Facebook <button>Login ativo</button></label>
-            <label><input type="checkbox" /> Instagram <button>Realizar login</button></label>
-            <label><input type="checkbox" /> TikTok <button>Realizar login</button></label>
+            <label
+              ><input type="checkbox" /> Facebook
+              <button>Login ativo</button></label
+            >
+            <label
+              ><input type="checkbox" /> Instagram
+              <button>Realizar login</button></label
+            >
+            <label
+              ><input type="checkbox" /> TikTok
+              <button>Realizar login</button></label
+            >
           </div>
         </div>
       </div>
 
       <div class="modal-footer">
         <button (click)="onClose()">Cancelar</button>
-        <button class="primary" (click)="saveCampaignDataAndCreateAds()">Criar anúncios</button>
+        <button class="primary" (click)="saveCampaignDataAndCreateAds()">
+          Criar anúncios
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-<app-ad-creation (imagesSelected)="onImagesSelected($event)" *ngIf="isAdCreationModalVisible" (close)="toggleAdCreationModal()"></app-ad-creation>
+<app-ad-creation
+  (imagesSelected)="onImagesSelected($event)"
+  *ngIf="isAdCreationModalVisible"
+  (close)="toggleAdCreationModal()"
+></app-ad-creation>

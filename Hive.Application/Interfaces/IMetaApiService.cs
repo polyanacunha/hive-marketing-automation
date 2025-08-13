@@ -1,15 +1,19 @@
-﻿using Hive.Domain.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Hive.Application.DTOs.Meta;
+using Hive.Domain.Validation;
 
 namespace Hive.Application.Interfaces
 {
     public interface IMetaApiService
     {
-        Task<Result<string>> GetUrlRedirect();
+        Result<string> GetUrlRedirect();
         Task<Result<string>> GetMetaAccessToken(string Code);
+        Task<Result<string>> GetInfoUser(string AccessToken);
+        Task<Result<List<PagesMeta>>> GetAllPages(string AccessToken);
+        Task<Result<List<AdAccount>>> GetAllAdAccounts(string AccessToken);
+        Task<Result<List<Interest>>> SearchInterests(List<string> Interest, string AccessToken);
+        Task<Result<List<MetaInterestConfig>>> SearchInterestsBatch(List<string> interests, string accessToken);
+        Task<Result<string>> SearchRegion(string RegionName, string CountryCode, string AccessToken);
+        Task<Result<string>> CreateCampaign(MetaCampaignConfig content, string AccessToken, string AccountId);
+        Task<Result<string>> CreateAdSet(MetaAdSetConfig content, string AccessToken);
     }
 }

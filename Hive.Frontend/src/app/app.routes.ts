@@ -12,23 +12,24 @@ import { PasswordResetConfirmComponent } from './components/password-reset-confi
 import { ConfirmEmailComponent } from './components/confirm-password/confirm-email.component';
 
 export const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     component: MainLayoutComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent }
-    ]
+      { path: 'dashboard', component: DashboardComponent },
+    ],
   },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent},
+  { path: 'register', component: RegisterComponent },
   { path: 'company-onboarding', component: CompanyOnboardingComponent },
-  { path: 'ad-creation', component: AdCreationComponent},
+  { path: 'ad-creation', component: AdCreationComponent },
   { path: 'create-campaign', component: CreateCampaignModalComponent },
   {
-    path: 'media-gallery', component: GalleryComponent,
+    path: 'media-gallery',
+    component: GalleryComponent,
   },
   { path: 'forgot-password', component: ResetPasswordComponent },
   { path: 'reset-password', component: PasswordResetConfirmComponent },
-  { path: 'confirm-email', component: ConfirmEmailComponent }
+  { path: 'confirm-email', component: ConfirmEmailComponent },
 ];

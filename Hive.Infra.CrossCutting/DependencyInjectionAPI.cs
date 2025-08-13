@@ -5,8 +5,11 @@ using FluentValidation;
 using Hive.Application.Interfaces;
 using Hive.Application.Mappings;
 using Hive.Application.Services.CreationVideo;
+using Hive.Application.Services.Meta.AdSetMapper;
+using Hive.Application.Services.Meta.CampaingMapper;
 using Hive.Application.Services.ProcessPrompt;
 using Hive.Application.Shared;
+using Hive.Domain.Enum;
 using Hive.Domain.Interfaces;
 using Hive.Infra.Data.Context;
 using Hive.Infra.Data.Identity;
@@ -80,6 +83,29 @@ public static class DependencyInjectionAPI
             });
         });
 
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", policy =>
+            {
+                policy
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+
+            options.AddPolicy("AllowSpecificOrigins", policy =>
+            {
+                policy
+                    .WithOrigins(
+                        "http://localhost:4200",
+                        "https://localhost:4200"
+                    )
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            });
+        });
+
         // 3. Cria as opções da AWS, combinando as credenciais e a região
         var awsOptions = new AWSOptions
         {
@@ -105,6 +131,7 @@ public static class DependencyInjectionAPI
         services.AddScoped<IPublishConnectionRepository, PublishConnectionsRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        services.AddScoped<IMetaCampaignStrategyMapper, MetaCampaignStrategyMapper>();
 
         services.AddScoped<IAuthenticate, Authenticate>();
         services.AddScoped<IBackgroundScheduler, QuartzJobScheduler>();
@@ -122,6 +149,26 @@ public static class DependencyInjectionAPI
         services.AddTransient<ScriptGenerationJob>();
         services.AddTransient<SceneProcessingJob>();
         services.AddTransient<VideoStitchingJob>();
+
+        services.AddTransient<AppPromotionAdSetStrategy>();
+        services.AddTransient<AwaranessAdSetStrategy>();
+        services.AddTransient<EngagementAdSetStrategy>();
+        services.AddTransient<LeadGenerationAdSetStrategy>();
+        services.AddTransient<SalesAdSetStrategy>();
+        services.AddTransient<TrafficAdSetStrategy>();
+
+        services.AddSingleton(provider =>
+        {
+            return new Dictionary<ObjectiveCampaignEnum, IAdSetConfigStrategy>
+            {
+                { ObjectiveCampaignEnum.APP_PROMOTION, provider.GetRequiredService<AppPromotionAdSetStrategy>() },
+                { ObjectiveCampaignEnum.AWARENESS, provider.GetRequiredService<AwaranessAdSetStrategy>() },
+                { ObjectiveCampaignEnum.ENGAGEMENT, provider.GetRequiredService<EngagementAdSetStrategy>() },
+                { ObjectiveCampaignEnum.LEADS, provider.GetRequiredService<LeadGenerationAdSetStrategy>() },
+                { ObjectiveCampaignEnum.SALES, provider.GetRequiredService<SalesAdSetStrategy>() },
+                { ObjectiveCampaignEnum.TRAFFIC, provider.GetRequiredService<TrafficAdSetStrategy>() },
+            };
+        });
 
         services.AddQuartz(q =>
         {

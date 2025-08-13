@@ -13,7 +13,7 @@ import { OnboardingStateService } from '../../../services/onboarding/onboarding-
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './step2-segment.component.html',
-  styleUrl: './step2-segment.component.css'
+  styleUrl: './step2-segment.component.css',
 })
 export class Step2SegmentComponent implements OnInit {
   @Output() next = new EventEmitter<void>();

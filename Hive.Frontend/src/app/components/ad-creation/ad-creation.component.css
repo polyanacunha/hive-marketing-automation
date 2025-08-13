@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
 }
 
 .ad-creation-container {
@@ -67,7 +67,7 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: #222;
-  }
+}
 .images-section .images-desc {
   display: block;
   font-size: 0.95rem;
@@ -86,7 +86,8 @@
   transition: border-color 0.2s;
   position: relative;
 }
-.image-upload-area:hover, .image-upload-area.dragover {
+.image-upload-area:hover,
+.image-upload-area.dragover {
   border-color: #7c5fff;
 }
 .upload-icon {
@@ -114,7 +115,7 @@
   height: 64px;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(80, 80, 180, 0.10);
+  box-shadow: 0 2px 8px rgba(80, 80, 180, 0.1);
   background: #fff;
 }
 .image-thumb img {
@@ -133,8 +134,14 @@
   animation: fadeInCheck 0.7s ease forwards;
 }
 @keyframes fadeInCheck {
-  from { opacity: 0; transform: scale(0.7); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .remove-btn {
   position: absolute;
@@ -148,7 +155,7 @@
   width: 22px;
   height: 22px;
   cursor: pointer;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   transition: background 0.2s;
 }
 .remove-btn:hover {
@@ -227,7 +234,7 @@
   }
 }
 
-.product-label{
+.product-label {
   margin-bottom: 30px;
 }
 
@@ -252,8 +259,12 @@
   animation: spin 0.8s linear infinite;
 }
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .description-section {
@@ -262,14 +273,13 @@
   margin-top: 30px;
 }
 
-.description-section input{
+.description-section input {
   width: 50%;
   border: none;
   height: 50px;
   border-radius: 10px;
   padding: 0 16px;
-  margin-top: 12px ;
-
+  margin-top: 12px;
 }
 
 .modal {
@@ -281,8 +291,8 @@
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
 .modal-content {

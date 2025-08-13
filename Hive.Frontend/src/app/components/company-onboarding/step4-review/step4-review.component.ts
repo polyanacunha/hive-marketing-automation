@@ -8,7 +8,7 @@ import { ProfileService } from '../../../services/profile/profile.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './step4-review.component.html',
-  styleUrl: './step4-review.component.css'
+  styleUrl: './step4-review.component.css',
 })
 export class Step4ReviewComponent {
   @Output() prev = new EventEmitter<void>();
@@ -16,7 +16,10 @@ export class Step4ReviewComponent {
   error: string | null = null;
   success: boolean = false;
 
-  constructor(private onboarding: OnboardingStateService, private profileService: ProfileService) {
+  constructor(
+    private onboarding: OnboardingStateService,
+    private profileService: ProfileService
+  ) {
     this.onboardingData = this.onboarding.onboardingData;
   }
 
@@ -32,7 +35,7 @@ export class Step4ReviewComponent {
       targetAudienceId: this.onboardingData.targetAudienceId || 0,
       companyName: this.onboardingData.companyName,
       webSiteUrl: this.onboardingData.webSiteUrl || '',
-      taxId: this.onboardingData.taxId || ''
+      taxId: this.onboardingData.taxId || '',
     };
     this.profileService.createClientProfile(profileData).subscribe({
       next: () => {
@@ -41,7 +44,7 @@ export class Step4ReviewComponent {
       },
       error: (err) => {
         this.error = 'Erro ao criar o perfil. Tente novamente.';
-      }
+      },
     });
   }
 }
