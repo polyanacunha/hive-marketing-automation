@@ -48,24 +48,20 @@ export class CampaignService {
 
     return this.http.post<CampaingDTO>(this.url2, paramsWithISO);
   }
-  createClientProfile(data: {
-    marketSegmentId: number;
-    targetAudienceId: number;
-    companyName: string;
-    webSiteUrl: string;
-    taxId: string;
-  }): Observable<void> {
-    const url = `${environment.apiUrl}/api/client/profile`;
-    return this.http.post<void>(url, data);
-  }
+
   update(dto: CampaingDTO): Observable<void> {
     return this.http.put<void>(`${this.url}/${dto.id}`, dto);
   }
+
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 
   createAds(ClientObservations: string, InputImagesId: number[]): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/media/create-video`, {ClientObservations, InputImagesId});
+  }
+
+  getCampaignObjectives() {
+    return this.http.get(`${environment.apiUrl}/api/client/objective-campaign`, {});
   }
 }

@@ -17,6 +17,10 @@ export class ProfileService {
     taxId: string;
   }): Observable<void> {
     const url = `${environment.apiUrl}/api/client/profile`;
-    return this.http.post<void>(url, data);
+    return this.http.post<void>(
+      url,
+      data,
+      { withCredentials: true }
+    );
   }
 }

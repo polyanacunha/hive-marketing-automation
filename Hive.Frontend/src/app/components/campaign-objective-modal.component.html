@@ -4,19 +4,19 @@
     <img src="assets/hive-logo.svg" alt="Logo" class="modal-logo">
   </div>
   <div class="modal-body">
-    <div class="modal-step">2 de 4</div>
     <h2>Informe o objetivo da campanha</h2>
-    <div class="modal-subtitle">Objetivo da campanha</div>
     <form>
-      <label *ngFor="let option of options" class="modal-option">
+      <label *ngFor="let objective of objectives" class="modal-option">
         <input
           type="radio"
           name="objective"
-          [value]="option.value"
+          [value]="objective.valueOf()"
           [(ngModel)]="selectedObjective"
         />
-        <span [innerHTML]="option.label"></span>
+        <span [innerHTML]="objective"></span>
       </label>
+      <label for="">Descrição do(s) produto(s)</label>
+      <textarea rows="4" placeholder="Digite a descrição do(s) produto(s)"></textarea>
     </form>
     <div class="modal-actions">
       <button class="btn-secondary" type="button" (click)="close()">Anterior</button>

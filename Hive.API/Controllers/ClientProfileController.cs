@@ -3,6 +3,7 @@ using Hive.Application.UseCases.Client.ListMarketSegment;
 using Hive.Application.UseCases.Client.ListObjectiveCampaign;
 using Hive.Application.UseCases.Client.ListTargetAudience;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 

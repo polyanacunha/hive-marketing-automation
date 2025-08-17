@@ -33,7 +33,7 @@ namespace Hive.Infra.Data.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.ToString())
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
             };
 
             var expires = DateTime.UtcNow.AddMinutes(_jwtOptions.ExpirationTimeInMinutes);
@@ -67,7 +67,7 @@ namespace Hive.Infra.Data.Services
                 Expires = expiration,
                 IsEssential = true,
                 Secure = true,
-                SameSite = SameSiteMode.Strict
+                SameSite = SameSiteMode.None
             });
         }
     }
