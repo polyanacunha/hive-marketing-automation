@@ -7,10 +7,10 @@ export class MediaService {
   constructor(private http: HttpClient) {}
   apiUrl = 'https://localhost:7143/api';
 
-  getImagesToCreateAds(): Observable<any> {
-    return this.http.get(`${this.apiUrl}/asset/images`);
+  getImageIdsFromBucket(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/asset/images`, { withCredentials: true });
   }
   uploadImages(media: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/asset/upload`, media);
+    return this.http.post(`${this.apiUrl}/asset/upload`, media, { withCredentials: true });
   }
 }

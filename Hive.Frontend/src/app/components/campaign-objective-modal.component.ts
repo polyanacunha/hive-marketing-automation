@@ -13,9 +13,9 @@ import { CampaignService } from '../services/campaign/campaing.service';
 export class CampaignObjectiveModalComponent {
   @Output() closeModal = new EventEmitter<void>();
 
-  objectives: any;
+  objectives: Array<{ id: number | string; name: string; description?: string }> = [];
 
-  selectedObjective: string | null = null;
+  selectedObjective: string | number | null = null;
 
   descriptionProduct: string = '';
 
@@ -34,7 +34,11 @@ export class CampaignObjectiveModalComponent {
   loadObjectives() {
     this.campaignService.getCampaignObjectives().subscribe({
       next: (objectives) => {
-        this.objectives = objectives;
+        this.objectives = (objectives as any[]).map((o: any) => ({
+          id: o?.id ?? o?.value ?? o?.name ?? '',
+          name: o?.name ?? o?.label ?? String(o ?? ''),
+          description: o?.description ?? ''
+        }));
       },
       error: (error) => {
         console.error('Error loading objectives', error);

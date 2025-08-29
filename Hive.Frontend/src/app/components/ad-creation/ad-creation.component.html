@@ -9,6 +9,7 @@
             Crie álbuns de fotos de produtos para que os anúncios sejam gerados.
           </p>
           <div class="ad-creation-card">
+            <div><h2>Imagens da sua galeria</h2></div>
             <div class="images-section">
               <span class="images-title">Imagens do Produto</span>
               <span class="images-desc"
@@ -98,7 +99,7 @@
               </button>
             </div>
             <div class="description-section">
-              <label> Insira uma descrição do(s) produto(s)</label>
+              <label>Você gostaria de nos informar algo sobre como o anúncio deve ser?</label>
               <input type="text" placeholder="Descrição do anúncio" />
             </div>
           </div>
@@ -107,9 +108,9 @@
             <button
               class="save-btn"
               [disabled]="selectedImages.length === 0"
-              (click)="uploadImages()"
+              (click)="createAds()"
             >
-              Salvar imagens
+              Gerar anúncios
             </button>
           </div>
         </div>

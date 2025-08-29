@@ -12,19 +12,9 @@ export interface CreateCampaignParams {
   productDescription: string;
 }
 
-interface MIDIA {
-  images: File[]; 
-}
-
-interface SelectedImages {
-  images: string[];
-}
-
-
-@Injectable({ providedIn: 'root' })
-export class CampaignService {
+  @Injectable({ providedIn: 'root' })
+  export class CampaignService {
   private url = `${environment.apiUrl}/api/campaing`;
-  private url2 = `${environment.apiUrl}/api/campaign/create`;
 
   constructor(private http: HttpClient) { }
 
@@ -46,7 +36,7 @@ export class CampaignService {
       endDate: endDateISO
     };
 
-    return this.http.post<CampaingDTO>(this.url2, paramsWithISO);
+    return this.http.post<CampaingDTO>(`${this.url}/create`, paramsWithISO);
   }
 
   update(dto: CampaingDTO): Observable<void> {
@@ -57,9 +47,9 @@ export class CampaignService {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 
-  createAds(ClientObservations: string, InputImagesId: number[]): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/api/media/create-video`, {ClientObservations, InputImagesId});
-  }
+saveCampaignData(campaignData: CreateCampaignParams): Observable<CampaingDTO> {
+  return this.http.post<CampaingDTO>(`${this.url}/save`, campaignData);
+}
 
   getCampaignObjectives() {
     return this.http.get(`${environment.apiUrl}/api/client/objective-campaign`, {});

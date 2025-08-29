@@ -102,8 +102,8 @@ export class CreateCampaignModalComponent {
     };
 
     console.log('Campaign data being sent:', campaignData);
-
-    this.campaignService.createCampaign(campaignData).subscribe({
+    //
+    this.campaignService.saveCampaignData(campaignData).subscribe({
       next: (response: CampaingDTO) => {
         console.log('Campaign created successfully', response);
         this.onClose();
@@ -121,25 +121,6 @@ export class CreateCampaignModalComponent {
   closeSidebar() {
     this.sidebarOpen = false;
   }
-
-  createAds(): void {
-    // Assume you have a method to upload images and get their IDs
-    this.uploadImagesAndGetIds().subscribe((imageIds: number[]) => {
-      const clientObservations = 'Your observations here'; // Replace with actual observations
-      const inputImagesId = imageIds;
-
-      this.campaignService
-        .createAds(clientObservations, inputImagesId)
-        .subscribe({
-          next: (response) => {
-            console.log('Ads created successfully', response);
-          },
-          error: (error) => {
-            console.error('Error creating ads', error);
-          },
-        });
-    });
-  }
   //mudar a implementacao desse metodo para buscar as imagens do bucket
   uploadImagesAndGetIds(): Observable<number[]> {
     const formData = new FormData();
@@ -153,11 +134,8 @@ export class CreateCampaignModalComponent {
   }
 
   saveCampaignDataAndCreateAds() {
+    this.router.navigate(['/ad-creation']);
     this.saveCampaignData();
-    console.log('Creating ads with images:', this.selectedImages);
-    this.createAds();
-    console.log('Creating ads with images:', this.selectedImages);
-    this.router.navigate(['/media-gallery']);
   }
 
   toggleAdCreationModal(): void {

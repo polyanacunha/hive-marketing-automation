@@ -10,17 +10,18 @@
         <input
           type="radio"
           name="objective"
-          [value]="objective.valueOf()"
+          [value]="objective.id"
           [(ngModel)]="selectedObjective"
         />
-        <span [innerHTML]="objective"></span>
+        <span [innerHTML]="objective.name + ': ' + (objective.description || '')"></span>
+
       </label>
       <label for="">Descrição do(s) produto(s)</label>
       <textarea rows="4" placeholder="Digite a descrição do(s) produto(s)"></textarea>
     </form>
     <div class="modal-actions">
       <button class="btn-secondary" type="button" (click)="close()">Anterior</button>
-      <button class="btn-primary" type="button" [disabled]="!selectedObjective" (click)="openCreateCampaignModal()">Continuar</button>
+      <button class="btn-primary" type="button"  (click)="openCreateCampaignModal()">Continuar</button>
     </div>
   </div>
 </div> 

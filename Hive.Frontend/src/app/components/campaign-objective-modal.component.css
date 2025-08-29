@@ -51,6 +51,11 @@
   margin-right: 0.75rem;
   margin-top: 0.2rem;
 }
+
+.modal-option span {
+  display: block;
+  margin-bottom: 0.25rem;
+}
 .modal-actions {
   display: flex;
   justify-content: space-between;

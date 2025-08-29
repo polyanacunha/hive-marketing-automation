@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MediaService } from '../../services/media/media.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AdsService } from '../../services/ads/ads.service';
+import { Router } from '@angular/router';
 
 interface SelectedImage {
   file: File;
@@ -20,7 +22,7 @@ interface SelectedImage {
 export class AdCreationComponent {
   @Output() close = new EventEmitter<void>();
   @Output() imagesSelected = new EventEmitter<File[]>();
-  constructor(private mediaService: MediaService) {}
+  constructor(private mediaService: MediaService, private adsService: AdsService, private router: Router) {}
   selectedImages: SelectedImage[] = [];
   isVisible = false; // Add this property
 
@@ -105,8 +107,8 @@ export class AdCreationComponent {
     });
   }
 
-  getImagesToCreateAds(): Observable<any[]> {
-    return this.mediaService.getImagesToCreateAds().pipe(
+  getImageIdsFromBucket(): Observable<any[]> {
+    return this.mediaService.getImageIdsFromBucket().pipe(
       tap((response: any[]) => {
         console.log('Images fetched successfully', response);
         response.map((img: any) => ({
@@ -114,5 +116,31 @@ export class AdCreationComponent {
         }));
       })
     );
+  }
+
+  createAds(){
+    //salva no bucket
+    this.uploadImages();
+    //busca os ids do bucket
+    this.getImageIdsFromBucket().subscribe((imageIds: number[]) => {
+      const clientObservations = 'Your observations here';
+      const inputImagesId = imageIds;
+
+    //cria o anúncio
+      this.adsService.createAds(clientObservations, inputImagesId).subscribe({
+        next: (response) => {
+          console.log('Ads created successfully', response);
+        },
+        error: (error) => {
+          console.error('Error creating ads', error);
+        },
+      });
+
+    });
+      this.router.navigate(['/media-gallery']);
+  }
+
+  getImagesProductsOfClient(){
+
   }
 }

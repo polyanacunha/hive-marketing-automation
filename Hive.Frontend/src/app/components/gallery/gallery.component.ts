@@ -26,6 +26,7 @@ export class GalleryComponent implements OnInit {
   sidebarOpen = false;
   selectedCategory = 'Todas Categorias';
   selectedItems: MediaItem[] = [];
+  showConfirmModal = false;
   
   categories = [
     'Todas Categorias',
@@ -188,8 +189,20 @@ export class GalleryComponent implements OnInit {
     //   state: { selectedMedia: this.selectedItems } 
     // });
     
-    // Or show a success message
-    alert(`Campanha criada com sucesso com ${this.selectedItems.length} vídeo(s) selecionado(s)!`);
+    // Open confirmation modal instead of alert
+    this.showConfirmModal = true;
+  }
+
+  confirmCampaign(): void {
+    this.showConfirmModal = false;
+    console.log('Usuário confirmou: dados estão corretos.');
+    // TODO: continue flow (e.g., save or navigate)
+  }
+
+  editCampaign(): void {
+    this.showConfirmModal = false;
+    console.log('Usuário optou por alterar os dados.');
+    // TODO: keep user on the page to edit selections
   }
 
   get filteredItems(): MediaItem[] {
