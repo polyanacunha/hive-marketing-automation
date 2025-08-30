@@ -5,11 +5,19 @@
       <div class="ad-creation-container">
         <div class="ad-creation-content">
           <h1>Criação de Anúncio</h1>
+          
           <p class="subtitle">
             Crie álbuns de fotos de produtos para que os anúncios sejam gerados.
           </p>
           <div class="ad-creation-card">
-            <div><h2>Imagens da sua galeria</h2></div>
+            <div class="gallery-section" *ngIf="images.length > 0">
+              <h2>Imagens da sua galeria</h2>
+              <div class="gallery-images">
+                <div class="gallery-image" *ngFor="let image of images">
+                  <img [src]="image.url" [alt]="image.name" />
+                </div>
+              </div>
+            </div>
             <div class="images-section">
               <span class="images-title">Imagens do Produto</span>
               <span class="images-desc"

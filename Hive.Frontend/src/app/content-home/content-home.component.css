@@ -1,0 +1,72 @@
+.image-container{
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+
+.text-container{
+    margin: 0 auto;
+    margin-top: 50px;
+    font-family: 'Arial', sans-serif;
+    font-size: 24px;
+    text-align: center;
+    color: #000000;
+}
+#saiba-mais{
+    background-color: transparent;
+    border: 1px solid #314BF1;
+    color: #314BF1;
+    cursor: pointer;
+    width: 106.83px;
+    height: 45.42px;
+    border-radius: 10px;
+}
+
+#demonstracao{
+    background-color: #314BF1;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 207.76px;
+    height: 45.42px;
+    border-radius: 10px;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 43px;
+}
+
+ #demonstracao {
+  box-shadow: 0 6px 26px #314BF1;
+}
+ #demonstracao:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .22);
+}
+
+#saiba-mais:hover{
+      box-shadow: 0 6px 26px #314BF1;
+
+}
+
+.notebook-container{
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+
+.hive-action{
+    margin-top: 80px;
+    text-align: center;
+    font-size: 22px;
+    color: #2C3132;
+}
+
+.hive-action span {
+    display: block;
+    margin-top: 12px;
+    color: #2C3132;
+}   

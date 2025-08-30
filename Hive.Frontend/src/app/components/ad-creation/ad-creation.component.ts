@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MediaService } from '../../services/media/media.service';
 import { Observable } from 'rxjs';
@@ -19,12 +19,22 @@ interface SelectedImage {
   templateUrl: './ad-creation.component.html',
   styleUrl: './ad-creation.component.css',
 })
-export class AdCreationComponent {
+export class AdCreationComponent implements OnInit {
   @Output() close = new EventEmitter<void>();
   @Output() imagesSelected = new EventEmitter<File[]>();
   constructor(private mediaService: MediaService, private adsService: AdsService, private router: Router) {}
   selectedImages: SelectedImage[] = [];
-  isVisible = false; // Add this property
+  isVisible = false;
+  images: { url: string; name: string }[] = [];
+
+  ngOnInit(): void {
+    this.getImageIdsFromBucket().subscribe((response: any[]) => {
+      this.images = response.map((img: any) => ({
+        url: img.url,
+        name: this.extractFileName(img.url)
+      }));
+    });
+  }
 
   closeModal(): void {
     this.close.emit();
@@ -140,7 +150,14 @@ export class AdCreationComponent {
       this.router.navigate(['/media-gallery']);
   }
 
-  getImagesProductsOfClient(){
-
+  private extractFileName(url: string): string {
+    try {
+      const lastSlash = url.lastIndexOf('/');
+      return lastSlash >= 0 ? url.substring(lastSlash + 1) : url;
+    } catch {
+      return 'image';
+    }
   }
+
+  
 }

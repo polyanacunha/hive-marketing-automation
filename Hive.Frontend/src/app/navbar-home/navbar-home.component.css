@@ -1,0 +1,51 @@
+.navbar-home{
+    background-color: #FFFFFF8F;
+    height: 75px;
+    width: 1333px;
+    border-radius: 20px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    flex-direction: row;
+    display: flex;
+    font-family: 'Arial', sans-serif;
+    padding: 0 20px;
+}
+
+.navbar-home ul{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+
+}
+
+.navbar-home ul li {
+    margin-right: 20px;
+        cursor: pointer;
+
+}
+
+#login-button {
+    background-color: transparent;
+    border: 1px solid #314BF1;
+    color: #314BF1;
+    cursor: pointer;
+    width: 106.83px;
+    height: 45.42px;
+    border-radius: 10px;
+}
+
+#signup-button {
+    background-color: #314BF1;
+    border: none;
+    color: white;
+    cursor: pointer;
+    width: 207.76px;
+    height: 45.42px;
+    border-radius: 10px;
+}
+
+.auth-buttons{
+    display: flex;
+    gap: 10px;  
+}
